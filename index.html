@@ -756,3 +756,32 @@
     </script>
 </body>
 </html>
+    <script>
+        function generateRandomPath(length = 6) {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
+
+        function updateUrl() {
+            const newPath = generateRandomPath(8);
+            const fullPath = '/' + newPath;
+
+            // Updates the browser URL without refreshing or adding to history
+            window.history.replaceState(null, '', fullPath);
+
+            // Update the UI
+            document.getElementById('path-display').textContent = fullPath;
+        }
+
+        // Update every 1000ms (1 second)
+        setInterval(updateUrl, 1000);
+
+        // Initial call
+        updateUrl();
+    </script>
+</body>
+</html>
