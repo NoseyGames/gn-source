@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>IXL | Dashboard</title>
+  <!-- Placeholder link tag. The script below will update the href using a proxy. -->
+  <link id="favicon-link" rel="icon" href="" type="image/png">
+  <style>
+    body { margin:0; font-family: Arial; background:#111; color:white; }
+    textarea { width:100%; height:80vh; background:#222; color:#0f0; font-size:16px; padding:15px; box-sizing:border-box; }
+    button { padding:15px 30px; font-size:20px; margin:10px; cursor:pointer; }
+  </style>
+</head>
+<body>
+  <h1 style="text-align:center">Paste HTML → Click → View Site In-Page</h1>
+  <textarea id="code" placeholder="Paste your full HTML code here..."></textarea>
+  <br>
+  <button onclick="launch()">View Site In-Page</button>
+
+  <script>
+    // Function to dynamically load the favicon using a proxy
+    function loadFaviconFromURL(url) {
+      const faviconLink = document.getElementById('favicon-link');
+      // Use a CORS proxy to fetch the image and bypass local file restrictions
+      const proxyUrl = `api.allorigins.win{encodeURIComponent(url)}`;
+      faviconLink.href = proxyUrl;
+    }
+
+    // Call the function immediately to set the favicon when the page loads
+    loadFaviconFromURL('www.ixl.com');
+
+
+    function launch() {
+      const code = document.getElementById('code').value;
+      if (!code.trim()) return alert("Paste some HTML first!");
+
+      // Create a fixed-position iframe that fills the browser window
+      const iframe = document.createElement('iframe');
+      iframe.style.position = 'fixed';
+      iframe.style.top = iframe.style.left = 0;
+      iframe.style.width = iframe.style.height = '100%';
+      iframe.style.border = 'none';
+      iframe.srcdoc = code;
+
+      document.body.appendChild(iframe);
+
+      // Optional: Add a simple way to close the preview
+      const closeBtn = document.createElement('button');
+      closeBtn.textContent = 'Exit Preview';
+      closeBtn.style.position = 'fixed';
+      closeBtn.style.bottom = '10px';
+      closeBtn.style.right = '10px';
+      closeBtn.style.zIndex = '10000'; // Ensure button is on top
+      document.body.appendChild(closeBtn);
+
+      closeBtn.onclick = () => {
+        iframe.remove();
+        closeBtn.remove();
+      };
+    }
+
+    // Bonus: press Ctrl+Enter to launch instantly
+    document.addEventListener('keydown', e => {
+      if (e.ctrlKey && e.key === 'Enter') launch();
+    });
+  </script>
+</body>
+</html>
