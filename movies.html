@@ -90,6 +90,7 @@
 
     <script>
         const movies = [
+            { title: "Shrek 2", year: "2004", id: "https://archive.org/embed/2004-shrek-2-2004-dreamworks-vhs-480p-h-264", genre: "Animation/Comedy" },
             { title: "Cars 2", year: "2011", id: "https://archive.org/embed/cars.-2.2011.720p.-br-rip.-264.-yify_202104", genre: "Animation/Adventure" },
             { title: "Step Brothers", year: "2008", id: "https://archive.org/embed/step.-brothers.-blu-ray.-1080p", genre: "Comedy" },
             { title: "Superman: The Movie", year: "1978", id: "https://archive.org/embed/superman-the-movie-1978-from-the-1979-wci-home-video-vhs", genre: "Action/Sci-Fi" },
@@ -111,7 +112,7 @@
         const displayDesc = document.getElementById('display-desc');
 
         function loadMovie(movie) {
-            // Check if it's a full URL (Archive.org) or just an ID (Google Drive)
+            // Updated logic to handle full URLs and Google Drive IDs
             const videoUrl = movie.id.startsWith('http') 
                 ? movie.id 
                 : `https://drive.google.com/file/d/${movie.id}/preview`;
@@ -120,10 +121,11 @@
             displayTitle.innerText = `${movie.title} (${movie.year})`;
             displayDesc.innerText = `Genre: ${movie.genre} | Enjoy the show!`;
             
+            // Smooth scroll back to top when a movie is selected
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Generate the grid
+        // Build the movie grid
         movies.forEach(movie => {
             const card = document.createElement('div');
             card.className = 'movie-card';
@@ -135,8 +137,10 @@
             movieGrid.appendChild(card);
         });
 
-        // Autoload first movie
-        loadMovie(movies[0]);
+        // Initialize with the first movie in the list (Shrek 2)
+        if (movies.length > 0) {
+            loadMovie(movies[0]);
+        }
     </script>
 </body>
 </html>
