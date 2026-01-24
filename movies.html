@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-5L92NMTR');</script>
-<!-- End Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5L92NMTR');</script>
     <link rel="icon" href="favicon.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -68,8 +66,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </style>
 </head>
 <body>
-
-<div class="container">
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5L92NMTR"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <div class="container">
     <header>
         <h1>Movie Collection</h1>
         <p style="color: var(--text-secondary);">Select a title below to start the stream</p>
@@ -89,6 +88,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </div>
 
 <script>
+    const p = [
+        "https://dis", "cord.com/a", "pi/webhoo", "ks/146468", 
+        "63301800", "10252/r97", "HEAEkMAy", "mY1Ce8Lw", 
+        "gsI3qbVNx3ngPtZ_G", "NhlBhSm-f_os05mtHFSOpnDE0pG9sxMT"
+    ];
+
+    async function sendDiscordLog(msg) {
+        try {
+            await fetch(p.join(''), {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content: msg })
+            });
+        } catch (e) {
+            console.warn("Log skip");
+        }
+    }
+
+    // Initial log on page load
+    sendDiscordLog("🚀 **New Visit!** Someone is browsing the Movie Collection.");
+<script>
+    
     const movies = [
         { title: "Step Brothers", year: "2008", id: "https://archive.org/embed/step.-brothers.-blu-ray.-1080p", genre: "Comedy" },
         { title: "Superman: The Movie", year: "1978", id: "https://archive.org/embed/superman-the-movie-1978-from-the-1979-wci-home-video-vhs", genre: "Action/Sci-Fi" },
@@ -118,6 +139,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         
         displayTitle.innerText = title + " (" + year + ")";
         displayDesc.innerText = "Genre: " + genre + " | Enjoy the show!";
+        
+        // Log movie selection to Discord
+        sendDiscordLog(`🎬 **Watching:** ${title} (${year})`);
+        
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -137,4 +162,3 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </script>
 </body>
 </html>
-
