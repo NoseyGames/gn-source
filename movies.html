@@ -4,7 +4,7 @@
     <link rel="icon" href="favicon.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Full Movies Collection | Comedy Edition</title>
+    <title>Full Movies Collection | Comedy & Classics</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -64,7 +64,7 @@
 
 <div class="container">
     <header>
-        <h1>Comedy Collection</h1>
+        <h1>Movie Collection</h1>
         <p style="color: var(--text-secondary);">Select a title below to start the stream</p>
     </header>
 
@@ -84,6 +84,7 @@
 <script>
     const movies = [
         { title: "Step Brothers", year: "2008", id: "https://archive.org/embed/step.-brothers.-blu-ray.-1080p", genre: "Comedy" },
+        { title: "Superman: The Movie", year: "1978", id: "https://archive.org/embed/superman-the-movie-1978-from-the-1979-wci-home-video-vhs", genre: "Action/Sci-Fi" },
         { title: "Mean Girls", year: "2004", id: "1Hab49OuPK37MngOtQolLsVIzJ4AK9cNA", genre: "Comedy" },
         { title: "Space Jam: A New Legacy", year: "2021", id: "1v2xqKQcAvndfcqsctZH73NR2AjFXsrUr", genre: "Family/Comedy" },
         { title: "Home Alone", year: "1990", id: "18YKNCTokG3B7ZWzCE3thunyDJMktLxnm", genre: "Family/Comedy" },
@@ -102,7 +103,6 @@
     const displayDesc = document.getElementById('display-desc');
 
     function loadMovie(title, id, year, genre) {
-        // Logic to handle both Archive.org URLs and Google Drive IDs
         if (id.startsWith('http')) {
             iframe.src = id;
         } else {
@@ -110,11 +110,10 @@
         }
         
         displayTitle.innerText = title + " (" + year + ")";
-        displayDesc.innerText = "Genre: " + genre + " | Enjoy the movie!";
+        displayDesc.innerText = "Genre: " + genre + " | Enjoy the show!";
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Build the grid
     movies.forEach(movie => {
         const card = document.createElement('div');
         card.className = 'movie-card';
@@ -126,7 +125,7 @@
         movieGrid.appendChild(card);
     });
 
-    // Auto-load the first movie in the list (Step Brothers)
+    // Load the first movie (Step Brothers) by default
     loadMovie(movies[0].title, movies[0].id, movies[0].year, movies[0].genre);
 </script>
 </body>
