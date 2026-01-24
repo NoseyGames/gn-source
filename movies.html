@@ -90,6 +90,7 @@
 
     <script>
         const movies = [
+            { title: "Cars 2", year: "2011", id: "https://archive.org/embed/cars.-2.2011.720p.-br-rip.-264.-yify_202104", genre: "Animation/Adventure" },
             { title: "Step Brothers", year: "2008", id: "https://archive.org/embed/step.-brothers.-blu-ray.-1080p", genre: "Comedy" },
             { title: "Superman: The Movie", year: "1978", id: "https://archive.org/embed/superman-the-movie-1978-from-the-1979-wci-home-video-vhs", genre: "Action/Sci-Fi" },
             { title: "Mean Girls", year: "2004", id: "1Hab49OuPK37MngOtQolLsVIzJ4AK9cNA", genre: "Comedy" },
@@ -109,19 +110,20 @@
         const displayTitle = document.getElementById('display-title');
         const displayDesc = document.getElementById('display-desc');
 
-        function loadMovie(title, id, year, genre) {
-            if (id.startsWith('http')) {
-                iframe.src = id;
-            } else {
-                iframe.src = `https://drive.google.com/file/d/${id}/preview`;
-            }
-            
-            displayTitle.innerText = title + " (" + year + ")";
-            displayDesc.innerText = "Genre: " + genre + " | Enjoy the show!";
+        function loadMovie(movie) {
+            // Check if it's a full URL (Archive.org) or just an ID (Google Drive)
+            const videoUrl = movie.id.startsWith('http') 
+                ? movie.id 
+                : `https://drive.google.com/file/d/${movie.id}/preview`;
+
+            iframe.src = videoUrl;
+            displayTitle.innerText = `${movie.title} (${movie.year})`;
+            displayDesc.innerText = `Genre: ${movie.genre} | Enjoy the show!`;
             
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // Generate the grid
         movies.forEach(movie => {
             const card = document.createElement('div');
             card.className = 'movie-card';
@@ -129,12 +131,12 @@
                 <span class="movie-title">${movie.title}</span>
                 <span class="movie-year">${movie.year}</span>
             `;
-            card.onclick = () => loadMovie(movie.title, movie.id, movie.year, movie.genre);
+            card.onclick = () => loadMovie(movie);
             movieGrid.appendChild(card);
         });
 
-        // Load the first movie by default
-        loadMovie(movies[0].title, movies[0].id, movies[0].year, movies[0].genre);
+        // Autoload first movie
+        loadMovie(movies[0]);
     </script>
 </body>
 </html>
