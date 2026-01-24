@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-     <link rel="icon" href="favicon.png">
+    <link rel="icon" href="favicon.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NikeGtag | Hub</title>
@@ -10,26 +10,42 @@
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #0f0f0f;
+            background-color: #050505;
             color: #ffffff;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Matrix Canvas Background */
+        #matrix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.15; /* Keeps it subtle so you can read text */
         }
 
         h1 {
             font-size: 3rem;
             margin-bottom: 0.5rem;
-            background: linear-gradient(90deg, #ff8a00, #e52e71);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #00ff41; 
+            text-shadow: 0 0 15px rgba(0, 255, 65, 0.7);
+            z-index: 1;
         }
 
-        p {
+        p.subtitle {
             color: #888;
             margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            z-index: 1;
         }
 
         .container {
@@ -38,46 +54,61 @@
             gap: 20px;
             width: 90%;
             max-width: 1000px;
+            z-index: 1;
         }
 
         .card {
-            background: #1a1a1a;
-            border: 1px solid #333;
+            background: rgba(10, 10, 10, 0.9); /* Slightly transparent */
+            border: 1px solid #1a1a1a;
             padding: 30px;
-            border-radius: 15px;
+            border-radius: 12px;
             text-align: center;
             text-decoration: none;
             color: white;
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px); /* Blurs the matrix behind the card */
         }
 
         .card:hover {
-            transform: translateY(-10px);
-            border-color: #ff8a00;
-            background: #222;
+            transform: translateY(-8px);
+            border-color: #00ff41;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
         }
 
         .card h2 {
             margin-top: 0;
             font-size: 1.5rem;
+            color: #00ff41;
         }
 
         .card p {
             font-size: 0.9rem;
             margin-bottom: 0;
+            color: #ccc;
         }
 
         .footer {
             margin-top: 50px;
-            font-size: 0.8rem;
+            z-index: 1;
+        }
+
+        .footer a {
             color: #444;
+            text-decoration: none;
+            font-size: 0.8rem;
+        }
+
+        .footer a:hover {
+            color: #00ff41;
         }
     </style>
 </head>
 <body>
 
+    <canvas id="matrix"></canvas>
+
     <h1>my stuff and things</h1>
-    <p>Select a category to begin</p>
+    <p class="subtitle">Select a category to begin</p>
 
     <div class="container">
         <a href="/games.html" class="card">
@@ -96,8 +127,50 @@
         </a>
     </div>
 
-   <div class="footer">
-    <a href="/credits.html" style="color: #444; text-decoration: none; border-bottom: 1px dotted #444;">Credits</a>
-</div>
+    <div class="footer">
+        <a href="/credits.html">Credits</a>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()*&^%";
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+
+        const drops = [];
+        for (let i = 0; i < columns; i++) {
+            drops[i] = 1;
+        }
+
+        function draw() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = "#0f0"; // Green text
+            ctx.font = fontSize + "px arial";
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters.charAt(Math.floor(Math.random() * letters.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(draw, 33);
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
 </body>
 </html>
