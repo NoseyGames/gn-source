@@ -634,7 +634,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
             
             <div class="search-container">
-                <input type="text" id="searchBar" placeholder="Search games...">
+                <input type="text" id="searchBar" placeholder="Search zones...">
                 <select id="sortOptions">
                     <option value="popular">Popular</option>
                     <option value="name">Name</option>
@@ -653,7 +653,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="stats-bar">
         <div class="stats-content">
-            <div id="zoneCount">Loading games...</div>
+            <div id="zoneCount">Loading zones...</div>
         </div>
     </div>
 
@@ -661,7 +661,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div id="container">
             <div class="loading">
                 <i class="fas fa-spinner fa-spin"></i>
-                <p>Loading games...</p>
+                <p>Loading zones...</p>
             </div>
         </div>
     </main>
@@ -670,7 +670,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div id="zoneViewer">
         <div class="zone-header">
             <div class="zone-title">
-                <h2 id="zoneName">Game</h2>
+                <h2 id="zoneName">Zone</h2>
                 <span id="zoneId" style="display: none;"></span>
                 <a id="zoneAuthor" href="#" target="_blank">
                     <i class="fas fa-user"></i>
@@ -754,7 +754,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 sortZones();
                 
                 // Update stats
-                document.getElementById('zoneCount').textContent = `${zones.length} games available`;
+                document.getElementById('zoneCount').textContent = `${zones.length} zones available`;
                 
                 const search = new URLSearchParams(window.location.search);
                 const id = search.get('id');
@@ -768,7 +768,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 container.innerHTML = `
                     <div class="empty-state">
                         <i class="fas fa-exclamation-triangle"></i>
-                        <h3>Error Loading Games</h3>
+                        <h3>Error Loading Zones</h3>
                         <p>${error}</p>
                         <button onclick="listZones()" style="margin-top: 1.5rem; padding: 0.75rem 1.5rem; background: var(--primary-color); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
                             <i class="fas fa-redo"></i> Retry
@@ -818,7 +818,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 container.innerHTML = `
                     <div class="empty-state">
                         <i class="fas fa-search"></i>
-                        <h3>No Games Found</h3>
+                        <h3>No zones Found</h3>
                         <p>Try different search terms</p>
                     </div>
                 `;
@@ -861,7 +861,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 container.appendChild(zoneItem);
             });
             
-            document.getElementById("zoneCount").textContent = `${zonesToShow.length} games`;
+            document.getElementById("zoneCount").textContent = `${zonesToShow.length} zones`;
         }
 
         function filterZones() {
@@ -916,7 +916,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     zoneViewer.style.display = "flex";
                     document.body.style.overflow = 'hidden';
                 }).catch(error => {
-                    alert("Failed to load game: " + error);
+                    alert("Failed to load zone: " + error);
                 });
             }
         }
@@ -1091,7 +1091,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <li style="margin-bottom: 0.5rem;">Respects your browsing preferences</li>
                     </ul>
                     
-                    <p>All zones are loaded from third-party sources. We do not host any game files directly.</p>
+                    <p>All zones are loaded from third-party sources. We do not host any zone files directly.</p>
                     
                     <p style="margin-top: 1.5rem;"><strong>Contact:</strong> For privacy concerns, contact us on TikTok at @gnmath.</p>
                     
