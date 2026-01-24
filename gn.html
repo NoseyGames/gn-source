@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>teach its homework</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Keep your existing beforeunload script */
+        <script>
+            window.addEventListener('beforeunload', function (event) {
+                event.preventDefault();
+                event.returnValue = '';
+                return 'Are you sure you want to leave? Any unsaved changes will be lost.';
+            });
+        </script>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1037091401823825" crossorigin="anonymous"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-WX5VS54ZDW');
+        </script>
+        <script async src="https://fundingchoicesmessages.google.com/i/pub-1037091401823825?ers=1"></script>
+        <script>
+            (function() {
+                function signalGooglefcPresent() {
+                    if (!window.frames['googlefcPresent']) {
+                        if (document.body) {
+                            const iframe = document.createElement('iframe');
+                            iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;';
+                            iframe.style.display = 'none';
+                            iframe.name = 'googlefcPresent';
+                            document.body.appendChild(iframe);
+                        } else {
+                            setTimeout(signalGooglefcPresent, 0);
+                        }
+                    }
+                }
+                signalGooglefcPresent();
+            })();
+        </script>
+
+        :root {
+            --primary-color: #8b5cf6;
+            --primary-dark: #7c3aed;
+            --primary-light: #a78bfa;
+            --text-color: #333;
+            --background-color: #FFFFFF;
+            --card-bg: #f8f8f8;
+            --card-border: #e0e0e0;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --popup-bg: #fff;
+            --header-bg: #8b5cf6;
+            --header-color: white;
+            --button-hover: #7c3aed;
+        }
+
+        .dark-mode {
+            --primary-color: #a78bfa;
+            --primary-dark: #8b5cf6;
+            --primary-light: #c4b5fd;
+            --text-color: #f3f4f6;
+            --background-color: #1f2937;
+            --card-bg: #374151;
+            --card-border: #4b5563;
+            --shadow: rgba(0, 0, 0, 0.4);
+            --popup-bg: #374151;
+            --header-bg: #7c3aed;
+            --header-color: #f9fafb;
+            --button-hover: #8b5cf6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Improved Header */
+        header {
+            background: linear-gradient(135deg, var(--header-bg), var(--primary-dark));
+            color: var(--header-color);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 10px;
+            flex: 1;
+            max-width: 600px;
+            min-width: 300px;
+        }
+
+        #searchBar {
+            padding: 0.85rem 1.2rem;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            flex-grow: 1;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            transition: all 0.3s;
+        }
+
+        #searchBar:focus {
+            outline: none;
+            background: white;
+            border-color: white;
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3);
+        }
+
+        #sortOptions {
+            padding: 0.85rem 1.2rem;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            min-width: 140px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        #settings {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.85rem 1.8rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        #settings:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            background: var(--card-bg);
+            padding: 1rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .stats-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        #zoneCount {
+            font-size: 1rem;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Improved Grid - Clean Cards */
+        #container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .zone-item {
+            background-color: var(--card-bg);
+            border: 2px solid var(--card-border);
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 6px 12px var(--shadow);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+        }
+
+        .zone-item:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(139, 92, 246, 0.2);
+            border-color: var(--primary-color);
+        }
+
+        .zone-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 16px;
+            box-shadow: inset 0 0 0 2px transparent;
+            transition: all 0.3s;
+            pointer-events: none;
+        }
+
+        .zone-item:hover::after {
+            box-shadow: inset 0 0 0 2px var(--primary-color);
+        }
+
+        .zone-item.featured {
+            border: 3px solid var(--primary-color);
+            background: linear-gradient(135deg, var(--card-bg), rgba(139, 92, 246, 0.1));
+        }
+
+        .zone-item.featured::before {
+            content: "🔥 FEATURED";
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            z-index: 2;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .zone-item img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .zone-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .zone-info {
+            padding: 1.2rem;
+            text-align: center;
+        }
+
+        .zone-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-color);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        /* Zone Viewer */
+        #zoneViewer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--background-color);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+        }
+
+        .zone-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .zone-title {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        #zoneName {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        #zoneId {
+            display: none;
+        }
+
+        #zoneAuthor {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        #zoneAuthor:hover {
+            text-decoration: underline;
+        }
+
+        .zone-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .zone-controls button {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.85rem 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .zone-controls button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        #zoneFrame {
+            flex-grow: 1;
+            border: none;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Popup */
+        #popupOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            backdrop-filter: blur(8px);
+        }
+
+        .popup {
+            background-color: var(--popup-bg);
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            animation: popupIn 0.3s ease-out;
+            border: 1px solid var(--card-border);
+        }
+
+        @keyframes popupIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .popup-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #popupTitle {
+            margin: 0;
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        #popupClose {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        #popupClose:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        #popupBody {
+            padding: 2rem;
+            overflow-y: auto;
+            color: var(--text-color);
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 2px solid var(--card-border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--card-border);
+            transform: translateY(-2px);
+        }
+
+        /* Footer - Hidden */
+        footer {
+            display: none;
+        }
+
+        /* Loading States */
+        .loading {
+            text-align: center;
+            padding: 4rem;
+            color: var(--text-color);
+        }
+
+        .loading i {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem;
+            color: var(--text-color);
+            grid-column: 1 / -1;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            opacity: 0.7;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .empty-state p {
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            #container {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            }
+        }
+
+        @media (max-width: 992px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .search-container {
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            .control-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            #container {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 1.2rem;
+            }
+            
+            .zone-header {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            
+            .zone-controls {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .popup {
+                width: 95%;
+                margin: 1rem;
+            }
+            
+            .zone-item img {
+                height: 140px;
+            }
+            
+            .zone-info {
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #container {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 1rem;
+            }
+            
+            .zone-item img {
+                height: 130px;
+            }
+            
+            .zone-name {
+                font-size: 1rem;
+            }
+            
+            #searchBar, #sortOptions, #settings {
+                padding: 0.75rem 1rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            #container {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+            
+            .zone-item img {
+                height: 120px;
+            }
+            
+            .zone-name {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-gamepad"></i>
+                <span>teach its just homework</span>
+            </div>
+            
+            <div class="search-container">
+                <input type="text" id="searchBar" placeholder="Search games...">
+                <select id="sortOptions">
+                    <option value="popular">Popular</option>
+                    <option value="name">Name</option>
+                    <option value="id">ID</option>
+                </select>
+            </div>
+            
+            <div class="control-buttons">
+                <button id="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="stats-bar">
+        <div class="stats-content">
+            <div id="zoneCount">Loading games...</div>
+        </div>
+    </div>
+
+    <main>
+        <div id="container">
+            <div class="loading">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading games...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Zone Viewer (Full Screen) -->
+    <div id="zoneViewer">
+        <div class="zone-header">
+            <div class="zone-title">
+                <h2 id="zoneName">Game</h2>
+                <span id="zoneId" style="display: none;"></span>
+                <a id="zoneAuthor" href="#" target="_blank">
+                    <i class="fas fa-user"></i>
+                    <span>by Author</span>
+                </a>
+            </div>
+            <div class="zone-controls">
+                <button onclick="fullscreenZone()">
+                    <i class="fas fa-expand"></i>
+                    Fullscreen
+                </button>
+                <button onclick="aboutBlank()">
+                    <i class="fas fa-external-link-alt"></i>
+                    New Tab
+                </button>
+                <button onclick="downloadZone()">
+                    <i class="fas fa-download"></i>
+                    Download
+                </button>
+                <button onclick="closeZone()">
+                    <i class="fas fa-times"></i>
+                    Close
+                </button>
+            </div>
+        </div>
+        <iframe id="zoneFrame"></iframe>
+    </div>
+
+    <!-- Settings Popup -->
+    <div id="popupOverlay">
+        <div class="popup">
+            <div class="popup-header">
+                <h3 id="popupTitle">Settings</h3>
+                <button id="popupClose">×</button>
+            </div>
+            <div id="popupBody">
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="darkMode()">
+                        <i class="fas fa-moon"></i>
+                        Toggle Dark Mode
+                    </button>
+                    <button class="btn btn-secondary" onclick="tabCloak()">
+                        <i class="fas fa-mask"></i>
+                        Tab Cloak
+                    </button>
+                    <button class="btn btn-primary" onclick="saveData()">
+                        <i class="fas fa-save"></i>
+                        Export Data
+                    </button>
+                    <label class="btn btn-secondary" for="importData">
+                        <i class="fas fa-upload"></i>
+                        Import Data
+                        <input type="file" id="importData" style="display: none;" onchange="loadData(event)">
+                    </label>
+                </div>
+                <div class="btn-group" style="margin-top: 2rem;">
+                    <button class="btn btn-secondary" onclick="showContact()">
+                        <i class="fas fa-envelope"></i>
+                        Contact
+                    </button>
+                    <button class="btn btn-secondary" onclick="loadPrivacy()">
+                        <i class="fas fa-shield-alt"></i>
+                        Privacy Policy
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Your existing JavaScript with purple theme integration
+        const container = document.getElementById('container');
+        const zoneViewer = document.getElementById('zoneViewer');
+        let zoneFrame = document.getElementById('zoneFrame');
+        const searchBar = document.getElementById('searchBar');
+        const sortOptions = document.getElementById('sortOptions');
+        const zonesURL = "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/games.json";
+        const coverURL = "https://cdn.jsdelivr.net/gh/NoseyGames/covers@latest/";
+        const htmlURL = "https://cdn.jsdelivr.net/gh/NoseyGames/html/";
+        let zones = [];
+        let popularityData = {};
+        
+        // Theme detection with purple preference
+        function detectTheme() {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const savedTheme = localStorage.getItem('darkMode');
+            
+            if (savedTheme === 'true' || (prefersDark && savedTheme !== 'false')) {
+                document.body.classList.add('dark-mode');
+            }
+        }
+        
+        // Initialize with purple theme
+        detectTheme();
+        
+        async function listZones() {
+            try {
+                const response = await fetch(zonesURL + "?t=" + Date.now());
+                const json = await response.json();
+                zones = json;
+                await fetchPopularity();
+                sortZones();
+                
+                // Update stats
+                document.getElementById('zoneCount').textContent = `${zones.length} games available`;
+                
+                const search = new URLSearchParams(window.location.search);
+                const id = search.get('id');
+                if (id) {
+                    const zone = zones.find(zone => zone.id + '' == id + '');
+                    if (zone) {
+                        openZone(zone);
+                    }
+                }
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>Error Loading Games</h3>
+                        <p>${error}</p>
+                        <button onclick="listZones()" style="margin-top: 1.5rem; padding: 0.75rem 1.5rem; background: var(--primary-color); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                            <i class="fas fa-redo"></i> Retry
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        async function fetchPopularity() {
+            try {
+                const response = await fetch("https://data.jsdelivr.com/v1/stats/packages/gh/gn-math/html@main/files?period=year");
+                const data = await response.json();
+                data.forEach(file => {
+                    const idMatch = file.name.match(/\/(\d+)\.html$/);
+                    if (idMatch) {
+                        const id = parseInt(idMatch[1]);
+                        popularityData[id] = file.hits.total;
+                    }
+                });
+            } catch (error) {
+                console.log('Could not fetch popularity data:', error);
+                popularityData[0] = 0;
+            }
+        }
+
+        function sortZones() {
+            const sortBy = sortOptions.value;
+            let sortedZones = [...zones];
+            
+            if (sortBy === 'name') {
+                sortedZones.sort((a, b) => a.name.localeCompare(b.name));
+            } else if (sortBy === 'id') {
+                sortedZones.sort((a, b) => a.id - b.id);
+            } else if (sortBy === 'popular') {
+                sortedZones.sort((a, b) => (popularityData[b.id] || 0) - (popularityData[a.id] || 0));
+            }
+            
+            sortedZones.sort((a, b) => (a.id === -1 ? -1 : b.id === -1 ? 1 : 0));
+            displayZones(sortedZones);
+        }
+
+        function displayZones(zonesToShow) {
+            container.innerHTML = "";
+            
+            if (zonesToShow.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-search"></i>
+                        <h3>No Games Found</h3>
+                        <p>Try different search terms</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            zonesToShow.forEach(file => {
+                const zoneItem = document.createElement("div");
+                zoneItem.className = "zone-item";
+                
+                // Add featured class if needed
+                if (file.featured) {
+                    zoneItem.classList.add('featured');
+                }
+                
+                zoneItem.onclick = () => openZone(file);
+                
+                // Thumbnail
+                const img = document.createElement("img");
+                img.src = file.cover.replace("{COVER_URL}", coverURL).replace("{HTML_URL}", htmlURL);
+                img.alt = file.name;
+                zoneItem.appendChild(img);
+                
+                // Simple name only (no extra info at bottom)
+                const zoneInfo = document.createElement("div");
+                zoneInfo.className = "zone-info";
+                
+                const zoneName = document.createElement("div");
+                zoneName.className = "zone-name";
+                zoneName.textContent = file.name;
+                zoneInfo.appendChild(zoneName);
+                
+                zoneItem.appendChild(zoneInfo);
+                container.appendChild(zoneItem);
+            });
+            
+            document.getElementById("zoneCount").textContent = `${zonesToShow.length} games`;
+        }
+
+        function filterZones() {
+            const query = searchBar.value.toLowerCase();
+            const filteredZones = zones.filter(zone => 
+                zone.name.toLowerCase().includes(query) ||
+                (zone.author && zone.author.toLowerCase().includes(query)) ||
+                (zone.tags && zone.tags.some(tag => tag.toLowerCase().includes(query)))
+            );
+            displayZones(filteredZones);
+        }
+
+        // Event Listeners
+        searchBar.addEventListener('input', filterZones);
+        sortOptions.addEventListener('change', sortZones);
+        document.getElementById('popupClose').addEventListener('click', closePopup);
+        document.getElementById('settings').addEventListener('click', () => {
+            document.getElementById('popupTitle').textContent = "Settings";
+            document.getElementById('popupOverlay').style.display = "flex";
+        });
+
+        // Your existing functions
+        function openZone(file) {
+            if (file.url.startsWith("http")) {
+                window.open(file.url, "_blank");
+            } else {
+                const url = file.url.replace("{COVER_URL}", coverURL).replace("{HTML_URL}", htmlURL);
+                fetch(url + "?t=" + Date.now()).then(response => response.text()).then(html => {
+                    if (zoneFrame.contentDocument === null) {
+                        zoneFrame = document.createElement("iframe");
+                        zoneFrame.id = "zoneFrame";
+                        zoneViewer.appendChild(zoneFrame);
+                    }
+                    zoneFrame.contentDocument.open();
+                    zoneFrame.contentDocument.write(html);
+                    zoneFrame.contentDocument.close();
+                    document.getElementById('zoneName').textContent = file.name;
+                    document.getElementById('zoneId').textContent = file.id;
+                    document.getElementById('zoneAuthor').textContent = "by " + file.author;
+                    if (file.authorLink) {
+                        document.getElementById('zoneAuthor').href = file.authorLink;
+                    }
+                    zoneViewer.style.display = "flex";
+                    document.body.style.overflow = 'hidden';
+                }).catch(error => {
+                    alert("Failed to load game: " + error);
+                });
+            }
+        }
+
+        function aboutBlank() {
+            const newWindow = window.open("about:blank", "_blank");
+            const zoneId = document.getElementById('zoneId').textContent;
+            let zone = zones.find(zone => zone.id + '' === zoneId);
+            if (zone) {
+                let zoneUrl = zone.url.replace("{COVER_URL}", coverURL).replace("{HTML_URL}", htmlURL);
+                fetch(zoneUrl + "?t=" + Date.now()).then(response => response.text()).then(html => {
+                    if (newWindow) {
+                        newWindow.document.open();
+                        newWindow.document.write(html);
+                        newWindow.document.close();
+                    }
+                });
+            }
+        }
+
+        function closeZone() {
+            zoneViewer.style.display = "none";
+            if (zoneViewer.contains(zoneFrame)) {
+                zoneViewer.removeChild(zoneFrame);
+                zoneFrame = document.createElement("iframe");
+                zoneFrame.id = "zoneFrame";
+                zoneViewer.appendChild(zoneFrame);
+            }
+            document.body.style.overflow = 'auto';
+        }
+
+        function downloadZone() {
+            const zoneId = document.getElementById('zoneId').textContent;
+            let zone = zones.find(zone => zone.id + '' === zoneId);
+            if (zone) {
+                fetch(zone.url.replace("{HTML_URL}", htmlURL) + "?t=" + Date.now()).then(res => res.text()).then(text => {
+                    const blob = new Blob([text], {
+                        type: "text/plain;charset=utf-8"
+                    });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = zone.name.replace(/[^a-z0-9]/gi, '_').toLowerCase() + ".html";
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                });
+            }
+        }
+
+        function fullscreenZone() {
+            const elem = zoneFrame;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.mozRequestFullScreen) {
+                elem.mozRequestFullScreen();
+            } else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) {
+                elem.msRequestFullscreen();
+            }
+        }
+
+        function darkMode() {
+            document.body.classList.toggle("dark-mode");
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        }
+
+        function cloakIcon(url) {
+            const link = document.querySelector("link[rel~='icon']");
+            if ((url + "").trim().length === 0) {
+                link.href = "favicon.png";
+            } else {
+                link.href = url;
+            }
+        }
+
+        function cloakName(string) {
+            if ((string + "").trim().length === 0) {
+                document.title = "gn-math";
+                return;
+            }
+            document.title = string;
+        }
+
+        function tabCloak() {
+            closePopup();
+            document.getElementById('popupTitle').textContent = "Tab Cloak";
+            document.getElementById('popupBody').innerHTML = `
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Set Tab Title:</label>
+                    <input type="text" id="tabTitleInput" placeholder="Enter new tab title..." oninput="cloakName(this.value)" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 2px solid var(--card-border); background: var(--card-bg); color: var(--text-color);">
+                </div>
+                <div style="margin-bottom: 2rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Set Tab Icon URL:</label>
+                    <input type="text" id="tabIconInput" placeholder="Enter icon URL..." oninput="cloakIcon(this.value)" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 2px solid var(--card-border); background: var(--card-bg); color: var(--text-color);">
+                    <small style="display: block; margin-top: 0.5rem; color: var(--text-color); opacity: 0.7;">
+                        Leave empty to reset to default
+                    </small>
+                </div>
+                <button class="btn btn-primary" onclick="closePopup()" style="width: 100%;">
+                    <i class="fas fa-check"></i> Done
+                </button>
+            `;
+            document.getElementById('popupOverlay').style.display = "flex";
+        }
+
+        function saveData() {
+            let data = JSON.stringify(localStorage) + "\n\n|\n\n" + document.cookie;
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(new Blob([data], {
+                type: "text/plain"
+            }));
+            link.download = `gn-math-backup-${Date.now()}.data`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function loadData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const content = e.target.result;
+                const [localStorageData, cookieData] = content.split("\n\n|\n\n");
+                try {
+                    const parsedData = JSON.parse(localStorageData);
+                    for (let key in parsedData) {
+                        localStorage.setItem(key, parsedData[key]);
+                    }
+                } catch (error) {
+                    console.error('Error parsing localStorage data:', error);
+                }
+                if (cookieData) {
+                    const cookies = cookieData.split("; ");
+                    cookies.forEach(cookie => {
+                        document.cookie = cookie;
+                    });
+                }
+                alert("Data loaded successfully!");
+            };
+            reader.readAsText(file);
+        }
+
+        function showContact() {
+            document.getElementById('popupTitle').textContent = "Contact";
+            document.getElementById('popupBody').innerHTML = `
+                <div style="text-align: center;">
+                    <i class="fas fa-comments" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1.5rem;"></i>
+                    <p style="font-size: 1.2rem; margin-bottom: 1rem;"><strong>Discord:</strong></p>
+                    <p style="background: var(--card-bg); padding: 1rem; border-radius: 8px; font-family: monospace; margin-bottom: 2rem;">
+                        https://discord.gg/NAFw4ykZ7n
+                    </p>
+                    <p>Join our Discord server for support, updates, and community!</p>
+                    <button class="btn btn-primary" onclick="closePopup()" style="margin-top: 1.5rem; width: 100%;">
+                        <i class="fas fa-times"></i> Close
+                    </button>
+                </div>
+            `;
+            document.getElementById('popupOverlay').style.display = "flex";
+        }
+
+        function loadPrivacy() {
+            document.getElementById('popupTitle').textContent = "Privacy Policy";
+            document.getElementById('popupBody').innerHTML = `
+                <div style="max-height: 60vh; overflow-y: auto; padding-right: 10px;">
+                    <h3 style="margin-bottom: 1rem; color: var(--primary-color);">Privacy Policy</h3>
+                    <p><strong>Last updated:</strong> ${new Date().toLocaleDateString()}</p>
+                    
+                    <p style="margin-top: 1.5rem;">GN-Math is committed to protecting your privacy. This site:</p>
+                    <ul style="margin: 1rem 0 1.5rem 1.5rem;">
+                        <li style="margin-bottom: 0.5rem;">Does not collect personal information</li>
+                        <li style="margin-bottom: 0.5rem;">Uses localStorage for settings only</li>
+                        <li style="margin-bottom: 0.5rem;">Loads games from external sources</li>
+                        <li style="margin-bottom: 0.5rem;">Respects your browsing preferences</li>
+                    </ul>
+                    
+                    <p>All games are loaded from third-party sources. We do not host any game files directly.</p>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Contact:</strong> For privacy concerns, contact us on TikTok at @gnmath.</p>
+                    
+                    <button class="btn btn-primary" onclick="closePopup()" style="margin-top: 2rem; width: 100%;">
+                        <i class="fas fa-check"></i> I Understand
+                    </button>
+                </div>
+            `;
+            document.getElementById('popupOverlay').style.display = "flex";
+        }
+
+        function closePopup() {
+            document.getElementById('popupOverlay').style.display = "none";
+        }
+
+        // Close popup when clicking outside
+        document.getElementById('popupOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePopup();
+            }
+        });
+
+        // Close zone viewer with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && zoneViewer.style.display === 'flex') {
+                closeZone();
+            }
+        });
+
+        // Start loading zones
+        listZones();
+    </script>
+</body>
+</html>
