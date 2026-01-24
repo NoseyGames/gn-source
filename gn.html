@@ -1,63 +1,21 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5L92NMTR');</script>
+<!-- End Google Tag Manager -->
     <meta charset="UTF-8">
     <link rel="icon" href="favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>teach its homework</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Keep your existing beforeunload script */
-        <script>
-            window.addEventListener('beforeunload', function (event) {
-                event.preventDefault();
-                event.returnValue = '';
-                return 'Are you sure you want to leave? Any unsaved changes will be lost.';
-            });
-        </script>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1037091401823825" crossorigin="anonymous"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag() { dataLayer.push(arguments); }
-            gtag('js', new Date());
-            gtag('config', 'G-WX5VS54ZDW');
-        </script>
-        <script async src="https://fundingchoicesmessages.google.com/i/pub-1037091401823825?ers=1"></script>
-        <script>
-            (function() {
-                function signalGooglefcPresent() {
-                    if (!window.frames['googlefcPresent']) {
-                        if (document.body) {
-                            const iframe = document.createElement('iframe');
-                            iframe.style = 'width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;';
-                            iframe.style.display = 'none';
-                            iframe.name = 'googlefcPresent';
-                            document.body.appendChild(iframe);
-                        } else {
-                            setTimeout(signalGooglefcPresent, 0);
-                        }
-                    }
-                }
-                signalGooglefcPresent();
-            })();
-        </script>
-
         :root {
-            --primary-color: #8b5cf6;
-            --primary-dark: #7c3aed;
-            --primary-light: #a78bfa;
-            --text-color: #333;
-            --background-color: #FFFFFF;
-            --card-bg: #f8f8f8;
-            --card-border: #e0e0e0;
-            --shadow: rgba(0, 0, 0, 0.1);
-            --popup-bg: #fff;
-            --header-bg: #8b5cf6;
-            --header-color: white;
-            --button-hover: #7c3aed;
-        }
-
-        .dark-mode {
             --primary-color: #a78bfa;
             --primary-dark: #8b5cf6;
             --primary-light: #c4b5fd;
@@ -82,7 +40,6 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--background-color);
             color: var(--text-color);
-            transition: background-color 0.3s, color 0.3s;
             line-height: 1.6;
             min-height: 100vh;
         }
@@ -746,14 +703,6 @@
             </div>
             <div id="popupBody">
                 <div class="btn-group">
-                    <button class="btn btn-secondary" onclick="darkMode()">
-                        <i class="fas fa-moon"></i>
-                        Toggle Dark Mode
-                    </button>
-                    <button class="btn btn-secondary" onclick="tabCloak()">
-                        <i class="fas fa-mask"></i>
-                        Tab Cloak
-                    </button>
                     <button class="btn btn-primary" onclick="saveData()">
                         <i class="fas fa-save"></i>
                         Export Data
@@ -790,20 +739,7 @@
         const htmlURL = "https://cdn.jsdelivr.net/gh/NoseyGames/html/";
         let zones = [];
         let popularityData = {};
-        
-        // Theme detection with purple preference
-        function detectTheme() {
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const savedTheme = localStorage.getItem('darkMode');
-            
-            if (savedTheme === 'true' || (prefersDark && savedTheme !== 'false')) {
-                document.body.classList.add('dark-mode');
-            }
-        }
-        
-        // Initialize with purple theme
-        detectTheme();
-        
+
         async function listZones() {
             try {
                 const response = await fetch(zonesURL + "?t=" + Date.now());
@@ -899,6 +835,12 @@
                 const img = document.createElement("img");
                 img.src = file.cover.replace("{COVER_URL}", coverURL).replace("{HTML_URL}", htmlURL);
                 img.alt = file.name;
+                
+                // Add error handling for broken images
+                img.onerror = function() {
+                    this.src = 'https://via.placeholder.com/300x200/8b5cf6/ffffff?text=' + encodeURIComponent(file.name.substring(0, 15));
+                };
+                
                 zoneItem.appendChild(img);
                 
                 // Simple name only (no extra info at bottom)
@@ -927,8 +869,13 @@
             displayZones(filteredZones);
         }
 
-        // Event Listeners
-        searchBar.addEventListener('input', filterZones);
+        // Improved search with debouncing
+        let searchTimeout;
+        searchBar.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(filterZones, 300);
+        });
+        
         sortOptions.addEventListener('change', sortZones);
         document.getElementById('popupClose').addEventListener('click', closePopup);
         document.getElementById('settings').addEventListener('click', () => {
@@ -948,6 +895,10 @@
                         zoneFrame.id = "zoneFrame";
                         zoneViewer.appendChild(zoneFrame);
                     }
+                    
+                    // Add sandbox for security
+                    zoneFrame.setAttribute('sandbox', 'allow-scripts allow-forms allow-same-origin');
+                    
                     zoneFrame.contentDocument.open();
                     zoneFrame.contentDocument.write(html);
                     zoneFrame.contentDocument.close();
@@ -1023,11 +974,6 @@
             } else if (elem.msRequestFullscreen) {
                 elem.msRequestFullscreen();
             }
-        }
-
-        function darkMode() {
-            document.body.classList.toggle("dark-mode");
-            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
         }
 
         function cloakIcon(url) {
@@ -1112,9 +1058,9 @@
             document.getElementById('popupBody').innerHTML = `
                 <div style="text-align: center;">
                     <i class="fas fa-comments" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1.5rem;"></i>
-                    <p style="font-size: 1.2rem; margin-bottom: 1rem;"><strong>Tiktok:</strong></p>
+                    <p style="font-size: 1.2rem; margin-bottom: 1rem;"><strong>Discord:</strong></p>
                     <p style="background: var(--card-bg); padding: 1rem; border-radius: 8px; font-family: monospace; margin-bottom: 2rem;">
-                       https://www.tiktok.com/@gnmath
+                        https://discord.gg/NAFw4ykZ7n
                     </p>
                     <p>Join our Discord server for support, updates, and community!</p>
                     <button class="btn btn-primary" onclick="closePopup()" style="margin-top: 1.5rem; width: 100%;">
@@ -1175,3 +1121,4 @@
     </script>
 </body>
 </html>
+
