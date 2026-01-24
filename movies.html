@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full Movies Collection | Comedy Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ff4757;
+            --secondary: #0fbcf9;
+            --accent: #ffdd59;
+            --dark: #0c0c0c;
+            --card-bg: #1a1a1a;
+            --text: #f5f6fa;
+            --text-secondary: #a4b0be;
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            --radius: 12px;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: radial-gradient(circle at 10% 20%, rgba(255, 71, 87, 0.1) 0%, transparent 20%);
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        header { text-align: center; padding: 30px 0; }
+        h1 { font-family: 'Orbitron'; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .player-container { 
+            position: relative; 
+            width: 100%; 
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            background: #000; 
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+        
+        .player-container iframe { 
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%; 
+            height: 100%; 
+            border: none; 
+        }
+
+        .movie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin-top: 40px; }
+        .movie-card { background: var(--card-bg); padding: 15px; border-radius: var(--radius); cursor: pointer; transition: 0.3s; border: 1px solid transparent; }
+        .movie-card:hover { border-color: var(--secondary); transform: translateY(-3px); }
+        .movie-title { font-weight: bold; margin-bottom: 5px; display: block; }
+        .movie-year { font-size: 0.8rem; color: var(--accent); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Comedy Collection</h1>
+        <p>Click a movie to play</p>
+    </header>
+
+    <div id="main-player">
+        <div class="player-container">
+            <iframe id="video-iframe" src="" allow="autoplay" allowfullscreen></iframe>
+        </div>
+        <div style="margin-top: 15px;">
+            <h2 id="display-title">Select a Movie</h2>
+            <p id="display-desc" style="color: var(--text-secondary);">Loading player...</p>
+        </div>
+    </div>
+
+    <div class="movie-grid" id="movie-grid"></div>
+</div>
+
+<script>
+    const movies = [
+        { title: "Mean Girls", year: "2004", id: "1Hab49OuPK37MngOtQolLsVIzJ4AK9cNA", genre: "Comedy" },
+        { title: "Space Jam: A New Legacy", year: "2021", id: "1v2xqKQcAvndfcqsctZH73NR2AjFXsrUr", genre: "Family/Comedy" },
+        { title: "Home Alone", year: "1990", id: "18YKNCTokG3B7ZWzCE3thunyDJMktLxnm", genre: "Family/Comedy" },
+        { title: "Henry Danger: The Movie", year: "2025", id: "1RKY4IZ77naupHixUf6QTMJiVUeBxeOFO", genre: "Action/Comedy" },
+        { title: "Ghostbusters II", year: "1989", id: "1VPN-P5xWjbEHv-VtlzjryjyV-nx7Z_w_", genre: "Sci-Fi/Comedy" },
+        { title: "Wonka", year: "2023", id: "1yrqaifXgmM1s7U0yjAcUKDhpknUyG1TN", genre: "Fantasy/Comedy" },
+        { title: "Good Burger 2", year: "2023", id: "1TOjPbqSF5UqnPrn1zFqEWvkUeBNiyMax", genre: "Comedy" },
+        { title: "Detective Pikachu", year: "2019", id: "1RlG7WoRJroqlcibAgLUMQp4S3h82hY2X", genre: "Adventure/Comedy" },
+        { title: "Beetlejuice Beetlejuice", year: "2024", id: "1WnfCHnjlcN7joibU1e0RieYJNFBPgXRn", genre: "Comedy/Horror" },
+        { title: "Ted 2", year: "2015", id: "1NUcOKG5lw0wOApPIBMyVAZgsHMti7OfB", genre: "Comedy" }
+    ];
+
+    const movieGrid = document.getElementById('movie-grid');
+    const iframe = document.getElementById('video-iframe');
+    const displayTitle = document.getElementById('display-title');
+    const displayDesc = document.getElementById('display-desc');
+
+    function loadMovie(title, id, year, genre) {
+        // Updated URL format for better embedding
+        iframe.src = `https://drive.google.com/file/d/${id}/preview`;
+        displayTitle.innerText = title + " (" + year + ")";
+        displayDesc.innerText = "Genre: " + genre + " | If the video doesn't load, make sure the Drive link is set to 'Public'.";
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    movies.forEach(movie => {
+        const card = document.createElement('div');
+        card.className = 'movie-card';
+        card.innerHTML = `
+            <span class="movie-title">${movie.title}</span>
+            <span class="movie-year">${movie.year}</span>
+        `;
+        card.onclick = () => loadMovie(movie.title, movie.id, movie.year, movie.genre);
+        movieGrid.appendChild(card);
+    });
+
+    // Auto-load first movie
+    loadMovie(movies[0].title, movies[0].id, movies[0].year, movies[0].genre);
+</script>
+</body>
+</html>
