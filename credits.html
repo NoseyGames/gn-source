@@ -3,100 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nikegtag | Hub</title>
+    <title>Credits | Nikegtag</title>
     <style>
+        :root {
+            --bg: #0a0a0c;
+            --accent: #00ff9d; /* Tech Green */
+            --text: #e0e0e0;
+            --muted: #888;
+        }
+
         body {
-            margin: 0;
-            padding: 0;
+            background-color: var(--bg);
+            color: var(--text);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #0f0f0f;
-            color: #ffffff;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            min-height: 100vh;
+            padding: 40px 20px;
+            margin: 0;
+        }
+
+        .credits-container {
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            border: 1px solid #222;
+            padding: 40px;
+            border-radius: 12px;
+            background: linear-gradient(145deg, #111, #080808);
         }
 
         h1 {
-            font-size: 3rem;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(90deg, #ff8a00, #e52e71);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--accent);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 1.5rem;
+            margin-bottom: 30px;
         }
 
-        p {
-            color: #888;
-            margin-bottom: 2rem;
+        .section {
+            margin-bottom: 30px;
         }
 
-        .container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            width: 90%;
-            max-width: 1000px;
+        .role {
+            font-size: 0.8rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            display: block;
         }
 
-        .card {
+        .name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .tag {
             background: #1a1a1a;
             border: 1px solid #333;
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            text-decoration: none;
-            color: white;
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--accent);
         }
 
-        .card:hover {
-            transform: translateY(-10px);
-            border-color: #ff8a00;
-            background: #222;
+        .project-list {
+            list-style: none;
+            padding: 0;
+            color: var(--text);
         }
 
-        .card h2 {
-            margin-top: 0;
-            font-size: 1.5rem;
+        .project-list li {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 6px;
         }
 
-        .card p {
-            font-size: 0.9rem;
-            margin-bottom: 0;
+        hr {
+            border: 0;
+            border-top: 1px solid #222;
+            margin: 30px 0;
         }
 
-        .footer {
-            margin-top: 50px;
-            font-size: 0.8rem;
-            color: #444;
+        .footer-note {
+            font-size: 0.85rem;
+            font-style: italic;
+            color: var(--muted);
         }
     </style>
 </head>
 <body>
 
-    <h1>NIKEGTAG</h1>
-    <p>Select a category to begin</p>
+<div class="credits-container">
+    <h1>Credits</h1>
 
-    <div class="container">
-        <a href="/games" class="card">
-            <h2>🎮 Games</h2>
-            <p>Explore the latest interactive experiences.</p>
-        </a>
-
-        <a href="/ai" class="card">
-            <h2>🤖 AI</h2>
-            <p>Dive into the world of artificial intelligence.</p>
-        </a>
-
-        <a href="/movies" class="card">
-            <h2>🎬 Movies</h2>
-            <p>Watch and discover cinematic content.</p>
-        </a>
+    <div class="section">
+        <span class="role">Lead Developer</span>
+        <span class="name">NikeGtag</span>
+        <div class="tech-stack">
+            <span class="tag">Python</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag">C++</span>
+            <span class="tag">AI/ML</span>
+            <span class="tag">JS/HTML/CSS</span>
+        </div>
     </div>
 
-    <div class="footer">
-        © 2026 Nikegtag Hub
+    <hr>
+
+    <div class="section">
+        <span class="role">Notable Works</span>
+        <ul class="project-list">
+            <li><strong>Hideout</strong> — Some typescript</li>
+            <li><strong>GN-Math</strong> — Javascript logic, ads.</li>
+            <li><strong>ShadowGPT</strong> — Lone developer</li>
+            <li><em>Upcoming Projects in Development...</em></li>
+        </ul>
     </div>
 
 </body>
