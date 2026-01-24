@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Academic Portal - Loading...</title>
+    <script>
+        const myUrls = [
+            "https://mathfunn.vercel.app",
+            "https://canvus.netlify.app/",
+            "https://hideoutt.vercel.app/"
+        ];
+
+        async function checkAndRedirect() {
+            for (let url of myUrls) {
+                try {
+                    // Try to "ping" the site. If Securly blocks it, the fetch will fail.
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 2000); // 2 second limit
+
+                    const response = await fetch(url, { 
+                        mode: 'no-cors', // Necessary for cross-domain checks
+                        signal: controller.signal 
+                    });
+
+                    // If we get here without an error, the site is likely accessible
+                    window.location.replace(url);
+                    return; 
+                } catch (e) {
+                    console.log(url + " is blocked or down. Trying next...");
+                }
+            }
+            document.body.innerHTML = "<h2>All links currently blocked. Please check back later.</h2>";
+        }
+
+        window.onload = checkAndRedirect;
+    </script>
+</head>
+<body style="font-family: sans-serif; text-align: center; padding-top: 50px;">
+    <h3>Connecting to Secure Assignment Server...</h3>
+    <p>Please wait while we find an available connection.</p>
+</body>
+</html>
