@@ -68,76 +68,73 @@
 <body>
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5L92NMTR"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <div class="container">
-    <header>
-        <h1>Movie Collection</h1>
-        <p style="color: var(--text-secondary);">Select a title below to start the stream</p>
-    </header>
 
-    <div id="main-player">
-        <div class="player-container">
-            <iframe id="video-iframe" src="" allow="autoplay" allowfullscreen></iframe>
+    <div class="container">
+        <header>
+            <h1>Movie Collection</h1>
+            <p style="color: var(--text-secondary);">Select a title below to start the stream</p>
+        </header>
+
+        <div id="main-player">
+            <div class="player-container">
+                <iframe id="video-iframe" src="" allow="autoplay" allowfullscreen></iframe>
+            </div>
+            <div style="margin-top: 20px; padding: 0 10px;">
+                <h2 id="display-title" style="margin: 0; color: var(--text);">Select a Movie</h2>
+                <p id="display-desc" style="color: var(--text-secondary); margin-top: 8px;">Loading player...</p>
+            </div>
         </div>
-        <div style="margin-top: 20px; padding: 0 10px;">
-            <h2 id="display-title" style="margin: 0; color: var(--text);">Select a Movie</h2>
-            <p id="display-desc" style="color: var(--text-secondary); margin-top: 8px;">Loading player...</p>
-        </div>
+
+        <div class="movie-grid" id="movie-grid"></div>
     </div>
 
-    <div class="movie-grid" id="movie-grid"></div>
-</div>
-    
-    const movies = [
-        { title: "Step Brothers", year: "2008", id: "https://archive.org/embed/step.-brothers.-blu-ray.-1080p", genre: "Comedy" },
-        { title: "Superman: The Movie", year: "1978", id: "https://archive.org/embed/superman-the-movie-1978-from-the-1979-wci-home-video-vhs", genre: "Action/Sci-Fi" },
-        { title: "Mean Girls", year: "2004", id: "1Hab49OuPK37MngOtQolLsVIzJ4AK9cNA", genre: "Comedy" },
-        { title: "Space Jam: A New Legacy", year: "2021", id: "1v2xqKQcAvndfcqsctZH73NR2AjFXsrUr", genre: "Family/Comedy" },
-        { title: "Home Alone", year: "1990", id: "18YKNCTokG3B7ZWzCE3thunyDJMktLxnm", genre: "Family/Comedy" },
-        { title: "Henry Danger: The Movie", year: "2025", id: "1RKY4IZ77naupHixUf6QTMJiVUeBxeOFO", genre: "Action/Comedy" },
-        { title: "Ghostbusters II", year: "1989", id: "1VPN-P5xWjbEHv-VtlzjryjyV-nx7Z_w_", genre: "Sci-Fi/Comedy" },
-        { title: "Wonka", year: "2023", id: "1yrqaifXgmM1s7U0yjAcUKDhpknUyG1TN", genre: "Fantasy/Comedy" },
-        { title: "Good Burger 2", year: "2023", id: "1TOjPbqSF5UqnPrn1zFqEWvkUeBNiyMax", genre: "Comedy" },
-        { title: "Detective Pikachu", year: "2019", id: "1RlG7WoRJroqlcibAgLUMQp4S3h82hY2X", genre: "Adventure/Comedy" },
-        { title: "Beetlejuice Beetlejuice", year: "2024", id: "1WnfCHnjlcN7joibU1e0RieYJNFBPgXRn", genre: "Comedy/Horror" },
-        { title: "Ted 2", year: "2015", id: "1NUcOKG5lw0wOApPIBMyVAZgsHMti7OfB", genre: "Comedy" }
-    ];
+    <script>
+        const movies = [
+            { title: "Step Brothers", year: "2008", id: "https://archive.org/embed/step.-brothers.-blu-ray.-1080p", genre: "Comedy" },
+            { title: "Superman: The Movie", year: "1978", id: "https://archive.org/embed/superman-the-movie-1978-from-the-1979-wci-home-video-vhs", genre: "Action/Sci-Fi" },
+            { title: "Mean Girls", year: "2004", id: "1Hab49OuPK37MngOtQolLsVIzJ4AK9cNA", genre: "Comedy" },
+            { title: "Space Jam: A New Legacy", year: "2021", id: "1v2xqKQcAvndfcqsctZH73NR2AjFXsrUr", genre: "Family/Comedy" },
+            { title: "Home Alone", year: "1990", id: "18YKNCTokG3B7ZWzCE3thunyDJMktLxnm", genre: "Family/Comedy" },
+            { title: "Henry Danger: The Movie", year: "2025", id: "1RKY4IZ77naupHixUf6QTMJiVUeBxeOFO", genre: "Action/Comedy" },
+            { title: "Ghostbusters II", year: "1989", id: "1VPN-P5xWjbEHv-VtlzjryjyV-nx7Z_w_", genre: "Sci-Fi/Comedy" },
+            { title: "Wonka", year: "2023", id: "1yrqaifXgmM1s7U0yjAcUKDhpknUyG1TN", genre: "Fantasy/Comedy" },
+            { title: "Good Burger 2", year: "2023", id: "1TOjPbqSF5UqnPrn1zFqEWvkUeBNiyMax", genre: "Comedy" },
+            { title: "Detective Pikachu", year: "2019", id: "1RlG7WoRJroqlcibAgLUMQp4S3h82hY2X", genre: "Adventure/Comedy" },
+            { title: "Beetlejuice Beetlejuice", year: "2024", id: "1WnfCHnjlcN7joibU1e0RieYJNFBPgXRn", genre: "Comedy/Horror" },
+            { title: "Ted 2", year: "2015", id: "1NUcOKG5lw0wOApPIBMyVAZgsHMti7OfB", genre: "Comedy" }
+        ];
 
-    const movieGrid = document.getElementById('movie-grid');
-    const iframe = document.getElementById('video-iframe');
-    const displayTitle = document.getElementById('display-title');
-    const displayDesc = document.getElementById('display-desc');
+        const movieGrid = document.getElementById('movie-grid');
+        const iframe = document.getElementById('video-iframe');
+        const displayTitle = document.getElementById('display-title');
+        const displayDesc = document.getElementById('display-desc');
 
-    function loadMovie(title, id, year, genre) {
-        if (id.startsWith('http')) {
-            iframe.src = id;
-        } else {
-            iframe.src = `https://drive.google.com/file/d/${id}/preview`;
+        function loadMovie(title, id, year, genre) {
+            if (id.startsWith('http')) {
+                iframe.src = id;
+            } else {
+                iframe.src = `https://drive.google.com/file/d/${id}/preview`;
+            }
+            
+            displayTitle.innerText = title + " (" + year + ")";
+            displayDesc.innerText = "Genre: " + genre + " | Enjoy the show!";
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-        
-        displayTitle.innerText = title + " (" + year + ")";
-        displayDesc.innerText = "Genre: " + genre + " | Enjoy the show!";
-        
-        // Log movie selection to Discord
-        sendDiscordLog(`🎬 **Watching:** ${title} (${year})`);
-        
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
 
-    movies.forEach(movie => {
-        const card = document.createElement('div');
-        card.className = 'movie-card';
-        card.innerHTML = `
-            <span class="movie-title">${movie.title}</span>
-            <span class="movie-year">${movie.year}</span>
-        `;
-        card.onclick = () => loadMovie(movie.title, movie.id, movie.year, movie.genre);
-        movieGrid.appendChild(card);
-    });
+        movies.forEach(movie => {
+            const card = document.createElement('div');
+            card.className = 'movie-card';
+            card.innerHTML = `
+                <span class="movie-title">${movie.title}</span>
+                <span class="movie-year">${movie.year}</span>
+            `;
+            card.onclick = () => loadMovie(movie.title, movie.id, movie.year, movie.genre);
+            movieGrid.appendChild(card);
+        });
 
-    // Load the first movie (Step Brothers) by default
-    loadMovie(movies[0].title, movies[0].id, movies[0].year, movies[0].genre);
-</script>
+        // Load the first movie by default
+        loadMovie(movies[0].title, movies[0].id, movies[0].year, movies[0].genre);
+    </script>
 </body>
 </html>
-
-
