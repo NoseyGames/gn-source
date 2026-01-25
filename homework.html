@@ -1,15 +1,12 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-5L92NMTR');</script>
-<!-- End Google Tag Manager -->
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <link rel="icon" href="favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>teach its homework</title>
@@ -621,12 +618,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </style>
 </head>
 <body>
-    <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5L92NMTR"
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5L92NMTR"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-
-    <header>
+<header>
         <div class="header-content">
             <div class="logo">
                 <i class="fas fa-gamepad"></i>
@@ -666,7 +660,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
     </main>
 
-    <!-- Zone Viewer (Full Screen) -->
     <div id="zoneViewer">
         <div class="zone-header">
             <div class="zone-title">
@@ -699,7 +692,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <iframe id="zoneFrame"></iframe>
     </div>
 
-    <!-- Settings Popup -->
     <div id="popupOverlay">
         <div class="popup">
             <div class="popup-header">
@@ -732,6 +724,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
     </div>
 
+    <div style="text-align: center; padding: 10px; color: var(--text-color); font-size: 0.8rem;">made with love by nikegtag</div>
+
     <script>
         // Your existing JavaScript with purple theme integration
         const container = document.getElementById('container');
@@ -742,6 +736,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         const zonesURL = "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/zones.json";
         const coverURL = "https://cdn.jsdelivr.net/gh/NoseyGames/covers@latest/";
         const htmlURL = "https://cdn.jsdelivr.net/gh/gn-math/html@main";
+        const customEntry = {
+            id: "custom-game-1",
+            name: "Grimace Roblox Game",
+            author: "nikegtag",
+            url: "https://script.google.com/macros/s/AKfycbwPLnRcoqGbOipLt2as1aFfCgIKNE--rJbTIoVp6lzGhVThb_t5I7IChBn93Ndx-ZNp/exec",
+            cover: "https://cdn.jsdelivr.net/gh/NoseyGames/covers@main/grimace.png",
+            featured: true
+        };
         let zones = [];
         let popularityData = {};
 
@@ -749,7 +751,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             try {
                 const response = await fetch(zonesURL + "?t=" + Date.now());
                 const json = await response.json();
-                zones = json;
+                zones = [customEntry, ...json];
                 await fetchPopularity();
                 sortZones();
                 
@@ -838,7 +840,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 
                 // Thumbnail
                 const img = document.createElement("img");
-                img.src = file.cover.replace("{COVER_URL}", coverURL).replace("{HTML_URL}", htmlURL);
+                if (file.id === "custom-game-1") {
+                    img.src = file.cover;
+                } else {
+                    img.src = file.cover.replace("{COVER_URL}", coverURL).replace("{HTML_URL}", htmlURL);
+                }
                 img.alt = file.name;
                 
                 // Add error handling for broken images
@@ -890,7 +896,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         // Your existing functions
         function openZone(file) {
-            if (file.url.startsWith("http")) {
+            if (file.id === "custom-game-1") {
+                if (zoneFrame.contentDocument === null) {
+                    zoneFrame = document.createElement("iframe");
+                    zoneFrame.id = "zoneFrame";
+                    zoneViewer.appendChild(zoneFrame);
+                }
+                zoneFrame.src = file.url;
+                document.getElementById('zoneName').textContent = file.name;
+                document.getElementById('zoneId').textContent = file.id;
+                document.getElementById('zoneAuthor').textContent = "by " + file.author;
+                zoneViewer.style.display = "flex";
+                document.body.style.overflow = 'hidden';
+            } else if (file.url.startsWith("http")) {
                 window.open(file.url, "_blank");
             } else {
                 const url = file.url.replace("{COVER_URL}", coverURL).replace("{HTML_URL}", htmlURL);
@@ -926,6 +944,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             const zoneId = document.getElementById('zoneId').textContent;
             let zone = zones.find(zone => zone.id + '' === zoneId);
             if (zone) {
+                if (zone.id === "custom-game-1") {
+                    if (newWindow) newWindow.location.href = zone.url;
+                    return;
+                }
                 let zoneUrl = zone.url.replace("{COVER_URL}", coverURL).replace("{HTML_URL}", htmlURL);
                 fetch(zoneUrl + "?t=" + Date.now()).then(response => response.text()).then(html => {
                     if (newWindow) {
@@ -952,6 +974,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             const zoneId = document.getElementById('zoneId').textContent;
             let zone = zones.find(zone => zone.id + '' === zoneId);
             if (zone) {
+                if (zone.id === "custom-game-1") {
+                    alert("Download not available for external script URL.");
+                    return;
+                }
                 fetch(zone.url.replace("{HTML_URL}", htmlURL) + "?t=" + Date.now()).then(res => res.text()).then(text => {
                     const blob = new Blob([text], {
                         type: "text/plain;charset=utf-8"
