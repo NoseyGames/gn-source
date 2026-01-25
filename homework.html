@@ -1106,7 +1106,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         function closePopup() {
             document.getElementById('popupOverlay').style.display = "none";
         }
-
+        
+         // Cloak
+                document.addEventListener('keydown', (e) => {
+            if (e.key === '1') {
+                window.location.replace('https://launchpad.classlink.com/login');
+            }
+        });
+        
         // Close popup when clicking outside
         document.getElementById('popupOverlay').addEventListener('click', function(e) {
             if (e.target === this) {
