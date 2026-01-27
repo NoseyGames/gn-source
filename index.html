@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-5L92NMTR');</script>
-<!-- End Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5L92NMTR');</script>
+
     <link rel="icon" href="favicon.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NikeGtag | Hub</title>
+    <title>NikeHub | Hub</title>
+    
     <style>
         body {
             margin: 0;
@@ -42,10 +42,34 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             max-width: 1000px;
             text-align: center;
             z-index: 1;
+            padding: 20px 0;
+        }
+
+        /* --- Logo Styles --- */
+        .logo-link {
+            display: inline-block;
+            text-decoration: none;
+            margin-bottom: 10px;
+        }
+
+        .site-logo {
+            width: 100%;
+            max-width: 500px; /* Adjusted for the horizontal layout */
+            height: auto;
+            display: block;
+            /* Subtle green glow to integrate with your Matrix theme */
+            filter: drop-shadow(0 0 15px rgba(0, 255, 65, 0.3));
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+
+        .logo-link:hover .site-logo {
+            transform: scale(1.02);
+            filter: drop-shadow(0 0 20px rgba(0, 255, 65, 0.5));
         }
 
         h1 {
-            font-size: 3rem;
+            font-size: 2.5rem;
+            margin-top: 10px;
             margin-bottom: 0.5rem;
             color: #00ff41;
             text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
@@ -53,7 +77,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
         .subtitle {
             color: #888;
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
         }
 
         .container {
@@ -62,14 +86,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             gap: 20px;
         }
 
-        /* Direct links styled as cards */
+        /* Card Styles */
         .card {
             background: #1a1a1a;
             border: 1px solid #333;
             padding: 30px;
             border-radius: 15px;
             text-align: center;
-            text-decoration: none; /* Removes link underline */
+            text-decoration: none;
             color: white;
             display: block;
             transition: transform 0.3s ease, border-color 0.3s ease;
@@ -93,7 +117,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             margin: 0;
         }
 
-        /* Overlay Sections for Privacy/Contact */
+        /* Overlay Sections */
         .page-content {
             display: none;
             text-align: left;
@@ -101,7 +125,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             padding: 40px;
             border-radius: 15px;
             border: 1px solid #333;
-            margin-top: -100px; /* Centers it over the hub when active */
+            margin-top: 20px;
         }
 
         .active { display: block; }
@@ -113,18 +137,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             cursor: pointer;
             font-weight: bold;
             text-decoration: underline;
-        }
-
-        .tiktok-btn {
-            display: block;
-            text-align: center;
-            background: #00ff41;
-            color: #000;
-            padding: 12px;
-            text-decoration: none;
-            font-weight: bold;
-            border-radius: 8px;
-            margin-top: 20px;
         }
 
         .footer {
@@ -143,15 +155,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </style>
 </head>
 <body>
-    <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5L92NMTR"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-    
     <canvas id="matrix"></canvas>
 
     <div class="wrapper">
         <div id="main-hub">
+            <a href="/" class="logo-link">
+                <img src="https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-27%20153915.png" alt="NikeHub Logo" class="site-logo">
+            </a>
+
             <h1>my stuff and things</h1>
             <p class="subtitle">Select a category to begin</p>
 
@@ -170,21 +181,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         <div id="privacy" class="page-content">
             <h2>Privacy Policy</h2>
-            <p><strong>Last Updated:</strong> January 24, 2026</p>
-            <p>This site does not collect, store, or share personal user data. We do not use tracking cookies. External links are subject to their own respective privacy policies.</p>
-            <span class="back-btn" onclick="closeOverlay()">← Back to Hub</span>
-        </div>
-
-        <div id="contact" class="page-content">
-            <h2>Contact</h2>
-            <p>Direct Message me on TikTok for any inquiries or reports.</p>
-            <a href="https://www.tiktok.com/@gnmath" target="_blank" class="tiktok-btn">@gnmath on TikTok</a>
+            <p>This site does not collect personal data.</p>
             <span class="back-btn" onclick="closeOverlay()">← Back to Hub</span>
         </div>
 
         <div class="footer">
             <span onclick="openOverlay('privacy')">Privacy Policy</span>
-            <span onclick="openOverlay('contact')">Contact</span>
+            <p>&copy; 2026 NikeHub</p>
         </div>
     </div>
 
@@ -212,10 +215,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         }
         setInterval(draw, 33);
 
-        // Footer Overlay Logic
         function openOverlay(id) {
             document.getElementById('main-hub').style.display = 'none';
-            document.querySelectorAll('.page-content').forEach(s => s.classList.remove('active'));
             document.getElementById(id).classList.add('active');
         }
 
@@ -223,6 +224,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             document.querySelectorAll('.page-content').forEach(s => s.classList.remove('active'));
             document.getElementById('main-hub').style.display = 'block';
         }
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
     </script>
 </body>
 </html>
