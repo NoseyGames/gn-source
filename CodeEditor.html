@@ -1,74 +1,136 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-5L92NMTR');</script>
-<!-- End Google Tag Manager -->
   <meta charset="utf-8">
   <title>IXL | Dashboard</title>
-  <!-- Placeholder link tag. The script below will update the href using a proxy. -->
-  <link id="favicon-link" rel="icon" href="" type="image/png">
+  <link id="favicon-link" rel="icon" href="https://www.google.com/s2/favicons?sz=64&domain=ixl.com" type="image/png">
+  
+  <script type="importmap">
+    {
+      "imports": {
+        "codemirror": "https://esm.sh/codemirror@6.0.1",
+        "@codemirror/lang-html": "https://esm.sh/@codemirror/lang-html@6.4.9",
+        "@codemirror/theme-one-dark": "https://esm.sh/@codemirror/theme-one-dark@6.1.2"
+      }
+    }
+  </script>
+
   <style>
-    body { margin:0; font-family: Arial; background:#111; color:white; }
-    textarea { width:100%; height:80vh; background:#222; color:#0f0; font-size:16px; padding:15px; box-sizing:border-box; }
-    button { padding:15px 30px; font-size:20px; margin:10px; cursor:pointer; }
+    body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; background: #181a1b; color: #e8e6e3; overflow: hidden; }
+    header { 
+      padding: 10px 20px; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      background: #242729; 
+      border-bottom: 1px solid #3e4446; 
+    }
+    h1 { margin: 0; font-size: 1.1rem; color: #007bff; }
+    #editor-container { height: calc(100vh - 110px); margin: 10px; border-radius: 4px; border: 1px solid #3e4446; overflow: hidden; }
+    .cm-editor { height: 100%; }
+    
+    .button-group { display: flex; gap: 10px; align-items: center; }
+    button { 
+      padding: 8px 16px; 
+      font-size: 14px; 
+      cursor: pointer; 
+      border: none; 
+      border-radius: 4px; 
+      font-weight: 600; 
+      transition: opacity 0.2s;
+    }
+    .btn-preview { background: #007bff; color: white; }
+    .btn-download { background: #28a745; color: white; }
+    button:hover { opacity: 0.8; }
+    
+    #status { font-size: 11px; color: #888; }
   </style>
 </head>
 <body>
-  <h1 style="text-align:center">Paste HTML → Click → View Site In-Page</h1>
-  <textarea id="code" placeholder="Paste your full HTML code here..."></textarea>
-  <br>
-  <button onclick="launch()">View Site In-Page</button>
 
-  <script>
-    // Function to dynamically load the favicon using a proxy
-    function loadFaviconFromURL(url) {
-      const faviconLink = document.getElementById('favicon-link');
-      // Use a CORS proxy to fetch the image and bypass local file restrictions
-      const proxyUrl = `api.allorigins.win{encodeURIComponent(url)}`;
-      faviconLink.href = proxyUrl;
-    }
+  <header>
+    <h1>HTML Builder</h1>
+    <div class="button-group">
+      <span id="status">Last saved: Never</span>
+      <button class="btn-download" onclick="downloadHTML()">Download .html</button>
+      <button class="btn-preview" onclick="launch()">View Site In-Page</button>
+    </div>
+  </header>
 
-    // Call the function immediately to set the favicon when the page loads
-    loadFaviconFromURL('www.ixl.com');
+  <div id="editor-container"></div>
 
+  <script type="module">
+    import { EditorView, basicSetup } from "codemirror";
+    import { html } from "@codemirror/lang-html";
+    import { oneDark } from "@codemirror/theme-one-dark";
 
-    function launch() {
-      const code = document.getElementById('code').value;
-      if (!code.trim()) return alert("Paste some HTML first!");
+    const savedCode = localStorage.getItem('user-html-code') || "<!DOCTYPE html>\n<html>\n<body>\n  <h1>New Project</h1>\n</body>\n</html>";
 
-      // Create a fixed-position iframe that fills the browser window
+    const editor = new EditorView({
+      doc: savedCode,
+      extensions: [
+        basicSetup,
+        html(),
+        oneDark,
+        EditorView.updateListener.of((update) => {
+          if (update.docChanged) {
+            const code = update.state.doc.toString();
+            localStorage.setItem('user-html-code', code);
+            document.getElementById('status').innerText = "Saved: " + new Date().toLocaleTimeString();
+          }
+        })
+      ],
+      parent: document.getElementById('editor-container')
+    });
+
+    window.editor = editor;
+
+    // --- NEW: Download Function ---
+    window.downloadHTML = function() {
+      const code = window.editor.state.doc.toString();
+      const blob = new Blob([code], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'index.html'; // Default filename
+      document.body.appendChild(a);
+      a.click();
+      
+      // Cleanup
+      setTimeout(() => {
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      }, 0);
+    };
+
+    // Preview Function
+    window.launch = function() {
+      const code = window.editor.state.doc.toString();
       const iframe = document.createElement('iframe');
-      iframe.style.position = 'fixed';
-      iframe.style.top = iframe.style.left = 0;
-      iframe.style.width = iframe.style.height = '100%';
-      iframe.style.border = 'none';
+      Object.assign(iframe.style, {
+        position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
+        border: 'none', background: 'white', zIndex: '9999'
+      });
       iframe.srcdoc = code;
-
       document.body.appendChild(iframe);
 
-      // Optional: Add a simple way to close the preview
       const closeBtn = document.createElement('button');
       closeBtn.textContent = 'Exit Preview';
-      closeBtn.style.position = 'fixed';
-      closeBtn.style.bottom = '10px';
-      closeBtn.style.right = '10px';
-      closeBtn.style.zIndex = '10000'; // Ensure button is on top
+      Object.assign(closeBtn.style, {
+        position: 'fixed', bottom: '20px', right: '20px', zIndex: '10000',
+        background: '#dc3545', color: 'white', padding: '10px 20px'
+      });
       document.body.appendChild(closeBtn);
+      closeBtn.onclick = () => { iframe.remove(); closeBtn.remove(); };
+    };
 
-      closeBtn.onclick = () => {
-        iframe.remove();
-        closeBtn.remove();
-      };
-    }
-
-    // Bonus: press Ctrl+Enter to launch instantly
     document.addEventListener('keydown', e => {
-      if (e.ctrlKey && e.key === 'Enter') launch();
+      if (e.ctrlKey && e.key === 'Enter') window.launch();
+      if (e.ctrlKey && e.key === 's') {
+        e.preventDefault(); // Stop browser from opening its own save dialog
+        window.downloadHTML();
+      }
     });
   </script>
 </body>
