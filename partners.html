@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NikeHub Partners</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --primary-hover: #2563eb;
+            --primary-dark: #0f172a;
+            --primary-light: #94a3b8;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --background-color: #020617;
+            --card-bg: #0f172a;
+            --card-border: #1e293b;
+            --shadow: rgba(0, 0, 0, 0.4);
+            --popup-bg: #1e293b;
+            --header-bg: #0f172a;
+            --header-color: #ffffff;
+            --accent-glow: rgba(59, 130, 246, 0.2);
+            --radius-lg: 16px;
+            --radius-md: 12px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+
+        /* Header & Nav */
+        header {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: var(--header-color);
+            padding: 0.75rem 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            gap: 1.5rem;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.5px;
+            cursor: pointer;
+        }
+
+        .search-container { display: flex; gap: 8px; flex: 1; max-width: 700px; }
+
+        #searchBar {
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--card-border);
+            flex-grow: 1;
+            background: rgba(255, 255, 255, 0.03);
+            color: white;
+            outline: none;
+        }
+
+        #searchBar:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px var(--accent-glow); }
+
+        #sortOptions {
+            padding: 0.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            background: #1e293b;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Main Content */
+        .stats-bar { padding: 0.75rem 1rem; background: rgba(15, 23, 42, 0.4); border-bottom: 1px solid var(--card-border); }
+        .stats-content { max-width: 1400px; margin: 0 auto; font-size: 0.875rem; color: var(--text-muted); }
+
+        main { max-width: 1400px; margin: 0 auto; padding: 2rem 1rem; }
+
+        #container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Cards */
+        .zone-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .zone-item:hover { transform: translateY(-5px); border-color: var(--primary-color); }
+        .zone-item.featured { border: 2px solid var(--primary-color); }
+        .zone-item.featured::before {
+            content: "PARTNERED"; position: absolute; top: 10px; right: 10px;
+            background: var(--primary-color); font-size: 10px; padding: 2px 8px; border-radius: 4px; font-weight: bold; z-index: 5;
+        }
+
+        .zone-item img { width: 100%; height: 250px; object-fit: contain; background: #1e293b; padding: 20px; }
+        .zone-info { padding: 1.25rem; text-align: center; }
+        .zone-name { font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
+        .zone-category { font-size: 0.8rem; color: var(--text-muted); }
+
+        /* Popup */
+        #popupOverlay {
+            position: fixed; inset: 0; background: rgba(2, 6, 23, 0.9);
+            display: none; align-items: center; justify-content: center; z-index: 2000; backdrop-filter: blur(8px);
+        }
+        .popup {
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            width: 90%; max-width: 500px; border-radius: var(--radius-lg); overflow: hidden;
+        }
+        .popup-header { padding: 1.5rem; border-bottom: 1px solid var(--card-border); display: flex; justify-content: space-between; }
+        .popup-body { padding: 1.5rem; }
+        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
+        .btn { flex: 1; padding: 12px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; text-decoration: none; text-align: center; }
+        .btn-primary { background: var(--primary-color); color: white; }
+        .btn-secondary { background: #334155; color: white; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <div class="logo"><i class="fas fa-rocket"></i> Nike Hub Partners</span></div>
+            <div class="search-container">
+                <input type="text" id="searchBar" placeholder="Search partners...">
+                <select id="sortOptions">
+                    <option value="all">All Partners</option>
+                    <option value="featured">Likely Unblocked</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <div class="stats-bar">
+        <div class="stats-content">
+            <span id="partnerCount">0</span> Goated Partners
+        </div>
+    </div>
+
+    <main>
+        <div id="container">
+            </div>
+    </main>
+
+    <div id="popupOverlay">
+        <div class="popup">
+            <div class="popup-header">
+                <h2 id="modalTitle">Partner Name</h2>
+                <i class="fas fa-times" style="cursor:pointer" onclick="closeModal()"></i>
+            </div>
+            <div class="popup-body">
+                <p id="modalDesc" style="color: var(--text-muted); margin-bottom: 20px;"></p>
+                <div class="btn-group">
+                    <a id="modalLink" href="#" class="btn btn-primary" target="_blank">Visit Site</a>
+                    <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- get out my code if your looking at this  ---
+        const partners = [
+            { 
+                name: "Tiktok", 
+                category: "Ask to partner", 
+                desc: "Tiktok", 
+                url: "https://www.tiktok.com/@gnmath", 
+                img: "https://cdn.jsdelivr.net/gh/NoseyGames/covers@main/tiktok.png",
+                featured: false
+            },
+            { 
+                name: "Classroom Spot Games", 
+                category: "Likely unblocked", 
+                desc: "Likely unblocked, very good site.", 
+                url: "ixlmath67.vercel.app", 
+                img: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/partner1.jpeg",
+                featured: true
+            },
+            { 
+                name: "Unknown Hub", 
+                category: "Likely unblocked", 
+                desc: "Has roblox", 
+                url: "https://bit.ly/unknownhub", 
+                img: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/partner2.jpeg",
+                featured: true 
+            }
+        ];
+
+        // --- 2. CORE LOGIC ---
+        const container = document.getElementById('container');
+        const searchBar = document.getElementById('searchBar');
+        const sortOptions = document.getElementById('sortOptions');
+        const partnerCount = document.getElementById('partnerCount');
+
+        function displayPartners(data) {
+            container.innerHTML = '';
+            partnerCount.innerText = data.length;
+            
+            data.forEach(item => {
+                const card = document.createElement('div');
+                card.className = `zone-item ${item.featured ? 'featured' : ''}`;
+                card.innerHTML = `
+                    <img src="${item.img}" alt="${item.name}">
+                    <div class="zone-info">
+                        <div class="zone-name">${item.name}</div>
+                        <div class="zone-category">${item.category}</div>
+                    </div>
+                `;
+                card.onclick = () => openModal(item);
+                container.appendChild(card);
+            });
+        }
+
+        // Search Filter
+        searchBar.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = partners.filter(p => 
+                p.name.toLowerCase().includes(term) || 
+                p.category.toLowerCase().includes(term)
+            );
+            displayPartners(filtered);
+        });
+
+        // Sort/Category Filter
+        sortOptions.addEventListener('change', (e) => {
+            const val = e.target.value;
+            if(val === 'featured') {
+                displayPartners(partners.filter(p => p.featured));
+            } else {
+                displayPartners(partners);
+            }
+        });
+
+        // Modal Logic
+        function openModal(partner) {
+            document.getElementById('modalTitle').innerText = partner.name;
+            document.getElementById('modalDesc').innerText = partner.desc;
+            document.getElementById('modalLink').href = partner.url;
+            document.getElementById('popupOverlay').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('popupOverlay').style.display = 'none';
+        }
+
+        // Close on outside click
+        window.onclick = (event) => {
+            if (event.target == document.getElementById('popupOverlay')) closeModal();
+        }
+
+        // Initial Load
+        displayPartners(partners);
+    </script>
+</body>
+</html>
