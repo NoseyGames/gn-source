@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NikeHub Movies</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+              /* NikeHub Movies. Do not distribute. */
+            --primary: #ff3b3b;
+            --secondary: #3b82f6;
+            --accent: #eab308;
+            --bg-dark: #08080a;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff;
+            --text-muted: #8e9196;
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(255, 59, 59, 0.1) 0px, transparent 50%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+        header { text-align: center; padding: 60px 0 40px; }
+        header h1 { 
+            font-family: 'Orbitron', sans-serif; 
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            letter-spacing: 12px;
+            margin: 0;
+            text-transform: uppercase;
+            background: linear-gradient(to bottom, #fff, #666);
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+        }
+
+        .tiktok-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            color: white;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .tiktok-link:hover { background: white; color: black; transform: translateY(-2px); }
+
+        #main-player {
+            max-width: 900px; /* Makes the player smaller */
+            margin: 0 auto 60px auto;
+            background: var(--glass-bg);
+            border-radius: 24px;
+            padding: 15px;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+        }
+
+        .player-container { 
+            position: relative; 
+            width: 100%; 
+            padding-top: 56.25%; 
+            background: #000; 
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .player-container iframe { 
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%; border: none; 
+        }
+
+        .player-info { padding: 20px 10px 5px 10px; }
+        .player-info h2 { font-family: 'Orbitron'; font-size: 1.4rem; margin: 0; }
+        .status-badge {
+            font-size: 0.65rem;
+            color: var(--secondary);
+            border: 1px solid var(--secondary);
+            padding: 2px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            margin-right: 10px;
+        }
+
+        /* Modern Search */
+        .search-container { max-width: 500px; margin: 0 auto 50px auto; position: relative; }
+        #search-input {
+            width: 100%; padding: 15px 25px; border-radius: 15px;
+            background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border);
+            color: white; font-size: 0.95rem; transition: var(--transition);
+            box-sizing: border-box;
+        }
+        #search-input:focus { outline: none; border-color: var(--secondary); background: rgba(255,255,255,0.07); }
+
+        /* Improved Movie Grid */
+        .movie-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
+            gap: 20px; 
+        }
+
+        .movie-card { 
+            background: var(--glass-bg);
+            padding: 25px 20px; 
+            border-radius: 20px; 
+            border: 1px solid var(--glass-border);
+            transition: var(--transition);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            height: 140px;
+        }
+
+        .movie-card:hover { 
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .movie-card.active { border-color: var(--secondary); box-shadow: 0 0 20px rgba(59, 130, 246, 0.15); }
+
+        .movie-title { font-weight: 700; font-size: 1rem; margin-bottom: 12px; }
+        .movie-year { font-size: 0.7rem; color: var(--accent); font-family: 'Orbitron'; opacity: 0.8; }
+        
+        footer { text-align: center; padding: 80px 0 40px; color: var(--text-muted); font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>NikeHub Movies</h1>
+            <p style="letter-spacing: 4px; font-size: 0.7rem; opacity: 0.6;">tuff movies by nikegtag</p>
+            <a href="https://www.tiktok.com/@gnmath" class="tiktok-link" target="_blank">
+                <i class="fab fa-tiktok"></i> @gnmath
+            </a>
+        </header>
+
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search the vault...">
+        </div>
+
+        <section id="main-player">
+            <div class="player-container">
+                <iframe id="video-iframe" src="" allow="autoplay; fullscreen" allowfullscreen></iframe>
+            </div>
+            <div class="player-info">
+                <h2 id="display-title">Select a movie.</h2>
+                <p id="display-desc" style="color: var(--text-muted); font-size: 0.85rem; margin-top: 8px;">Select a movie to watch...</p>
+            </div>
+        </section>
+
+        <div class="movie-grid" id="movie-grid"></div>
+
+        <footer>
+            <p>&copy; 2024 NIKEHUB • ALL RIGHTS RESERVED</p>
+        </footer>
+    </div>
+
+    <script>
+        const movies = [
+            { title: "Shrek 2", year: "2004", id: "https://archive.org/embed/2004-shrek-2-2004-dreamworks-vhs-480p-h-264", genre: "Animation/Comedy" },
+            { title: "Cars 2", year: "2011", id: "https://archive.org/embed/cars.-2.2011.720p.-br-rip.-264.-yify_202104", genre: "Animation/Adventure" },
+            { title: "Step Brothers", year: "2008", id: "https://archive.org/embed/step.-brothers.-blu-ray.-1080p", genre: "Comedy" },
+            { title: "Superman: The Movie", year: "1978", id: "https://archive.org/embed/superman-the-movie-1978-from-the-1979-wci-home-video-vhs", genre: "Action/Sci-Fi" },
+            { title: "Mean Girls", year: "2004", id: "1Hab49OuPK37MngOtQolLsVIzJ4AK9cNA", genre: "Comedy" },
+            { title: "Space Jam: A New Legacy", year: "2021", id: "1v2xqKQcAvndfcqsctZH73NR2AjFXsrUr", genre: "Family/Comedy" },
+            { title: "Home Alone", year: "1990", id: "18YKNCTokG3B7ZWzCE3thunyDJMktLxnm", genre: "Family/Comedy" },
+            { title: "Henry Danger: The Movie", year: "2025", id: "1RKY4IZ77naupHixUf6QTMJiVUeBxeOFO", genre: "Action/Comedy" },
+            { title: "Ghostbusters II", year: "1989", id: "1VPN-P5xWjbEHv-VtlzjryjyV-nx7Z_w_", genre: "Sci-Fi/Comedy" },
+            { title: "Good Burger 2", year: "2023", id: "1TOjPbqSF5UqnPrn1zFqEWvkUeBNiyMax", genre: "Comedy" },
+            { title: "Detective Pikachu", year: "2019", id: "1RlG7WoRJroqlcibAgLUMQp4S3h82hY2X", genre: "Adventure/Comedy" },
+            { title: "Beetlejuice Beetlejuice", year: "2024", id: "1WnfCHnjlcN7joibU1e0RieYJNFBPgXRn", genre: "Comedy/Horror" },
+            { title: "Ted 2", year: "2015", id: "1NUcOKG5lw0wOApPIBMyVAZgsHMti7OfB", genre: "Comedy" },
+            { title: "Zootopia 2", year: "2025", id: "10lys4xAmzALt_F081ej_9oP3i7Lm1Qgq", genre: "Adventure" },
+            { title: "Happy Gilmore", year: "1996", id: "0B_gF_cJaMa7FZ1ZJYnp6NnN0NXM", genre: "Comedy" }
+        ];
+
+        const movieGrid = document.getElementById('movie-grid');
+        const iframe = document.getElementById('video-iframe');
+
+        function loadMovie(movie, card) {
+            iframe.src = "about:blank"; // Reset
+            setTimeout(() => {
+                const videoUrl = movie.id.startsWith('http') 
+                    ? movie.id 
+                    : `https://drive.google.com/file/d/${movie.id}/preview`;
+
+                iframe.src = videoUrl;
+                document.getElementById('display-title').innerText = movie.title;
+                document.getElementById('display-desc').innerHTML = `<span class="status-badge">Live</span> ${movie.year} • ${movie.genre}`;
+                
+                document.querySelectorAll('.movie-card').forEach(c => c.classList.remove('active'));
+                if(card) card.classList.add('active');
+            }, 50);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        movies.forEach(movie => {
+            const card = document.createElement('div');
+            card.className = 'movie-card';
+            card.innerHTML = `<span class="movie-title">${movie.title}</span><span class="movie-year">${movie.year}</span>`;
+            card.onclick = () => loadMovie(movie, card);
+            movieGrid.appendChild(card);
+        });
+
+        document.getElementById('search-input').addEventListener('input', (e) => {
+            const val = e.target.value.toLowerCase();
+            document.querySelectorAll('.movie-card').forEach(card => {
+                card.style.display = card.innerText.toLowerCase().includes(val) ? 'flex' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>
