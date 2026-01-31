@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educational Math Flash Cards</title> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3b82f6;
+            --primary-hover: #2563eb;
+            --primary-dark: #0f172a;
+            --primary-light: #94a3b8;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --background-color: #020617;
+            --card-bg: #0f172a;
+            --card-border: #1e293b;
+            --shadow: rgba(0, 0, 0, 0.4);
+            --popup-bg: #1e293b;
+            --header-bg: #0f172a;
+            --header-color: #ffffff;
+            --accent-glow: rgba(59, 130, 246, 0.2);
+            --radius-lg: 16px;
+            --radius-md: 12px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--background-color); color: var(--text-color); min-height: 100vh; overflow-x: hidden; }
+        
+        header { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); padding: 0.75rem 1rem; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--card-border); }
+        .header-content { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; gap: 1.5rem; }
+        
+        .logo { font-size: 1.6rem; font-weight: 900; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .logo i { color: var(--primary-color); }
+
+        .search-container { display: flex; gap: 8px; flex: 1; max-width: 700px; }
+        #searchBar { padding: 0.75rem 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--card-border); flex-grow: 1; background: rgba(255, 255, 255, 0.03); color: white; }
+        
+        #container { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.25rem; padding: 2rem; max-width: 1400px; margin: 0 auto; }
+        
+        .zone-item { background-color: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius-lg); overflow: hidden; cursor: pointer; transition: all 0.3s ease; position: relative; }
+        .zone-item:hover { transform: translateY(-4px); border-color: var(--primary-color); }
+        .zone-item img { width: 100%; height: 160px; object-fit: cover; }
+        .zone-info { padding: 1rem; text-align: center; }
+
+        /* Proxy Viewer Overlay */
+        #zoneViewer { position: fixed; inset: 0; background-color: #000; z-index: 10000; display: none; flex-direction: column; }
+        .zone-header { display: flex; align-items: center; justify-content: space-between; background: #0f172a; padding: 0.75rem 1rem; border-bottom: 1px solid #1e293b; }
+        #zoneFrame { flex-grow: 1; border: none; background: #fff; }
+
+        .btn { padding: 0.6rem 1rem; border-radius: 8px; cursor: pointer; border: none; font-weight: 600; transition: 0.2s; }
+        .btn-close { background: #7f1d1d; color: white; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-content">
+        <div class="logo">
+            <i class="fas fa-shield-alt"></i> <span>Educational Prоxys</span>
+        </div>
+        <div class="search-container">
+            <input type="text" id="searchBar" placeholder="Search Prоxies...">
+        </div>
+        <button id="settings" class="btn" style="background: rgba(255,255,255,0.1); color: white;">
+            <i class="fas fa-sliders-h"></i> Settings
+        </button>
+    </div>
+</header>
+
+<main>
+    <div id="container">
+        </div>
+</main>
+
+<div id="zoneViewer">
+    <div class="zone-header">
+        <div class="zone-title">
+            <h2 id="zoneName">Pr0xy Name</h2>
+            <span style="color: var(--text-muted); font-size: 0.8rem;">Secure Connection Active</span>
+        </div>
+        <div class="zone-controls">
+            <button class="btn" onclick="document.getElementById('zoneFrame').requestFullscreen()" style="background:#1e293b; color:white;">Fullscreen</button>
+            <button class="btn btn-close" onclick="closeProxy()">Close</button>
+        </div>
+    </div>
+    <iframe id="zoneFrame"></iframe>
+</div>
+
+<script>
+    const prоxies = [
+        {
+            name: "Prоxy 1",
+            url: "https://demonzero.lat/", 
+            cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png",
+            featured: true
+        },
+        {
+            name: "Prоxy 2 (press p for actual site)",
+            url: "https://platinumunblocker.com/",
+            cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png",
+            featured: true
+        },
+        {
+            name: "Prоxy 3",
+            url: "https://yandex.com/",
+            cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png",
+            featured: true
+        },
+        {
+            name: "Prоxy 4",
+            url: "https://demonzero.space/",
+            cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png",
+            featured: true
+        },
+        {
+            name: "Prоxy 5",
+            url: "https://interdoge.cfd/",
+            cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png",
+            featured: true
+        },
+        {
+            name: "Prоxy 6",
+            url: "https://vm.mathfilm.dk/",
+            cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png",
+            featured: true
+        },
+        {
+            name: "Prоxy 7",
+            url: "https://universityequality.com/",
+            cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png",
+            featured: true
+        },
+        {
+            name: "Prоxy 8",
+            url: "https://vloxywoxy.crabdance.com/",
+            cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png",
+            featured: true
+        },
+        {
+            name: "Prоxy 9",
+            url: "https://learn.texasmath.org/",
+            cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png",
+            featured: true
+        },
+        {
+            name: "Prоxy 10",
+            url: "https://darklight.neo-space.space/",
+            cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png",
+            featured: true
+        }
+    ];
+
+    const container = document.getElementById('container');
+    const searchBar = document.getElementById('searchBar');
+
+    function displayPrоxies(list) {
+        container.innerHTML = "";
+        list.forEach(proxy => {
+            const card = document.createElement("div");
+            card.className = "zone-item";
+            if (proxy.featured) card.style.borderColor = "var(--primary-color)";
+            
+            card.onclick = () => openProxy(proxy);
+            card.innerHTML = `
+                <img src="${proxy.cover}">
+                <div class="zone-info">
+                    <div class="zone-name" style="font-weight:bold;">${proxy.name}</div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    // 3. OPEN PROXY IN IFRAME
+    function openProxy(proxy) {
+        document.getElementById('zoneFrame').src = proxy.url;
+        document.getElementById('zoneName').textContent = proxy.name;
+        document.getElementById('zoneViewer').style.display = "flex";
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeProxy() {
+        document.getElementById('zoneViewer').style.display = "none";
+        document.getElementById('zoneFrame').src = "about:blank";
+        document.body.style.overflow = 'auto';
+    }
+
+    // 4. PANIC KEY & CLOAKING (Inherited from your file)
+    const config = {
+        panicKey: localStorage.getItem('panicKey') || '1',
+        panicUrl: localStorage.getItem('panicUrl') || 'https://google.com'
+    };
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key.toLowerCase() === config.panicKey.toLowerCase()) {
+            window.location.replace(config.panicUrl);
+        }
+    });
+
+    // Search functionality
+    searchBar.addEventListener('input', (e) => {
+        const q = e.target.value.toLowerCase();
+        displayPrоxies(prоxies.filter(p => p.name.toLowerCase().includes(q)));
+    });
+
+    // Initialize
+    displayPrоxies(prоxies);
+</script>
+</body>
+</html>
