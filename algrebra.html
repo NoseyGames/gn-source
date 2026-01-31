@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Educational Math Flash Cards</title> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="favicon.png">
+    <title>Educational Math Flash Cards</title> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary-color: #3b82f6;
@@ -35,136 +36,182 @@
         .logo i { color: var(--primary-color); }
 
         .search-container { display: flex; gap: 8px; flex: 1; max-width: 700px; }
-        #searchBar { padding: 0.75rem 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--card-border); flex-grow: 1; background: rgba(255, 255, 255, 0.03); color: white; }
+        #searchBar { padding: 0.75rem 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--card-border); flex-grow: 1; background: rgba(255, 255, 255, 0.03); color: white; outline: none; transition: 0.3s; }
+        #searchBar:focus { border-color: var(--primary-color); background: rgba(255, 255, 255, 0.07); }
         
-        #container { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.25rem; padding: 2rem; max-width: 1400px; margin: 0 auto; }
+        #container { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.25rem; padding: 2rem; max-width: 1400px; margin: 0 auto; }
         
         .zone-item { background-color: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius-lg); overflow: hidden; cursor: pointer; transition: all 0.3s ease; position: relative; }
-        .zone-item:hover { transform: translateY(-4px); border-color: var(--primary-color); }
-        .zone-item img { width: 100%; height: 160px; object-fit: cover; }
+        .zone-item:hover { transform: translateY(-4px); border-color: var(--primary-color); box-shadow: 0 10px 20px var(--accent-glow); }
+        .zone-item img { width: 100%; height: 160px; object-fit: cover; border-bottom: 1px solid var(--card-border); }
         .zone-info { padding: 1rem; text-align: center; }
 
-        /* Proxy Viewer Overlay */
         #zoneViewer { position: fixed; inset: 0; background-color: #000; z-index: 10000; display: none; flex-direction: column; }
         .zone-header { display: flex; align-items: center; justify-content: space-between; background: #0f172a; padding: 0.75rem 1rem; border-bottom: 1px solid #1e293b; }
         #zoneFrame { flex-grow: 1; border: none; background: #fff; }
 
-        .btn { padding: 0.6rem 1rem; border-radius: 8px; cursor: pointer; border: none; font-weight: 600; transition: 0.2s; }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 20000; backdrop-filter: blur(4px); }
+        .modal-content { background: var(--popup-bg); padding: 2rem; border-radius: var(--radius-lg); width: 90%; max-width: 450px; border: 1px solid var(--card-border); animation: slideIn 0.3s ease-out; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .setting-group { margin-bottom: 1.2rem; }
+        .setting-group label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+        .setting-group input, .setting-group select { width: 100%; padding: 0.75rem; background: rgba(0,0,0,0.25); border: 1px solid var(--card-border); border-radius: 8px; color: white; outline: none; }
+        .setting-group input:focus { border-color: var(--primary-color); }
+        
+        .btn { padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer; border: none; font-weight: 600; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
         .btn-close { background: #7f1d1d; color: white; }
+        .btn-close:hover { background: #b91c1c; }
+        .btn-close-small { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+
+        @keyframes slideIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
 <body>
 
 <header>
     <div class="header-content">
-        <div class="logo">
-            <i class="fas fa-shield-alt"></i> <span>Educational Prоxys</span>
+        <div class="logo" onclick="window.location.reload()">
+            <i class="fas fa-shield-alt"></i> <span>Educational Tools</span>
         </div>
         <div class="search-container">
-            <input type="text" id="searchBar" placeholder="Search Prоxies...">
+            <input type="text" id="searchBar" placeholder="Search resources...">
         </div>
-        <button id="settings" class="btn" style="background: rgba(255,255,255,0.1); color: white;">
+        <button id="settingsBtn" class="btn" style="background: rgba(255,255,255,0.1); color: white;">
             <i class="fas fa-sliders-h"></i> Settings
         </button>
     </div>
 </header>
 
 <main>
-    <div id="container">
-        </div>
+    <div id="container"></div>
 </main>
+
+<div id="settingsModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2><i class="fas fa-cog"></i> Preferences</h2>
+            <button class="btn-close-small" id="closeSettings">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="setting-group">
+                <label>Emergency Panic Key</label>
+                <input type="text" id="panicKeyInput" maxlength="1" placeholder="Type a key (e.g. ` or q)">
+            </div>
+            <div class="setting-group">
+                <label>Redirect URL</label>
+                <input type="text" id="panicUrlInput" placeholder="https://google.com">
+            </div>
+            <div class="setting-group">
+                <label>Tab Appearance (Cloak)</label>
+                <select id="cloakingSelect">
+                    <option value="none">Default (Math Cards)</option>
+                    <option value="google">Google Search</option>
+                    <option value="drive">Google Drive</option>
+                    <option value="canvas">Canvas LMS</option>
+                    <option value="classroom">Google Classroom</option>
+                </select>
+            </div>
+            <button id="saveSettings" class="btn" style="background: var(--primary-color); color: white; width: 100%; margin-top: 1rem; justify-content: center;">Save Preferences</button>
+        </div>
+    </div>
+</div>
 
 <div id="zoneViewer">
     <div class="zone-header">
         <div class="zone-title">
-            <h2 id="zoneName">Pr0xy Name</h2>
-            <span style="color: var(--text-muted); font-size: 0.8rem;">Secure Connection Active</span>
+            <h2 id="zoneName">Resource Name</h2>
+            <span style="color: var(--text-muted); font-size: 0.8rem;">Secure Sandbox Mode</span>
         </div>
         <div class="zone-controls">
-            <button class="btn" onclick="document.getElementById('zoneFrame').requestFullscreen()" style="background:#1e293b; color:white;">Fullscreen</button>
-            <button class="btn btn-close" onclick="closeProxy()">Close</button>
+            <button class="btn" onclick="document.getElementById('zoneFrame').requestFullscreen()" style="background:#1e293b; color:white;">
+                <i class="fas fa-expand"></i> Fullscreen
+            </button>
+            <button class="btn btn-close" onclick="closeProxy()">
+                <i class="fas fa-times"></i> Close
+            </button>
         </div>
     </div>
     <iframe id="zoneFrame"></iframe>
 </div>
 
 <script>
-    const prоxies = [
-        {
-            name: "Prоxy 1",
-            url: "https://demonzero.lat/", 
-            cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png",
-            featured: true
-        },
-        {
-            name: "Prоxy 2 (press p for actual site)",
-            url: "https://platinumunblocker.com/",
-            cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png",
-            featured: true
-        },
-        {
-            name: "Prоxy 3",
-            url: "https://yandex.com/",
-            cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png",
-            featured: true
-        },
-        {
-            name: "Prоxy 4",
-            url: "https://demonzero.space/",
-            cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png",
-            featured: true
-        },
-        {
-            name: "Prоxy 5",
-            url: "https://interdoge.cfd/",
-            cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png",
-            featured: true
-        },
-        {
-            name: "Prоxy 6",
-            url: "https://vm.mathfilm.dk/",
-            cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png",
-            featured: true
-        },
-        {
-            name: "Prоxy 7",
-            url: "https://universityequality.com/",
-            cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png",
-            featured: true
-        },
-        {
-            name: "Prоxy 8",
-            url: "https://vloxywoxy.crabdance.com/",
-            cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png",
-            featured: true
-        },
-        {
-            name: "Prоxy 9",
-            url: "https://learn.texasmath.org/",
-            cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png",
-            featured: true
-        },
-        {
-            name: "Prоxy 10",
-            url: "https://darklight.neo-space.space/",
-            cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png",
-            featured: true
-        }
+    const proxies = [
+        { name: "Prоxy 1", url: "https://demonzero.lat/", cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png" },
+        { name: "Prоxy 2 (Platinum)", url: "https://platinumunblocker.com/", cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png" },
+        { name: "Prоxy 3 (Yandex)", url: "https://yandex.com/", cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png" },
+        { name: "Prоxy 4", url: "https://demonzero.space/", cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png" },
+        { name: "Prоxy 5", url: "https://interdoge.cfd/", cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png" },
+        { name: "Prоxy 6", url: "https://vm.mathfilm.dk/", cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png" },
+        { name: "Prоxy 7", url: "https://universityequality.com/", cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png" },
+        { name: "Prоxy 8", url: "https://vloxywoxy.crabdance.com/", cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png" },
+        { name: "Prоxy 9", url: "https://learn.texasmath.org/", cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png" },
+        { name: "Prоxy 10", url: "https://darklight.neo-space.space/", cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png" }
     ];
 
     const container = document.getElementById('container');
     const searchBar = document.getElementById('searchBar');
+    const settingsBtn = document.getElementById('settingsBtn');
+    const settingsModal = document.getElementById('settingsModal');
+    const closeSettings = document.getElementById('closeSettings');
+    const saveSettingsBtn = document.getElementById('saveSettings');
 
-    function displayPrоxies(list) {
+    let config = {
+        panicKey: localStorage.getItem('panicKey') || '`',
+        panicUrl: localStorage.getItem('panicUrl') || 'https://google.com',
+        cloak: localStorage.getItem('tabCloak') || 'none'
+    };
+
+    function applyCloak(type) {
+        const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+        link.type = 'image/x-icon';
+        link.rel = 'shortcut icon';
+        
+        const cloaks = {
+            'google': { title: 'Google', icon: 'https://www.google.com/favicon.ico' },
+            'drive': { title: 'My Drive - Google Drive', icon: 'https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png' },
+            'canvas': { title: 'Dashboard', icon: 'https://du11hjcvx0uqb.cloudfront.net/br/dist/images/favicon-e106157072.ico' },
+            'classroom': { title: 'Classes', icon: 'https://www.gstatic.com/classroom/favicon.png' },
+            'none': { title: 'Educational Math Flash Cards', icon: 'favicon.png' }
+        };
+
+        const active = cloaks[type] || cloaks['none'];
+        document.title = active.title;
+        link.href = active.icon;
+        document.getElementsByTagName('head')[0].appendChild(link);
+    }
+
+    applyCloak(config.cloak);
+
+    settingsBtn.onclick = () => {
+        document.getElementById('panicKeyInput').value = config.panicKey;
+        document.getElementById('panicUrlInput').value = config.panicUrl;
+        document.getElementById('cloakingSelect').value = config.cloak;
+        settingsModal.style.display = 'flex';
+    };
+
+    closeSettings.onclick = () => settingsModal.style.display = 'none';
+
+    saveSettingsBtn.onclick = () => {
+        config.panicKey = document.getElementById('panicKeyInput').value || '`';
+        config.panicUrl = document.getElementById('panicUrlInput').value || 'https://google.com';
+        config.cloak = document.getElementById('cloakingSelect').value;
+        
+        localStorage.setItem('panicKey', config.panicKey);
+        localStorage.setItem('panicUrl', config.panicUrl);
+        localStorage.setItem('tabCloak', config.cloak);
+        
+        applyCloak(config.cloak);
+        settingsModal.style.display = 'none';
+    };
+
+    function displayProxies(list) {
         container.innerHTML = "";
         list.forEach(proxy => {
             const card = document.createElement("div");
             card.className = "zone-item";
-            if (proxy.featured) card.style.borderColor = "var(--primary-color)";
-            
             card.onclick = () => openProxy(proxy);
             card.innerHTML = `
-                <img src="${proxy.cover}">
+                <img src="${proxy.cover}" alt="${proxy.name}">
                 <div class="zone-info">
                     <div class="zone-name" style="font-weight:bold;">${proxy.name}</div>
                 </div>
@@ -173,7 +220,11 @@
         });
     }
 
-    // 3. OPEN PROXY IN IFRAME
+    searchBar.oninput = (e) => {
+        const q = e.target.value.toLowerCase();
+        displayProxies(proxies.filter(p => p.name.toLowerCase().includes(q)));
+    };
+
     function openProxy(proxy) {
         document.getElementById('zoneFrame').src = proxy.url;
         document.getElementById('zoneName').textContent = proxy.name;
@@ -187,26 +238,15 @@
         document.body.style.overflow = 'auto';
     }
 
-    // 4. PANIC KEY & CLOAKING (Inherited from your file)
-    const config = {
-        panicKey: localStorage.getItem('panicKey') || '1',
-        panicUrl: localStorage.getItem('panicUrl') || 'https://google.com'
-    };
-
+    // 4. GLOBAL KEY LISTENER
     document.addEventListener('keydown', (e) => {
-        if (e.key.toLowerCase() === config.panicKey.toLowerCase()) {
+        if (e.key === config.panicKey) {
             window.location.replace(config.panicUrl);
         }
     });
 
-    // Search functionality
-    searchBar.addEventListener('input', (e) => {
-        const q = e.target.value.toLowerCase();
-        displayPrоxies(prоxies.filter(p => p.name.toLowerCase().includes(q)));
-    });
-
-    // Initialize
-    displayPrоxies(prоxies);
+    // Init
+    displayProxies(proxies);
 </script>
 </body>
 </html>
