@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Adsterra library -->
-<script type="text/javascript" src="//pl22937078.highcpmgate.com/4c/1b/92/4c1b92d8b7a7e3a7d0f.js"></script>
+    <script type="text/javascript" src="//pl22937078.highcpmgate.com/4c/1b/92/4c1b92d8b7a7e3a7d0f.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="favicon.png">
@@ -16,8 +15,8 @@
             --primary-light: #94a3b8;
             --text-color: #f8fafc;
             --text-muted: #94a3b8;
-            --background-color: #020617;
-            --card-bg: #0f172a;
+            --background-color: #0a0a0a; /* Darker for grid contrast */
+            --card-bg: #141212;
             --card-border: #1e293b;
             --shadow: rgba(0, 0, 0, 0.4);
             --popup-bg: #1e293b;
@@ -28,13 +27,59 @@
             --radius-md: 12px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--background-color); color: var(--text-color); min-height: 100vh; overflow-x: hidden; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            cursor: none !important; /* Hide default mouse globally */
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--background-color); 
+            /* Grid Background Implementation */
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            color: var(--text-color); 
+            min-height: 100vh; 
+            overflow-x: hidden; 
+        }
+        
+        /* --- CUSTOM SVG CURSOR --- */
+        #custom-cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 999999;
+            transition: transform 0.1s ease-out;
+            transform-origin: top left;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #custom-cursor svg {
+            width: 46px;
+            height: 46px;
+        }
+
+        .cursor-path {
+            fill: #ffffff;
+            stroke: #000000;
+            stroke-width: 3.0;
+        }
+
+        .cursor-hover {
+            transform: scale(5.8);
+        }
         
         header { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); padding: 0.75rem 1rem; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--card-border); }
         .header-content { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; gap: 1.5rem; }
         
-        .logo { font-size: 1.6rem; font-weight: 900; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .logo { font-size: 1.6rem; font-weight: 900; display: flex; align-items: center; gap: 10px; }
         .logo i { color: var(--primary-color); }
 
         .search-container { display: flex; gap: 8px; flex: 1; max-width: 700px; }
@@ -43,7 +88,7 @@
         
         #container { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.25rem; padding: 2rem; max-width: 1400px; margin: 0 auto; }
         
-        .zone-item { background-color: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius-lg); overflow: hidden; cursor: pointer; transition: all 0.3s ease; position: relative; }
+        .zone-item { background-color: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius-lg); overflow: hidden; transition: all 0.3s ease; position: relative; }
         .zone-item:hover { transform: translateY(-4px); border-color: var(--primary-color); box-shadow: 0 10px 20px var(--accent-glow); }
         .zone-item img { width: 100%; height: 160px; object-fit: cover; border-bottom: 1px solid var(--card-border); }
         .zone-info { padding: 1rem; text-align: center; }
@@ -60,25 +105,31 @@
         .setting-group input, .setting-group select { width: 100%; padding: 0.75rem; background: rgba(0,0,0,0.25); border: 1px solid var(--card-border); border-radius: 8px; color: white; outline: none; }
         .setting-group input:focus { border-color: var(--primary-color); }
         
-        .btn { padding: 0.6rem 1.2rem; border-radius: 8px; cursor: pointer; border: none; font-weight: 600; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+        .btn { padding: 0.6rem 1.2rem; border-radius: 8px; border: none; font-weight: 600; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
         .btn-close { background: #7f1d1d; color: white; }
         .btn-close:hover { background: #b91c1c; }
-        .btn-close-small { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+        .btn-close-small { background: none; border: none; color: white; font-size: 1.5rem; }
 
         @keyframes slideIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
 <body>
 
+<div id="custom-cursor">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path class="cursor-path" d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-4.86a.5.5 0 0 1 .35-.15h6.87c.45 0 .67-.53.35-.85L5.85 2.36a.5.5 0 0 0-.35.85z"/>
+    </svg>
+</div>
+
 <header>
     <div class="header-content">
-        <div class="logo" onclick="window.location.reload()">
+        <div class="logo clickable" onclick="window.location.reload()">
             <i class="fas fa-shield-alt"></i> <span>Educational Tools</span>
         </div>
         <div class="search-container">
-            <input type="text" id="searchBar" placeholder="Search resources...">
+            <input type="text" id="searchBar" class="clickable" placeholder="Search resources...">
         </div>
-        <button id="settingsBtn" class="btn" style="background: rgba(255,255,255,0.1); color: white;">
+        <button id="settingsBtn" class="btn clickable" style="background: rgba(255,255,255,0.1); color: white;">
             <i class="fas fa-sliders-h"></i> Settings
         </button>
     </div>
@@ -92,20 +143,20 @@
     <div class="modal-content">
         <div class="modal-header">
             <h2><i class="fas fa-cog"></i> Preferences</h2>
-            <button class="btn-close-small" id="closeSettings">&times;</button>
+            <button class="btn-close-small clickable" id="closeSettings">&times;</button>
         </div>
         <div class="modal-body">
             <div class="setting-group">
                 <label>Emergency Panic Key</label>
-                <input type="text" id="panicKeyInput" maxlength="1" placeholder="Type a key (e.g. ` or q)">
+                <input type="text" id="panicKeyInput" class="clickable" maxlength="1" placeholder="Type a key (e.g. ` or q)">
             </div>
             <div class="setting-group">
                 <label>Redirect URL</label>
-                <input type="text" id="panicUrlInput" placeholder="https://google.com">
+                <input type="text" id="panicUrlInput" class="clickable" placeholder="https://google.com">
             </div>
             <div class="setting-group">
                 <label>Tab Appearance (Cloak)</label>
-                <select id="cloakingSelect">
+                <select id="cloakingSelect" class="clickable">
                     <option value="none">Default (Math Cards)</option>
                     <option value="google">Google Search</option>
                     <option value="drive">Google Drive</option>
@@ -113,7 +164,7 @@
                     <option value="classroom">Google Classroom</option>
                 </select>
             </div>
-            <button id="saveSettings" class="btn" style="background: var(--primary-color); color: white; width: 100%; margin-top: 1rem; justify-content: center;">Save Preferences</button>
+            <button id="saveSettings" class="btn clickable" style="background: var(--primary-color); color: white; width: 100%; margin-top: 1rem; justify-content: center;">Save Preferences</button>
         </div>
     </div>
 </div>
@@ -125,10 +176,10 @@
             <span style="color: var(--text-muted); font-size: 0.8rem;">Secure Sandbox Mode</span>
         </div>
         <div class="zone-controls">
-            <button class="btn" onclick="document.getElementById('zoneFrame').requestFullscreen()" style="background:#1e293b; color:white;">
+            <button class="btn clickable" onclick="document.getElementById('zoneFrame').requestFullscreen()" style="background:#1e293b; color:white;">
                 <i class="fas fa-expand"></i> Fullscreen
             </button>
-            <button class="btn btn-close" onclick="closeProxy()">
+            <button class="btn btn-close clickable" onclick="closeProxy()">
                 <i class="fas fa-times"></i> Close
             </button>
         </div>
@@ -137,6 +188,21 @@
 </div>
 
 <script>
+    // --- Cursor Logic ---
+    const cursor = document.getElementById('custom-cursor');
+    
+    document.addEventListener('mousemove', (e) => {
+        cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+    });
+
+    function updateHoverListeners() {
+        const hoverTargets = document.querySelectorAll('.clickable, a, button, .zone-item, span, input, select');
+        hoverTargets.forEach(target => {
+            target.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+            target.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+        });
+    }
+
     const proxies = [
         { name: "Prоxy 1", url: "https://demonzero.lat/", cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png" },
         { name: "Prоxy 2 (Platinum)", url: "https://platinumunblocker.com/", cover: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-30%20223830.png" },
@@ -216,7 +282,7 @@
         container.innerHTML = "";
         list.forEach(proxy => {
             const card = document.createElement("div");
-            card.className = "zone-item";
+            card.className = "zone-item clickable";
             card.onclick = () => openProxy(proxy);
             card.innerHTML = `
                 <img src="${proxy.cover}" alt="${proxy.name}">
@@ -226,6 +292,7 @@
             `;
             container.appendChild(card);
         });
+        updateHoverListeners(); // Refresh cursor hover listeners for new elements
     }
 
     searchBar.oninput = (e) => {
@@ -246,7 +313,6 @@
         document.body.style.overflow = 'auto';
     }
 
-    // 4. GLOBAL KEY LISTENER
     document.addEventListener('keydown', (e) => {
         if (e.key === config.panicKey) {
             window.location.replace(config.panicUrl);
@@ -255,9 +321,10 @@
 
     // Init
     displayProxies(proxies);
+    updateHoverListeners();
 </script>
     
-  <script type="text/javascript">
+<script type="text/javascript">
     aclib.runAutoTag({
         zoneId: 'a5xbbme8xi',
     });
