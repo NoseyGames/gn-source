@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Adsterra library -->
-<script type="text/javascript" src="//pl22937078.highcpmgate.com/4c/1b/92/4c1b92d8b7a7e3a7d0f.js"></script>
+    <script type="text/javascript" src="//pl22937078.highcpmgate.com/4c/1b/92/4c1b92d8b7a7e3a7d0f.js"></script>
 <meta charset="UTF-8">
     <link rel="icon" href="favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,18 +9,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #3b82f6;
+            --primary-color: #050505;
             --primary-hover: #2563eb;
             --primary-dark: #0f172a;
             --primary-light: #94a3b8;
             --text-color: #f8fafc;
             --text-muted: #94a3b8;
-            --background-color: #020617;
-            --card-bg: #0f172a;
+            --background-color: #0a0a0a;
+            --card-bg: #141212;
             --card-border: #1e293b;
             --shadow: rgba(0, 0, 0, 0.4);
             --popup-bg: #1e293b;
-            --header-bg: #0f172a;
+            --header-bg: #0a0a0a;
             --header-color: #ffffff;
             --accent-glow: rgba(59, 130, 246, 0.2);
             --radius-lg: 16px;
@@ -33,16 +32,52 @@
             padding: 0;
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
+            cursor: none !important; /* Hide default mouse globally */
         }
 
         body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background-color: var(--background-color);
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
             color: var(--text-color);
             line-height: 1.5;
             min-height: 100vh;
             overflow-x: hidden;
         }
+
+        /* --- CUSTOM SVG CURSOR --- */
+        #custom-cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 999999;
+            transition: transform 0.1s ease-out;
+            transform-origin: top left;
+        }
+
+        /* The SVG itself */
+        #custom-cursor svg {
+            width: 46px;
+            height: 46px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.0));
+        }
+
+        /* Styling for the SVG path */
+        .cursor-path {
+            fill: #ffffff;
+            stroke: #000000;
+            stroke-width: 3.0;
+        }
+
+        /* Hover state: scale and change color */
+        .cursor-hover {
+            transform: scale(5.8);
+        }
+        /* ---------------------------- */
 
         header {
             background: rgba(15, 23, 42, 0.8);
@@ -400,6 +435,12 @@
 </head>
     <script src="https://cdn.apitiny.net/scripts/v2.0/main.js" data-site-id="697e827817873c3ea5943671" data-test-mode="false" async></script>
 <body>
+    <div id="custom-cursor">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-4.86a.5.5 0 0 1 .35-.15h6.87c.45 0 .67-.53.35-.85L5.85 2.36a.5.5 0 0 0-.35.85z" class="cursor-path" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+    </div>
+
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5L92NMTR"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <header>
@@ -489,6 +530,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </footer>
 
     <script>
+        /* --- CUSTOM CURSOR JAVASCRIPT --- */
+        const cursor = document.getElementById('custom-cursor');
+
+        document.addEventListener('mousemove', (e) => {
+            // No offset needed for the SVG pointer, as its tip is at 0,0
+            cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+        });
+
+        const addHoverEffects = () => {
+            const clickables = document.querySelectorAll('button, a, input, select, .zone-item');
+            clickables.forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+            });
+        };
+        addHoverEffects();
+        /* -------------------------------- */
+
         const container = document.getElementById('container');
         const zoneViewer = document.getElementById('zoneViewer');
         let zoneFrame = document.getElementById('zoneFrame');
@@ -573,6 +632,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 await fetchPopularity();
                 sortZones();
                 document.getElementById('zoneCount').textContent = `${zones.length} zones available. Have fun!`;
+                setTimeout(addHoverEffects, 500);
             } catch (error) {
                 container.innerHTML = `<div class="loading"><h3>Offline Mode Active</h3><p>Could not reach the server.</p></div>`;
             }
@@ -627,6 +687,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 zoneItem.appendChild(zoneInfo);
                 container.appendChild(zoneItem);
             });
+            addHoverEffects();
         }
 
         function openZone(file) {
@@ -634,26 +695,51 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 window.open(file.url, "_blank");
                 return;
             }
+
+            const viewer = document.getElementById('zoneViewer');
+            let oldFrame = document.getElementById('zoneFrame');
+            const newFrame = document.createElement('iframe');
+            newFrame.id = 'zoneFrame';
+            
+            oldFrame.parentNode.replaceChild(newFrame, oldFrame);
+            zoneFrame = newFrame; 
+
             if (file.isExternal) {
                 zoneFrame.src = file.url;
             } else {
                 const url = file.url.replace("{COVER_URL}", coverURL).replace("{HTML_URL}", htmlURL);
                 fetch(url).then(res => res.text()).then(html => {
-                    zoneFrame.contentDocument.open();
-                    zoneFrame.contentDocument.write(html);
-                    zoneFrame.contentDocument.close();
+                    const doc = zoneFrame.contentDocument || zoneFrame.contentWindow.document;
+                    doc.open();
+                    doc.write(html);
+                    doc.close();
                 });
             }
+
             document.getElementById('zoneName').textContent = file.name;
             document.getElementById('zoneId').textContent = file.id;
             document.getElementById('zoneAuthor').innerHTML = `<i class="fas fa-circle-check"></i> by ${file.author}`;
             zoneViewer.style.display = "flex";
             document.body.style.overflow = 'hidden';
+            zoneFrame.style.cursor = 'auto';
         }
 
         function closeZone() {
-            zoneViewer.style.display = "none";
-            zoneFrame.src = "about:blank";
+            const viewer = document.getElementById('zoneViewer');
+            viewer.style.display = "none";
+            
+            if (zoneFrame) {
+                zoneFrame.src = "about:blank";
+                try {
+                    const doc = zoneFrame.contentDocument || zoneFrame.contentWindow.document;
+                    doc.open();
+                    doc.write("");
+                    doc.close();
+                } catch(e) {
+                    console.log("Cross-origin frame cleared via src only.");
+                }
+            }
+            
             document.body.style.overflow = 'auto';
         }
 
@@ -733,6 +819,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 </div>
             `;
             document.getElementById('popupOverlay').style.display = "flex";
+            addHoverEffects();
         }
 
         function showContact() {
@@ -750,6 +837,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     </button>
                 </div>
             `;
+            addHoverEffects();
         }
 
         function updateConfig(key, val) {
