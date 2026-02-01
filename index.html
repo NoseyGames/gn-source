@@ -13,30 +13,85 @@
     <title>Algebra Flash Cards</title>
     
     <style>
-        body {
+        :root {
+            --primary-color: #050505;
+            --primary-hover: #2563eb;
+            --primary-dark: #0f172a;
+            --primary-light: #94a3b8;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --background-color: #0a0a0a;
+            --card-bg: #141212;
+            --card-border: #1e293b;
+            --shadow: rgba(0, 0, 0, 0.4);
+            --popup-bg: #1e293b;
+            --header-bg: #0a0a0a;
+            --header-color: #ffffff;
+            --accent-glow: rgba(59, 130, 246, 0.2);
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --accent-green: #00ff41;
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #050505;
-            color: #ffffff;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            cursor: none !important; /* Hide default mouse globally */
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--background-color);
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            color: var(--text-color);
+            line-height: 1.5;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
             overflow-x: hidden;
         }
 
-        #matrix {
+        /* --- CUSTOM SVG CURSOR --- */
+        #custom-cursor {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.15;
+            pointer-events: none;
+            z-index: 999999;
+            transition: transform 0.1s ease-out;
+            transform-origin: top left;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
+        /* The SVG itself */
+        #custom-cursor svg {
+            width: 46px;
+            height: 46px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.0));
+        }
+
+        /* Styling for the SVG path */
+        .cursor-path {
+            fill: #ffffff;
+            stroke: #000000;
+            stroke-width: 3.0;
+        }
+
+        /* Hover state: scale and change color */
+        .cursor-hover {
+            transform: scale(5.8);
+        }
+
+        /* --- UI Layout --- */
         .wrapper {
             width: 90%;
             max-width: 1000px;
@@ -45,7 +100,6 @@
             padding: 20px 0;
         }
 
-        /* --- Logo Styles --- */
         .logo-link {
             display: inline-block;
             text-decoration: none;
@@ -54,29 +108,28 @@
 
         .site-logo {
             width: 100%;
-            max-width: 500px; /* Adjusted for the horizontal layout */
+            max-width: 500px;
             height: auto;
             display: block;
-            /* Subtle green glow to integrate with your Matrix theme */
-            filter: drop-shadow(0 0 15px rgba(0, 255, 65, 0.3));
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.1));
             transition: transform 0.3s ease, filter 0.3s ease;
         }
 
         .logo-link:hover .site-logo {
             transform: scale(1.02);
-            filter: drop-shadow(0 0 20px rgba(0, 255, 65, 0.5));
+            filter: drop-shadow(0 0 20px rgba(0, 255, 65, 0.4));
         }
 
         h1 {
             font-size: 2.5rem;
             margin-top: 10px;
             margin-bottom: 0.5rem;
-            color: #00ff41;
+            color: var(--accent-green);
             text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
         }
 
         .subtitle {
-            color: #888;
+            color: var(--text-muted);
             margin-bottom: 3rem;
         }
 
@@ -84,14 +137,14 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
+            margin-bottom: 20px;
         }
 
-        /* Card Styles */
         .card {
-            background: #1a1a1a;
-            border: 1px solid #333;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             padding: 30px;
-            border-radius: 15px;
+            border-radius: var(--radius-lg);
             text-align: center;
             text-decoration: none;
             color: white;
@@ -101,30 +154,28 @@
 
         .card:hover {
             transform: translateY(-10px);
-            border-color: #00ff41;
-            background: #222;
+            border-color: var(--accent-green);
         }
 
         .card h2 {
             margin: 0 0 10px 0;
             font-size: 1.5rem;
-            color: #00ff41;
+            color: var(--accent-green);
         }
 
         .card p {
             font-size: 0.9rem;
-            color: #888;
+            color: var(--text-muted);
             margin: 0;
         }
 
-        /* Overlay Sections */
         .page-content {
             display: none;
             text-align: left;
-            background: #1a1a1a;
+            background: var(--card-bg);
             padding: 40px;
-            border-radius: 15px;
-            border: 1px solid #333;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--card-border);
             margin-top: 20px;
         }
 
@@ -133,8 +184,7 @@
         .back-btn {
             display: inline-block;
             margin-top: 25px;
-            color: #00ff41;
-            cursor: pointer;
+            color: var(--accent-green);
             font-weight: bold;
             text-decoration: underline;
         }
@@ -146,20 +196,23 @@
         }
 
         .footer span {
-            cursor: pointer;
             margin: 0 10px;
             text-decoration: underline;
         }
 
-        .footer span:hover { color: #00ff41; }
+        .footer span:hover { color: var(--accent-green); }
     </style>
 </head>
 <body>
-    <canvas id="matrix"></canvas>
+    <div id="custom-cursor">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path class="cursor-path" d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-4.86a.5.5 0 0 1 .35-.15h6.87c.45 0 .67-.53.35-.85L5.85 2.36a.5.5 0 0 0-.35.85z"/>
+        </svg>
+    </div>
 
     <div class="wrapper">
         <div id="main-hub">
-            <a href="/" class="logo-link">
+            <a href="/" class="logo-link clickable">
                 <img src="https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-27%20153915.png" alt="NikeHub Logo" class="site-logo">
             </a>
 
@@ -167,70 +220,66 @@
             <p class="subtitle">Select a category to begin</p>
 
             <div class="container">
-                <a href="/homework.html" class="card">
+                <a href="/homework.html" class="card clickable">
                     <h2>games</h2>
                     <p>tuff games</p>
                 </a>
 
-                <a href="/ai.html" class="card">
+                <a href="/ai.html" class="card clickable">
                     <h2>ai</h2>
                     <p>ai kinda made by me</p>
                 </a>
                 
-                <a href="/movies.html" class="card">
+                <a href="/movies.html" class="card clickable">
                     <h2>tuff movies</h2>
                     <p>movies by nikegtag</p>
                 </a>
               
-                <a href="/algebra.html" class="card">
+                <a href="/algebra.html" class="card clickable">
                     <h2>Prоxys</h2>
                     <p>Proxys (none of these made by me)</p>
                 </a>
                 
-                <a href="/partners.html" class="card">
+                <a href="/partners.html" class="card clickable">
                     <h2>NikeHub Partners</h2>
                     <p>NikeHub Partners</p>
                 </a>
-              
             </div>
         </div>
 
         <div id="privacy" class="page-content">
             <h2>Privacy Policy</h2>
-            <p>TThis site collect zero data. Everything is in stored localstorage.</p>
-            <span class="back-btn" onclick="closeOverlay()">← Back to Hub</span>
+            <p>This site collect zero data. Everything is in stored localstorage.</p>
+            <span class="back-btn clickable" onclick="closeOverlay()">← Back to Hub</span>
         </div>
 
         <div class="footer">
-            <span onclick="openOverlay('privacy')">Privacy Policy</span>
+            <span class="clickable" onclick="openOverlay('privacy')">Privacy Policy</span>
             <p>&copy; 2026 NikeHub</p>
         </div>
     </div>
 
     <script>
-        // Matrix Background Script
-        const canvas = document.getElementById('matrix');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        const fontSize = 16;
-        const columns = canvas.width / fontSize;
-        const drops = Array(Math.floor(columns)).fill(1);
+        // Standardized Cursor Interaction Logic
+        const cursor = document.getElementById('custom-cursor');
+        
+        document.addEventListener('mousemove', (e) => {
+            // translate3d uses GPU acceleration for smoother movement
+            cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+        });
 
-        function draw() {
-            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "#0f0";
-            ctx.font = fontSize + "px monospace";
-            for (let i = 0; i < drops.length; i++) {
-                const text = letters.charAt(Math.floor(Math.random() * letters.length));
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-                drops[i]++;
-            }
-        }
-        setInterval(draw, 33);
+        // Trigger the 5.8x scale on hover for specific elements
+        const hoverTargets = document.querySelectorAll('.clickable, a, span, .card');
+        hoverTargets.forEach(target => {
+            target.addEventListener('mouseenter', () => {
+                cursor.classList.add('cursor-hover');
+            });
+            target.addEventListener('mouseleave', () => {
+                cursor.classList.remove('cursor-hover');
+            });
+        });
 
+        // Navigation Handlers
         function openOverlay(id) {
             document.getElementById('main-hub').style.display = 'none';
             document.getElementById(id).classList.add('active');
@@ -240,11 +289,6 @@
             document.querySelectorAll('.page-content').forEach(s => s.classList.remove('active'));
             document.getElementById('main-hub').style.display = 'block';
         }
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
     </script>
 </body>
 </html>
