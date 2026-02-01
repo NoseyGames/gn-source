@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Adsterra library -->
-<script type="text/javascript" src="//pl22937078.highcpmgate.com/4c/1b/92/4c1b92d8b7a7e3a7d0f.js"></script>
+    <script type="text/javascript" src="//pl22937078.highcpmgate.com/4c/1b/92/4c1b92d8b7a7e3a7d0f.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NikeHub Partners</title>
@@ -15,8 +14,8 @@
             --primary-light: #94a3b8;
             --text-color: #f8fafc;
             --text-muted: #94a3b8;
-            --background-color: #020617;
-            --card-bg: #0f172a;
+            --background-color: #0a0a0a; /* Darker for grid visibility */
+            --card-bg: #141212;
             --card-border: #1e293b;
             --shadow: rgba(0, 0, 0, 0.4);
             --popup-bg: #1e293b;
@@ -27,14 +26,53 @@
             --radius-md: 12px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        /* --- GLOBAL & GRID --- */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent; 
+            cursor: none !important; /* Hide default mouse */
+        }
 
         body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background-color: var(--background-color);
+            /* Grid Background */
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
             color: var(--text-color);
             line-height: 1.5;
             min-height: 100vh;
+        }
+
+        /* --- CUSTOM SVG CURSOR --- */
+        #custom-cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 999999;
+            transition: transform 0.1s ease-out;
+            transform-origin: top left;
+        }
+
+        #custom-cursor svg {
+            width: 46px;
+            height: 46px;
+        }
+
+        .cursor-path {
+            fill: #ffffff;
+            stroke: #000000;
+            stroke-width: 3.0;
+        }
+
+        /* Hover state: 5.8 scale */
+        .cursor-hover {
+            transform: scale(5.8);
         }
 
         /* Header & Nav */
@@ -66,7 +104,6 @@
             align-items: center;
             gap: 10px;
             letter-spacing: -0.5px;
-            cursor: pointer;
         }
 
         .search-container { display: flex; gap: 8px; flex: 1; max-width: 700px; }
@@ -89,7 +126,6 @@
             border: 1px solid var(--card-border);
             background: #1e293b;
             color: white;
-            cursor: pointer;
         }
 
         /* Main Content */
@@ -110,7 +146,6 @@
             border: 1px solid var(--card-border);
             border-radius: var(--radius-lg);
             overflow: hidden;
-            cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             flex-direction: column;
@@ -141,19 +176,25 @@
         .popup-header { padding: 1.5rem; border-bottom: 1px solid var(--card-border); display: flex; justify-content: space-between; }
         .popup-body { padding: 1.5rem; }
         .btn-group { display: flex; gap: 10px; margin-top: 20px; }
-        .btn { flex: 1; padding: 12px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; text-decoration: none; text-align: center; }
+        .btn { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: 600; text-decoration: none; text-align: center; }
         .btn-primary { background: var(--primary-color); color: white; }
         .btn-secondary { background: #334155; color: white; }
     </style>
 </head>
 <body>
 
+    <div id="custom-cursor">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path class="cursor-path" d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-4.86a.5.5 0 0 1 .35-.15h6.87c.45 0 .67-.53.35-.85L5.85 2.36a.5.5 0 0 0-.35.85z"/>
+        </svg>
+    </div>
+
     <header>
         <div class="header-content">
-            <div class="logo"><i class="fas fa-rocket"></i> Nike Hub Partners</span></div>
+            <div class="logo clickable"><i class="fas fa-rocket"></i> Nike Hub Partners</div>
             <div class="search-container">
-                <input type="text" id="searchBar" placeholder="Search partners...">
-                <select id="sortOptions">
+                <input type="text" id="searchBar" class="clickable" placeholder="Search partners...">
+                <select id="sortOptions" class="clickable">
                     <option value="all">All Partners</option>
                     <option value="featured">Likely Unblocked</option>
                 </select>
@@ -168,28 +209,42 @@
     </div>
 
     <main>
-        <div id="container">
-            </div>
+        <div id="container"></div>
     </main>
 
     <div id="popupOverlay">
         <div class="popup">
             <div class="popup-header">
                 <h2 id="modalTitle">Partner Name</h2>
-                <i class="fas fa-times" style="cursor:pointer" onclick="closeModal()"></i>
+                <i class="fas fa-times clickable" onclick="closeModal()"></i>
             </div>
             <div class="popup-body">
                 <p id="modalDesc" style="color: var(--text-muted); margin-bottom: 20px;"></p>
                 <div class="btn-group">
-                    <a id="modalLink" href="#" class="btn btn-primary" target="_blank">Visit Site</a>
-                    <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+                    <a id="modalLink" href="#" class="btn btn-primary clickable" target="_blank">Visit Site</a>
+                    <button class="btn btn-secondary clickable" onclick="closeModal()">Close</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // --- get out my code if your looking at this  ---
+        // --- Cursor Logic ---
+        const cursor = document.getElementById('custom-cursor');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+        });
+
+        // Add hover effect to interactive elements
+        function updateCursorListeners() {
+            const targets = document.querySelectorAll('.clickable, .zone-item, a, button, input, select, i');
+            targets.forEach(target => {
+                target.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+                target.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+            });
+        }
+
         const partners = [
             { 
                 name: "Tiktok", 
@@ -225,7 +280,6 @@
             }
         ];
 
-        // --- 2. CORE LOGIC ---
         const container = document.getElementById('container');
         const searchBar = document.getElementById('searchBar');
         const sortOptions = document.getElementById('sortOptions');
@@ -237,7 +291,7 @@
             
             data.forEach(item => {
                 const card = document.createElement('div');
-                card.className = `zone-item ${item.featured ? 'featured' : ''}`;
+                card.className = `zone-item ${item.featured ? 'featured' : ''} clickable`;
                 card.innerHTML = `
                     <img src="${item.img}" alt="${item.name}">
                     <div class="zone-info">
@@ -248,9 +302,9 @@
                 card.onclick = () => openModal(item);
                 container.appendChild(card);
             });
+            updateCursorListeners();
         }
 
-        // Search Filter
         searchBar.addEventListener('input', (e) => {
             const term = e.target.value.toLowerCase();
             const filtered = partners.filter(p => 
@@ -260,7 +314,6 @@
             displayPartners(filtered);
         });
 
-        // Sort/Category Filter
         sortOptions.addEventListener('change', (e) => {
             const val = e.target.value;
             if(val === 'featured') {
@@ -270,7 +323,6 @@
             }
         });
 
-        // Modal Logic
         function openModal(partner) {
             document.getElementById('modalTitle').innerText = partner.name;
             document.getElementById('modalDesc').innerText = partner.desc;
@@ -282,7 +334,6 @@
             document.getElementById('popupOverlay').style.display = 'none';
         }
 
-        // Close on outside click
         window.onclick = (event) => {
             if (event.target == document.getElementById('popupOverlay')) closeModal();
         }
@@ -290,12 +341,5 @@
         // Initial Load
         displayPartners(partners);
     </script>
-    
-  <script type="text/javascript">
-    aclib.runAutoTag({
-        zoneId: 'a5xbbme8xi',
-    });
-</script>
-
 </body>
 </html>
