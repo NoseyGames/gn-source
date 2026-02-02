@@ -58,25 +58,50 @@
             transform-origin: top left;
         }
 
-        /* The SVG itself */
         #custom-cursor svg {
             width: 46px;
             height: 46px;
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.0));
         }
 
-        /* Styling for the SVG path */
         .cursor-path {
             fill: #ffffff;
             stroke: #000000;
             stroke-width: 3.0;
         }
 
-        /* Hover state: scale and change color */
         .cursor-hover {
             transform: scale(5.8);
         }
-        /* ---------------------------- */
+
+        /* --- QUOTE SECTION STYLES --- */
+        .quote-container {
+            max-width: 800px;
+            margin: 2rem auto 0;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px border var(--card-border);
+            border-radius: var(--radius-md);
+            text-align: center;
+            position: relative;
+            transition: opacity 0.5s ease;
+        }
+
+        #quoteText {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        #quoteAuthor {
+            font-size: 0.85rem;
+            color: var(--primary-hover);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
         header {
             background: rgba(15, 23, 42, 0.8);
@@ -236,7 +261,7 @@
         }
 
         .zone-item img {
-              width: 100%;
+            width: 100%;
             height: 160px;
             object-fit: cover;
             transition: transform 0.5s ease;
@@ -432,7 +457,6 @@
         ::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 10px; }
     </style>
 </head>
-    <script src="https://cdn.apitiny.net/scripts/v2.0/main.js" data-site-id="697e827817873c3ea5943671" data-test-mode="false" async></script>
 <body>
     <div id="custom-cursor">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -440,10 +464,7 @@
         </svg>
     </div>
 
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5L92NMTR"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<header>
-  
+    <header>
         <div class="header-content">
             <div class="logo">
                 <i class="fas fa-gamepad"></i>
@@ -473,7 +494,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 
     <main>
-        <div id="container">
+        <div class="quote-container" id="quoteContainer">
+            <span id="quoteText">"Loading daily wisdom..."</span>
+            <span id="quoteAuthor">- NikeHub</span>
+        </div>
+
+        <div id="container" style="margin-top: 2rem;">
             <div class="loading">
                 <i class="fas fa-circle-notch fa-spin"></i>
                 <p>Initializing Library...</p>
@@ -495,6 +521,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <button onclick="fullscreenZone()">
                     <i class="fas fa-expand"></i>
                     <span>Fullscreen</span>
+                </button>
+                <button onclick="aboutBlank()">
+                    <i class="fas fa-external-link-alt"></i>
+                    <span>New Tab</span>
                 </button>
                 <button onclick="downloadZone()">
                     <i class="fas fa-download"></i>
@@ -525,11 +555,41 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </footer>
 
     <script>
+        /* --- QUOTE ENGINE --- */
+        const quotes = [
+            { text: "Your gay.", author: "Classroomspot" },
+            { text: "Umm i had some beef.", author: "Classroomspot" },
+            { text: "ugh i hate working on my ui", author: "NikeGtag" },
+            { text: "OMG nikehub is the most tuff site to ever exist.", author: "defo said by gn math 🙏" },
+            { text: "Reality is merely an illusion, albeit a very persistent one.", author: "idk bro dont ask me" },
+            { text: "PLEASEEE promote me", author: "GN-Math" },
+            { text: "What kind of mango is this?", author: "Some tiktоk" },
+            { text: "Dawg take a shower", author: "Unknown Hub" }
+        ];
+
+        function updateQuote() {
+            const quoteEl = document.getElementById('quoteText');
+            const authorEl = document.getElementById('quoteAuthor');
+            const container = document.getElementById('quoteContainer');
+            
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            
+            container.style.opacity = 0;
+            setTimeout(() => {
+                quoteEl.textContent = `"${randomQuote.text}"`;
+                authorEl.textContent = `- ${randomQuote.author}`;
+                container.style.opacity = 1;
+            }, 500);
+        }
+
+        // Initialize and rotate quote every 30 seconds
+        updateQuote();
+        setInterval(updateQuote, 30000);
+
         /* --- CUSTOM CURSOR JAVASCRIPT --- */
         const cursor = document.getElementById('custom-cursor');
 
         document.addEventListener('mousemove', (e) => {
-            // No offset needed for the SVG pointer, as its tip is at 0,0
             cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
         });
 
@@ -541,8 +601,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             });
         };
         addHoverEffects();
-        /* -------------------------------- */
 
+        /* --- CORE LOGIC --- */
         const container = document.getElementById('container');
         const zoneViewer = document.getElementById('zoneViewer');
         let zoneFrame = document.getElementById('zoneFrame');
@@ -586,8 +646,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 cover: "https://cdn.jsdelivr.net/gh/NoseyGames/covers@main/egg-game.png",
                 featured: false,
                 isExternal: true
-          },
-          {
+            },
+            {
                 id: "675",
                 name: "ANTONBLAST Demo",
                 author: "BurnedPopcorn",
@@ -595,8 +655,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 cover: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1887400/header.jpg",
                 featured: true,
                 isExternal: true
-          },
-          {
+            },
+            {
                 id: "674",
                 name: "Infnite Craft",
                 author: "nikegtag",
@@ -604,10 +664,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 cover: "https://neal.fun/link-images/infinite-craft.svg",
                 featured: false,
                 isExternal: true
-          },
-          {
+            },
+            {
                 id: "676",
-                name: "NikeNetwork Prоxy",
+                name: "Ethereal Pr0xy",
                 author: "nikegtag",
                 url: "https://nikenetwork.koyeb.app/",
                 cover: "https://securly.pages.dev/favicon.png",
@@ -874,9 +934,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         applyCloak();
         listZones();
-        
     </script>
 </body>
 </html>
-
-
