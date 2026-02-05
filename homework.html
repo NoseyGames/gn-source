@@ -46,33 +46,6 @@
             overflow-x: hidden;
         }
 
-        /* --- CUSTOM SVG CURSOR --- */
-        #custom-cursor {
-            position: fixed;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: 999999;
-            transition: transform 0.1s ease-out;
-            transform-origin: top left;
-        }
-
-        #custom-cursor svg {
-            width: 46px;
-            height: 46px;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.0));
-        }
-
-        .cursor-path {
-            fill: #ffffff;
-            stroke: #000000;
-            stroke-width: 3.0;
-        }
-
-        .cursor-hover {
-            transform: scale(5.8);
-        }
-
         /* --- QUOTE SECTION STYLES --- */
         .quote-container {
             max-width: 800px;
@@ -457,12 +430,6 @@
     </style>
 </head>
 <body>
-    <div id="custom-cursor">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="" class="cursor-path" stroke-linecap="round" stroke-linejoin="round"></path>
-        </svg>
-    </div>
-
     <header>
         <div class="header-content">
             <div class="logo">
@@ -585,22 +552,6 @@
         updateQuote();
         setInterval(updateQuote, 30000);
 
-        /* --- CUSTOM CURSOR JAVASCRIPT --- */
-        const cursor = document.getElementById('custom-cursor');
-
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-        });
-
-        const addHoverEffects = () => {
-            const clickables = document.querySelectorAll('button, a, input, select, .zone-item');
-            clickables.forEach(el => {
-                el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
-                el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
-            });
-        };
-        addHoverEffects();
-
         /* --- CORE LOGIC --- */
         const container = document.getElementById('container');
         const zoneViewer = document.getElementById('zoneViewer');
@@ -610,6 +561,7 @@
         const zonesURL = "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/zones.json";
         const coverURL = "https://cdn.jsdelivr.net/gh/NoseyGames/covers@latest/";
         const htmlURL = "https://cdn.jsdelivr.net/gh/gn-math/html@main";
+        const customZonesURL = "custom-zones.json";
 
         let config = {
             panicKey: localStorage.getItem('panicKey') || '1',
@@ -618,75 +570,32 @@
             cloakIcon: localStorage.getItem('cloakIcon') || 'favicon.png'
         };
 
-        const customEntries = [
-            {
-                id: "671",
-                name: "Tuff Grimace Game",
-                author: "nikegtag",
-                url: "https://script.google.com/macros/s/AKfycbwPLnRcoqGbOipLt2as1aFfCgIKNE--rJbTIoVp6lzGhVThb_t5I7IChBn93Ndx-ZNp/exec",
-                cover: "https://cdn.jsdelivr.net/gh/NoseyGames/covers@main/grimace.png",
-                featured: true,
-                isExternal: true
-            },
-            {
-                id: "672",
-                name: "99 Nights In The Forest",
-                author: "nikegtag",
-                url: "https://script.google.com/macros/s/AKfycbw4urIQgR3zAfmFsn3NWFC6kpsGYSWafyi6AWtyVNSyBkySH9O46LVnhej6fW7beFME/exec",
-                cover: "https://cdn.jsdelivr.net/gh/NoseyGames/covers@main/99nights.png",
-                featured: true,
-                isExternal: true
-            },
-            {
-                id: "673",
-                name: "Tuff Egg Game",
-                author: "nikegtag",
-                url: "https://script.google.com/macros/s/AKfycbwVJ-l4mCnCytWvapselKW0zb1INpNE4X_QzlulmVhDZzh5OhR3xuA2tZBcCzC_x1tIEA/exec",
-                cover: "https://cdn.jsdelivr.net/gh/NoseyGames/covers@main/egg-game.png",
-                featured: false,
-                isExternal: true
-            },
-            {
-                id: "675",
-                name: "ANTONBLAST Demo",
-                author: "BurnedPopcorn",
-                url: "https://www.autistici.org/burnedprojects/AntonBlast/",
-                cover: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1887400/header.jpg",
-                featured: true,
-                isExternal: true
-            },
-            {
-                id: "674",
-                name: "Infnite Craft",
-                author: "nikegtag",
-                url: "https://script.google.com/macros/s/AKfycbz_MGCUIeYWrNrV_JRZ3-jjugFyaRbCmh2_nU1h6NWddrbWCvlXK70guHukT8TVusRMbw/exec",
-                cover: "https://neal.fun/link-images/infinite-craft.svg",
-                featured: false,
-                isExternal: true
-            },
-            {
-                id: "676",
-                name: "NikeNetwork Proxy",
-                author: "nikegtag",
-                url: "https://nikenetwork.koyeb.app/",
-                cover: "https://securly.pages.dev/favicon.png",
-                featured: true,
-                isExternal: true
-            }
-        ];
-
+        let customEntries = [];
         let zones = [];
         let popularityData = {};
 
+        async function loadCustomZones() {
+            try {
+                const response = await fetch(customZonesURL + "?t=" + Date.now());
+                if (!response.ok) throw new Error('File not found');
+                customEntries = await response.json();
+                console.log(`Loaded ${customEntries.length} custom zones`);
+            } catch (error) {
+                console.warn('No custom zones loaded:', error.message);
+                customEntries = [];
+            }
+        }
+
         async function listZones() {
             try {
+                await loadCustomZones();
+                
                 const response = await fetch(zonesURL + "?t=" + Date.now());
                 const json = await response.json();
                 zones = [...customEntries, ...json];
                 await fetchPopularity();
                 sortZones();
                 document.getElementById('zoneCount').textContent = `${zones.length} zones available. Have fun!`;
-                setTimeout(addHoverEffects, 500);
             } catch (error) {
                 container.innerHTML = `<div class="loading"><h3>Offline Mode Active</h3><p>Could not reach the server.</p></div>`;
             }
@@ -741,7 +650,6 @@
                 zoneItem.appendChild(zoneInfo);
                 container.appendChild(zoneItem);
             });
-            addHoverEffects();
         }
 
         function openZone(file) {
@@ -873,7 +781,6 @@
                 </div>
             `;
             document.getElementById('popupOverlay').style.display = "flex";
-            addHoverEffects();
         }
 
         function showContact() {
@@ -891,7 +798,6 @@
                     </button>
                 </div>
             `;
-            addHoverEffects();
         }
 
         function updateConfig(key, val) {
