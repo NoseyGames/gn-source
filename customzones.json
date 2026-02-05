@@ -19,6 +19,15 @@
     },
     {
         "id": "681",
+        "name": "Idle Miner Tycoon",
+        "author": "nikegtag",
+        "url": "https://script.google.com/macros/s/AKfycbzDTCgso3p7z3PJ_MRJDT0Nq835Qb5GqQ2aqolMu_0MsTrc2rCLQK-CoOEhUuWaWHzv0A/exec",
+        "cover": "https://i.pinimg.com/736x/93/c2/f3/93c2f38d8045ae6b4df6dcda1b621c69.jpg",
+        "featured": true,
+        "isExternal": true
+    },
+    {
+        "id": "682",
         "name": "Miami Hotline",
         "author": "nikegtag",
         "url": "https://gnhustgames.org/class-72/hotline-miami/",
@@ -32,15 +41,6 @@
         "author": "nikegtag",
         "url": "https://emupedia.net/emupedia-game-pvz/",
         "cover": "https://i.pinimg.com/736x/15/83/9b/15839bef0ed0dbc9b67d055a1bffcf06.jpg",
-        "featured": true,
-        "isExternal": true
-    },
-    {
-        "id": "678",
-        "name": "Tuff Dog Game",
-        "author": "nikegtag",
-        "url": "blob:https://1544454206-atari-embeds.googleusercontent.com/7d8d57ea-e7c1-47e7-92e2-4e128b985f98",
-        "cover": "https://i.pinimg.com/736x/6c/80/86/6c808630d47e8f0211f679839018fce3.jpg",
         "featured": true,
         "isExternal": true
     },
@@ -77,15 +77,6 @@
         "author": "nikegtag",
         "url": "https://script.google.com/macros/s/AKfycbyix6sPjvsn_izDvhJLVuif1buj9ZtARvj9D_FEQ0rscRXgl-RgArs0t4oJw_OHm5Dr5A/exec",
         "cover": "https://i.pinimg.com/736x/ba/1c/79/ba1c796fc180a9a2ea9a3105530f35ee.jpg",
-        "featured": true,
-        "isExternal": true
-    },
-    {
-        "id": "683",
-        "name": "Egg Shockers",
-        "author": "nikegtag",
-        "url": "blob:https://1018781444-atari-embeds.googleusercontent.com/b2ca3917-dc64-4390-bf8c-34c23a7efd87",
-        "cover": "https://i.pinimg.com/736x/2e/3a/1a/2e3a1a867e3cce47cb75d64711987de4.jpg",
         "featured": true,
         "isExternal": true
     },
