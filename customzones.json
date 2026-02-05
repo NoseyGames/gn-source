@@ -21,8 +21,17 @@
         "id": "673",
         "name": "Tuff Egg Game",
         "author": "nikegtag",
-        "url": "https://script.google.com/macros/s/AKfycbwVJ-l4mCnCytWvapselKW0zb1INpNE4X_QzlulmVhDZzh5OhR3xuA2tZBcCzC_x1tIEA/exec",
+        "url": "https://script.google.com/macros/s/AKfycbVJ-l4mCnCytWvapselKW0zb1INpNE4X_QzlulmVhDZzh5OhR3xuA2tZBcCzC_x1tIEA/exec",
         "cover": "https://cdn.jsdelivr.net/gh/NoseyGames/covers@main/egg-game.png",
+        "featured": false,
+        "isExternal": true
+    },
+    {
+        "id": "674",
+        "name": "Infinite Craft",
+        "author": "nikegtag",
+        "url": "https://script.google.com/macros/s/AKfycbz_MGCUIeYWrNrV_JRZ3-jjugFyaRbCmh2_nU1h6NWddrbWCvlXK70guHukT8TVusRMbw/exec",
+        "cover": "https://neal.fun/link-images/infinite-craft.svg",
         "featured": false,
         "isExternal": true
     },
@@ -36,20 +45,20 @@
         "isExternal": true
     },
     {
-        "id": "674",
-        "name": "Infnite Craft",
-        "author": "nikegtag",
-        "url": "https://script.google.com/macros/s/AKfycbz_MGCUIeYWrNrV_JRZ3-jjugFyaRbCmh2_nU1h6NWddrbWCvlXK70guHukT8TVusRMbw/exec",
-        "cover": "https://neal.fun/link-images/infinite-craft.svg",
-        "featured": false,
-        "isExternal": true
-    },
-    {
         "id": "676",
         "name": "NikeNetwork Proxy",
         "author": "nikegtag",
         "url": "https://nikenetwork.koyeb.app/",
         "cover": "https://securly.pages.dev/favicon.png",
+        "featured": true,
+        "isExternal": true
+    },
+    {
+        "id": "677",
+        "name": "NikeNetwork Form",
+        "author": "nikegtag",
+        "url": "https://docs.google.com/forms/d/1BPSgIM3tpoI7YIupQjP4cdlMdymQrNRUItNaXxtxDsU/edit",
+        "cover": "https://ssl.gstatic.com/docs/spreadsheets/forms/favicon_qp2.png",
         "featured": true,
         "isExternal": true
     }
