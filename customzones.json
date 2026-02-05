@@ -1,0 +1,56 @@
+[
+    {
+        "id": "671",
+        "name": "Tuff Grimace Game",
+        "author": "nikegtag",
+        "url": "https://script.google.com/macros/s/AKfycbwPLnRcoqGbOipLt2as1aFfCgIKNE--rJbTIoVp6lzGhVThb_t5I7IChBn93Ndx-ZNp/exec",
+        "cover": "https://cdn.jsdelivr.net/gh/NoseyGames/covers@main/grimace.png",
+        "featured": true,
+        "isExternal": true
+    },
+    {
+        "id": "672",
+        "name": "99 Nights In The Forest",
+        "author": "nikegtag",
+        "url": "https://script.google.com/macros/s/AKfycbw4urIQgR3zAfmFsn3NWFC6kpsGYSWafyi6AWtyVNSyBkySH9O46LVnhej6fW7beFME/exec",
+        "cover": "https://cdn.jsdelivr.net/gh/NoseyGames/covers@main/99nights.png",
+        "featured": true,
+        "isExternal": true
+    },
+    {
+        "id": "673",
+        "name": "Tuff Egg Game",
+        "author": "nikegtag",
+        "url": "https://script.google.com/macros/s/AKfycbwVJ-l4mCnCytWvapselKW0zb1INpNE4X_QzlulmVhDZzh5OhR3xuA2tZBcCzC_x1tIEA/exec",
+        "cover": "https://cdn.jsdelivr.net/gh/NoseyGames/covers@main/egg-game.png",
+        "featured": false,
+        "isExternal": true
+    },
+    {
+        "id": "675",
+        "name": "ANTONBLAST Demo",
+        "author": "BurnedPopcorn",
+        "url": "https://www.autistici.org/burnedprojects/AntonBlast/",
+        "cover": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1887400/header.jpg",
+        "featured": true,
+        "isExternal": true
+    },
+    {
+        "id": "674",
+        "name": "Infnite Craft",
+        "author": "nikegtag",
+        "url": "https://script.google.com/macros/s/AKfycbz_MGCUIeYWrNrV_JRZ3-jjugFyaRbCmh2_nU1h6NWddrbWCvlXK70guHukT8TVusRMbw/exec",
+        "cover": "https://neal.fun/link-images/infinite-craft.svg",
+        "featured": false,
+        "isExternal": true
+    },
+    {
+        "id": "676",
+        "name": "NikeNetwork Proxy",
+        "author": "nikegtag",
+        "url": "https://nikenetwork.koyeb.app/",
+        "cover": "https://securly.pages.dev/favicon.png",
+        "featured": true,
+        "isExternal": true
+    }
+]
