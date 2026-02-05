@@ -18,6 +18,24 @@
         "isExternal": true
     },
     {
+        "id": "681",
+        "name": "Miami Hotline",
+        "author": "nikegtag",
+        "url": "https://gnhustgames.org/class-72/hotline-miami/",
+        "cover": "https://pub-c77eb84ebd5c408aa81bb7f3302cac57.r2.dev/attached_assets/game_icons/Hotline%20Miami%20Logo.webp",
+        "featured": true,
+        "isExternal": true
+    },
+    {
+        "id": "680",
+        "name": "Plants VS Zombies",
+        "author": "nikegtag",
+        "url": "https://emupedia.net/emupedia-game-pvz/",
+        "cover": "https://i.pinimg.com/736x/15/83/9b/15839bef0ed0dbc9b67d055a1bffcf06.jpg",
+        "featured": true,
+        "isExternal": true
+    },
+    {
         "id": "678",
         "name": "Tuff Dog Game",
         "author": "nikegtag",
