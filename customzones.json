@@ -9,11 +9,29 @@
         "isExternal": true
     },
     {
+        "id": "685",
+        "name": "Bumper Cars",
+        "author": "nikegtag",
+        "url": "https://script.google.com/macros/s/AKfycbyE1C_kxeomVoOLjpaXc2uAI7JdNgVhdQdePTZu9Sizwzj_imhaWnNmPSXm4w1v-SFs/exec",
+        "cover": "https://cdn.jsdelivr.net/gh/NoseyGames/covers@main/99nights.png",
+        "featured": true,
+        "isExternal": true
+    },
+    {
         "id": "672",
         "name": "99 Nights In The Forest",
         "author": "nikegtag",
         "url": "https://script.google.com/macros/s/AKfycbw4urIQgR3zAfmFsn3NWFC6kpsGYSWafyi6AWtyVNSyBkySH9O46LVnhej6fW7beFME/exec",
         "cover": "https://cdn.jsdelivr.net/gh/NoseyGames/covers@main/99nights.png",
+        "featured": true,
+        "isExternal": true
+    },
+    {
+        "id": "684",
+        "name": "Rocket League",
+        "author": "nikegtag",
+        "url": "https://script.google.com/macros/s/AKfycbybZkVPGyvHUOZbwrJSn5fRQIFcGpoIEhp0r-yq2GWRtE_1G7YzP4t8kPZRfp6tutUN/exec",
+        "cover": "https://i.pinimg.com/736x/76/a8/c0/76a8c047633ace2f4e17412c5e1c44c4.jpg",
         "featured": true,
         "isExternal": true
     },
