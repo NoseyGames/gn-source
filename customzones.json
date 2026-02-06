@@ -9,6 +9,33 @@
         "isExternal": true
     },
     {
+        "id": "688",
+        "name": "Shell Shockers",
+        "author": "nikegtag",
+        "url": "https://azgames.io/shell-shockers.embed",
+        "cover": "https://azgames.io/upload/cache/upload/imgs/shell-shockers-m180x180.jpg",
+        "featured": true,
+        "isExternal": true
+    },
+    {
+        "id": "687",
+        "name": "Tung Tung Sahur Horror",
+        "author": "nikegtag",
+        "url": "https://game.azgame.io/tung-sahur-horror/",
+        "cover": "https://azgames.io/upload/cache/upload/imgs/tungsahurhorror1-m180x180.png",
+        "featured": true,
+        "isExternal": true
+    },
+    {
+        "id": "686",
+        "name": "Animal Rampage 3D",
+        "author": "nikegtag",
+        "url": "https://game.azgame.io/crazy-animal-city/",
+        "cover": "https://azgames.io/upload/cache/upload/imgs/crazyanimalcity2-m180x180.png",
+        "featured": true,
+        "isExternal": true
+    },
+    {
         "id": "685",
         "name": "Bumper Cars",
         "author": "nikegtag",
