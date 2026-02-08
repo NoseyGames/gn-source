@@ -46,7 +46,6 @@
             overflow-x: hidden;
         }
 
-        /* --- QUOTE SECTION STYLES --- */
         .quote-container {
             max-width: 800px;
             margin: 2rem auto 0;
@@ -517,19 +516,18 @@
     </footer>
 
     <script>
-        /* --- HARDCODED CONFIGURATION --- */
-        // BLOCKLIST: Add IDs or names you want to hide (case-insensitive for names)
+        
+        // nikehub blocklist cuz im a genius */
         const BLOCKLIST = {
-            ids: [], // Block specific zone IDs
+            ids: [],
             names: ["Soundboard", "[!] COMMENTS", "spam"] // Block specific names (partial match)
         };
 
-        // CUSTOM ZONES: Hardcoded zones that always appear (bypasses CDN loading)
         const CUSTOM_ZONES = [
-            // Example format - add your own zones here:
+            // format if i wanna add more games but im a chud so i prob wont
             // {
             //     id: 99999,
-            //     name: "My Custom Game",
+            //     name: "tung tung game or sum",
             //     author: "You",
             //     cover: "https://example.com/cover.png",
             //     url: "https://example.com/game.html",
@@ -558,13 +556,13 @@
                 covers: "https://cdn.jsdelivr.net/gh/gn-math/covers@main",
                 html: "https://cdn.jsdelivr.net/gh/gn-math/html@main"
             }
-            // Add more CDNs here - ALL will be loaded and merged
+            // all the tuff cdns
         ];
 
-        // Track which CDN each zone came from for proper asset loading
+ 
         let zoneSourceMap = new Map(); // zone.id -> CDN source object
 
-        /* --- QUOTE ENGINE --- */
+        /* --- uwu quotes --- */
         const quotes = [
             { text: "Your gay.", author: "Classroomspot" },
             { text: "Umm i had some beef.", author: "Classroomspot" },
@@ -591,11 +589,11 @@
             }, 500);
         }
 
-        // Initialize and rotate quote every 30 seconds
+        // rotate every 30 secs
         updateQuote();
         setInterval(updateQuote, 30000);
 
-        /* --- CORE LOGIC --- */
+        /* --- dont touch this logic it is importantt --- */
         const container = document.getElementById('container');
         const zoneViewer = document.getElementById('zoneViewer');
         let zoneFrame = document.getElementById('zoneFrame');
@@ -628,7 +626,7 @@
             return false;
         }
 
-        // Remove duplicates based on ID (keeps first occurrence, tracks source CDN)
+        // deduplitator
         function deduplicateZones(zoneList) {
             const seen = new Set();
             const uniqueZones = [];
@@ -665,7 +663,7 @@
                 if (!response.ok) throw new Error('File not found');
                 const data = await response.json();
                 console.log(`Loaded ${data.length} zones from ${customZonesURL}`);
-                // Custom zones from file use the first CDN as their source for assets
+                // Custom zones from file
                 return data.map(zone => ({ zone, source: CDN_SOURCES[0] }));
             } catch (error) {
                 console.warn('No custom zones file found:', error.message);
@@ -677,15 +675,15 @@
         function loadHardcodedCustomZones() {
             if (CUSTOM_ZONES.length === 0) return [];
             console.log(`Loaded ${CUSTOM_ZONES.length} hardcoded custom zones`);
-            // Hardcoded zones use the first CDN as their source (or you can customize this)
+            // Hardcoded zones use the first cdn cuz thats tuff as their source
             return CUSTOM_ZONES.map(zone => ({ zone, source: CDN_SOURCES[0] }));
         }
 
         async function listZones() {
             try {
-                // Load from ALL sources simultaneously
+                // same time boi
                 const loadPromises = [
-                    loadHardcodedCustomZones(), // Hardcoded zones (synchronous)
+                    loadHardcodedCustomZones(), // Hardcoded zones (same time cuz im a genuine master coder)
                     loadCustomZonesFile(),      // From /customzones.json
                     ...CDN_SOURCES.map(cdn => loadFromCDN(cdn)) // From all CDNs
                 ];
@@ -697,8 +695,6 @@
                     throw new Error("No zones loaded from any source");
                 }
                 
-                // Deduplicate across all sources (keeps first occurrence)
-                // Priority: Hardcoded > File > CDNs (in order)
                 zones = deduplicateZones(allZoneItems);
                 
                 // Filter blocked zones
@@ -797,7 +793,7 @@
             oldFrame.parentNode.replaceChild(newFrame, oldFrame);
             zoneFrame = newFrame; 
 
-            // Get the source CDN for this zone
+
             const sourceCDN = zoneSourceMap.get(file.id) || CDN_SOURCES[0];
 
             if (file.isExternal) {
