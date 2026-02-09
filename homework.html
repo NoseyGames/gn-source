@@ -523,18 +523,17 @@
             names: ["Soundboard", "[!] COMMENTS", "[!] SUGGEST GAMES .gg/D4c9VFYWyU"] // Block specific names (partial match)
         };
 
-        const CUSTOM_ZONES = [
-            // format if i wanna add more games but im a chud so i prob wont
-            // {
-            //     id: 99999,
-            //     name: "tung tung game or sum",
-            //     author: "You",
-            //     cover: "https://example.com/cover.png",
-            //     url: "https://example.com/game.html",
-            //     isExternal: true,
-            //     featured: true
-            // }
-        ];
+    const CUSTOM_ZONES = [
+    {
+        id: 0, // Using 0 ensures it's usually at the start
+        name: "[!] SUGGEST GAMES",
+        author: "Official",
+        cover: "https://cdn.jsdelivr.net/gh/NoseyGames/covers@main/tiktok.png",
+        url: "https://www.tiktok.com/@gnmath",
+        isExternal: true,
+        featured: true // This adds the "FEATURED" badge
+    }
+];
 
         // MULTIPLE CDNs: Load from ALL of these simultaneously, deduplicate across all
         const CDN_SOURCES = [
