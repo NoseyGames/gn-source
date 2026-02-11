@@ -542,6 +542,7 @@
                 name: "noseygames",
                 zones: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/zones.json",
                 covers: "https://cdn.jsdelivr.net/gh/NoseyGames/covers@latest/",
+                html: "https://cdn.jsdelivr.net/gh/gn-math/html@main"
 
             },
             {
@@ -817,16 +818,62 @@
             const viewer = document.getElementById('zoneViewer');
             viewer.style.display = "none";
             
+            // Completely remove and recreate the iframe to kill all audio/script execution
             if (zoneFrame) {
-                zoneFrame.src = "about:blank";
+                // Try to stop any audio before removal (best effort for same-origin)
                 try {
-                    const doc = zoneFrame.contentDocument || zoneFrame.contentWindow.document;
-                    doc.open();
-                    doc.write("");
-                    doc.close();
+                    const win = zoneFrame.contentWindow;
+                    const doc = zoneFrame.contentDocument;
+                    if (win && doc) {
+                        // Stop all audio and video elements
+                        const mediaElements = doc.querySelectorAll('audio, video');
+                        mediaElements.forEach(media => {
+                            media.pause();
+                            media.src = '';
+                            media.load();
+                        });
+                        
+                        // Stop Web Audio API contexts
+                        if (win.AudioContext || win.webkitAudioContext) {
+                            // Common variable names for audio contexts in games
+                            const contextVars = ['audioContext', 'ctx', 'context', 'audioCtx', 'g_audioContext', 'soundContext'];
+                            contextVars.forEach(varName => {
+                                if (win[varName] && typeof win[varName].close === 'function') {
+                                    try { win[varName].close(); } catch(e) {}
+                                }
+                            });
+                        }
+                        
+                        // Clear any requestAnimationFrame loops
+                        const cancelMethods = ['cancelAnimationFrame', 'webkitCancelAnimationFrame', 'mozCancelAnimationFrame'];
+                        cancelMethods.forEach(method => {
+                            if (win[method]) {
+                                for (let i = 0; i < 1000; i++) {
+                                    try { win[method](i); } catch(e) {}
+                                }
+                            }
+                        });
+                        
+                        // Clear intervals and timeouts
+                        for (let i = 0; i < 10000; i++) {
+                            win.clearInterval(i);
+                            win.clearTimeout(i);
+                        }
+                    }
                 } catch(e) {
-                    console.log("Cross-origin frame cleared via src only.");
+                    // Cross-origin restrictions, fall through to nuclear option
                 }
+                
+                // Nuclear option: remove iframe entirely and create new one
+                // This kills all JavaScript execution including audio
+                const parent = zoneFrame.parentNode;
+                const newFrame = document.createElement('iframe');
+                newFrame.id = 'zoneFrame';
+                newFrame.style.flexGrow = '1';
+                newFrame.style.border = 'none';
+                newFrame.style.background = '#fff';
+                parent.replaceChild(newFrame, zoneFrame);
+                zoneFrame = newFrame;
             }
             
             document.body.style.overflow = 'auto';
