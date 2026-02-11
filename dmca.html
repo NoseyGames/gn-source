@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DMCA Enforcement | NikeHub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Parkinsans:wght@300;500;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #ffffff; /* Switched to White */
+            --bg-color: #050505;
+            --card-bg: #0c0c0c;
+            --text-main: #ffffff;
+            --text-muted: #666666;
+            --accent-border: rgba(255, 255, 255, 0.1);
+            --font-family: 'Parkinsans', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            font-family: var(--font-family);
+            font-weight: 300;
+            display: flex;
+            justify-content: center;
+            background-color: var(--bg-color);
+            background-image: 
+                linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-attachment: fixed;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 850px;
+            width: 100%;
+            background: var(--card-bg);
+            padding: 50px;
+            border-radius: 12px; /* Sharper corners for a technical look */
+            border: 1px solid var(--accent-border);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+
+        h1 { 
+            color: var(--primary-color); 
+            font-size: 2.5rem; 
+            font-weight: 800; 
+            margin-bottom: 20px; 
+            letter-spacing: -1px;
+            text-transform: uppercase;
+        }
+
+        h2 { 
+            color: #fff; 
+            font-size: 0.9rem; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            letter-spacing: 3px; 
+            margin-top: 40px; 
+            border-bottom: 1px solid var(--accent-border); 
+            padding-bottom: 12px; 
+            opacity: 0.8;
+        }
+        
+        p {
+            font-size: 1.05rem;
+            color: #ccc;
+        }
+
+        .requirements-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .req-item {
+            background: rgba(255,255,255,0.02);
+            padding: 20px;
+            border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .req-item:hover {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .req-item strong { 
+            color: #fff; 
+            display: block; 
+            margin-bottom: 8px; 
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .warning-box {
+            background: transparent;
+            border: 1px solid #333;
+            padding: 20px;
+            border-radius: 4px;
+            color: #888;
+            font-size: 0.9rem;
+            margin: 30px 0;
+        }
+
+        .warning-box strong {
+            color: #fff;
+        }
+
+        .verification-zone {
+            background: #000;
+            padding: 40px;
+            border-radius: 4px;
+            text-align: center;
+            border: 1px solid #222;
+            margin-top: 40px;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            cursor: pointer;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #888;
+            transition: color 0.3s;
+        }
+
+        .checkbox-container:hover {
+            color: #fff;
+        }
+
+        #agree-check {
+            width: 20px;
+            height: 20px;
+            accent-color: #fff;
+            cursor: pointer;
+            filter: grayscale(1) brightness(2);
+        }
+
+        .tiktok-btn {
+            background: #fff;
+            color: #000;
+            padding: 16px 45px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(10px);
+            pointer-events: none;
+            visibility: hidden;
+        }
+
+        .tiktok-btn.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+            visibility: visible;
+        }
+
+        .tiktok-btn:hover { 
+            background: #e0e0e0;
+            letter-spacing: 2px;
+        }
+
+        .instruction-text {
+            color: #444;
+            font-size: 0.85rem;
+            font-style: italic;
+        }
+
+        .hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        footer {
+            text-align: center; 
+            margin-top: 50px; 
+            color: #333; 
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 600px) {
+            .requirements-grid { grid-template-columns: 1fr; }
+            .container { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>DMCA Enforcement</h1>
+    <p> <strong>In accordance with the Digital Millennium Copyright Act, NikeHub requires a formalized notification for all infringement claims. Incomplete filings will not be processed.</strong></p>
+
+    <h2>01. Mandatory Verification</h2>
+    <div class="requirements-grid">
+        <div class="req-item">
+            <strong>Ownership</strong>
+            A link to the original work or a valid copyright registration number.
+        </div>
+        <div class="req-item">
+            <strong>Identity</strong>
+            Full legal name and physical address. No P.O. boxes permitted.
+        </div>
+        <div class="req-item">
+            <strong>Locators</strong>
+            The exact NikeHub URL containing the infringing material.
+        </div>
+        <div class="req-item">
+            <strong>Good Faith</strong>
+            A statement under penalty of perjury that all info is accurate.
+        </div>
+    </div>
+
+    <div class="warning-box">
+        <strong><i class="fas fa-shield-alt"></i> Section 512(f):</strong>
+        Misrepresentation of infringement may result in liability for damages and attorney fees.
+    </div>
+
+    <div class="verification-zone">
+        <label class="checkbox-container">
+            <input type="checkbox" id="agree-check" onchange="toggleEnforcement()">
+            I confirm compliance with all legal requirements listed above.
+        </label>
+        
+        <p id="instruction" class="instruction-text">Acknowledge requirements to reveal contact portal.</p>
+
+        <a href="https://www.tiktok.com/@gnmath" target="_blank" id="contact-link" class="tiktok-btn">
+            <i class="fab fa-tiktok"></i> Contact Legal
+        </a>
+    </div>
+
+    <footer>
+        NIKEHUB &bull; DMCA PAGE &bull; 2026
+    </footer>
+</div>
+
+<script>
+    function toggleEnforcement() {
+        const checkbox = document.getElementById('agree-check');
+        const link = document.getElementById('contact-link');
+        const msg = document.getElementById('instruction');
+
+        if (checkbox.checked) {
+            link.classList.add('active');
+            msg.classList.add('hidden');
+            setTimeout(() => { if(checkbox.checked) msg.style.display = 'none'; }, 300);
+        } else {
+            link.classList.remove('active');
+            msg.style.display = 'block';
+            setTimeout(() => { if(!checkbox.checked) msg.classList.remove('hidden'); }, 10);
+        }
+    }
+</script>
+
+</body>
+</html>
