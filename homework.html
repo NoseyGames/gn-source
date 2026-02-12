@@ -697,7 +697,7 @@
                 
                 await fetchPopularity();
                 sortZones();
-                document.getElementById('zoneCount').textContent = `${zones.length} zones available from ${CDN_SOURCES.length} sources. Have fun!`;
+                document.getElementById('zoneCount').textContent = `${zones.length} zones available. Have fun!`;
             } catch (error) {
                 container.innerHTML = `<div class="loading"><h3>Offline Mode Active</h3><p>Could not reach any CDN server.</p></div>`;
             }
