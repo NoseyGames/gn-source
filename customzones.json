@@ -189,61 +189,6 @@
         "isExternal": true
     },
     {
-        "id": "697",
-        "name": "DogeMiner",
-        "author": "NoseyGames",
-        "url": "/games/DogeMiner/index.html",
-        "cover": "/games/DogeMiner/img/dogecoin-d.png",
-        "featured": true,
-        "isExternal": false
-    },
-    {
-        "id": "698",
-        "name": "Chrome Dino",
-        "author": "NoseyGames",
-        "url": "/games/chrome-dino/index.html",
-        "cover": "/games/chrome-dino/icons/icon-114.png",
-        "featured": false,
-        "isExternal": false
-    },
-    {
-        "id": "699",
-        "name": "Flappy Bird",
-        "author": "NoseyGames",
-        "url": "/games/flappy-bird/index.html",
-        "cover": "/games/flappy-bird/assets/thumb.png",
-        "featured": true,
-        "isExternal": false
-    },
-    {
-        "id": "700",
-        "name": "Paper.io 2",
-        "author": "NoseyGames",
-        "url": "/games/paperio2/index.html",
-        "cover": "/games/paperio2/images/logo.png",
-        "featured": false,
-        "isExternal": false
-    },
-    {
-        "id": "701",
-        "name": "Stack",
-        "author": "NoseyGames",
-        "author": "NoseyGames",
-        "url": "/games/stack/index.html",
-        "cover": "/games/stack/stack.png",
-        "featured": false,
-        "isExternal": false
-    },
-    {
-        "id": "702",
-        "name": "You are Bezos",
-        "author": "NoseyGames",
-        "url": "/games/you-are-bezos/index.html",
-        "cover": "/games/you-are-bezos/img/icon.png",
-        "featured": false,
-        "isExternal": false
-    },
-    {
         "id": "689",
         "name": "Link Checker",
         "author": "nike friggen gtag",
