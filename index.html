@@ -18,6 +18,7 @@
             --radius: 16px;
         }
 
+        /* --- GLOBAL RESET --- */
         * {
             margin: 0;
             padding: 0;
@@ -42,7 +43,7 @@
             overflow-x: hidden;
         }
 
-        /* --- RED CUSTOM CURSOR --- */
+        /* --- RED CUSTOM MOUSE --- */
         #custom-cursor {
             position: fixed;
             top: 0;
@@ -66,11 +67,9 @@
             stroke-width: 2.5px;
         }
 
-        .cursor-hover { 
-            transform: scale(1.6); 
-        }
+        .cursor-hover { transform: scale(1.6); }
 
-        /* --- LAYOUT --- */
+        /* --- UI LAYOUT --- */
         .wrapper {
             width: 90%;
             max-width: 1000px;
@@ -86,19 +85,29 @@
             transition: transform 0.3s ease;
         }
 
+        /* --- TYPEWRITER & OLD BLINKING CURSOR --- */
+        .typewriter-container {
+            margin-top: 10px;
+            min-height: 1.2em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
         h1 {
             font-size: 2.5rem;
             color: var(--accent-red);
             text-shadow: 0 0 10px var(--accent-glow);
-            margin-top: 10px;
-            min-height: 1.2em; /* Prevents layout jump while typing */
+            display: inline-block;
         }
 
-        /* Typewriter Cursor Blink */
-        h1::after {
-            content: '|';
+        /* The Old Blinking Cursor Style */
+        .blinking-pipe {
+            font-size: 2.5rem;
+            font-weight: 100;
+            color: var(--accent-red);
+            margin-left: 4px;
             animation: blink 0.7s infinite;
-            margin-left: 5px;
         }
 
         @keyframes blink {
@@ -111,6 +120,7 @@
             margin-bottom: 3rem;
         }
 
+        /* --- CONTENT CARDS --- */
         .container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -133,16 +143,10 @@
             box-shadow: 0 10px 30px var(--accent-glow);
         }
 
-        .card h2 {
-            color: var(--accent-red);
-            margin-bottom: 10px;
-        }
+        .card h2 { color: var(--accent-red); margin-bottom: 10px; }
+        .card p { color: var(--text-muted); font-size: 0.9rem; }
 
-        .card p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
+        /* --- OVERLAY PAGES --- */
         .page-content {
             display: none;
             background: var(--card-bg);
@@ -168,7 +172,7 @@
             font-size: 0.8rem;
             color: #444;
         }
-
+        
         .footer span:hover { color: var(--accent-red); }
     </style>
 </head>
@@ -186,41 +190,25 @@
                 <img src="https://cdn.jsdelivr.net/gh/NoseyGames/data@main/Screenshot%202026-01-27%20153915.png" alt="Logo" class="site-logo">
             </a>
 
-            <h1 id="typewriter">nikehub</h1>
+            <div class="typewriter-container">
+                <h1 id="typewriter"></h1><span class="blinking-pipe">|</span>
+            </div>
+            
             <p class="subtitle">Select a category to begin</p>
 
             <div class="container">
-                <a href="/homework.html" class="card clickable">
-                    <h2>games</h2>
-                    <p>tuff games selection</p>
-                </a>
-                <a href="/ai.html" class="card clickable">
-                    <h2>ai</h2>
-                    <p>ai kinda made by me</p>
-                </a>
-                <a href="/movies.html" class="card clickable">
-                    <h2>movies</h2>
-                    <p>cinema by nikegtag</p>
-                </a>
-                <a href="/algebra.html" class="card clickable">
-                    <h2>proxies</h2>
-                    <p>proxies (not by me)</p>
-                </a>
-                <a href="/partners.html" class="card clickable">
-                    <h2>partners</h2>
-                    <p>the inner circle</p>
-                </a>
-                <a href="bible.html" class="card clickable">
-                    <h2>the bible</h2>
-                    <p>holy word in html format</p>
-                </a>
+                <a href="/homework.html" class="card clickable"><h2>games</h2><p>tuff games selection</p></a>
+                <a href="/ai.html" class="card clickable"><h2>ai</h2><p>ai tools and bots</p></a>
+                <a href="/movies.html" class="card clickable"><h2>movies</h2><p>cinema by nikegtag</p></a>
+                <a href="/algebra.html" class="card clickable"><h2>proxies</h2><p>unblocked access</p></a>
+                <a href="/partners.html" class="card clickable"><h2>partners</h2><p>the inner circle</p></a>
+                <a href="bible.html" class="card clickable"><h2>the bible</h2><p>holy word api</p></a>
             </div>
         </div>
 
         <div id="privacy" class="page-content">
             <h2 style="color: var(--accent-red);">Privacy Policy</h2>
-            <p style="margin-top: 15px;">We preserve zero data on our internal servers. Everything is stored locally!</p>
-            <p style="margin-top: 15px;">Contact: <a href="https://www.tiktok.com/@gnmath" style="color: var(--accent-red);">@gnmath on TikTok</a></p>
+            <p style="margin-top: 15px;">Zero data preserved on servers. Stay safe.</p>
             <span class="back-btn clickable" onclick="closeOverlay()">← Back to Hub</span>
         </div>
 
@@ -231,61 +219,62 @@
     </div>
 
     <script>
-        // --- TYPEWRITER LOGIC ---
+        // --- MULTI-PHRASE TYPEWRITER ---
         const textElement = document.getElementById('typewriter');
-        const startText = "nikehub";
-        const finalText = "the best unblocked games site";
         
+        const phrases = [
+            "nikehub",
+            "the best unblocked games site",
+            "why are you still here",
+            "whatever lol",
+            "im like 5 redbulls down",
+            "its like 4 am bro i need sleep",
+            "sad bart simpson edits"
+        ];
+        
+        let phraseIdx = 0;
+        let charIdx = 0;
         let isDeleting = false;
-        let charIndex = startText.length;
 
         function typeLoop() {
-            const currentContent = isDeleting 
-                ? startText.substring(0, charIndex) 
-                : finalText.substring(0, charIndex);
+            const currentStr = phrases[phraseIdx];
             
-            textElement.innerText = currentContent;
+            if (isDeleting) {
+                textElement.innerText = currentStr.substring(0, charIdx - 1);
+                charIdx--;
+            } else {
+                textElement.innerText = currentStr.substring(0, charIdx + 1);
+                charIdx++;
+            }
 
-            let speed = isDeleting ? 100 : 80;
+            let delta = isDeleting ? 60 : 110;
 
-            // Pause at "nikehub" then start deleting
-            if (!isDeleting && textElement.innerText === startText) {
+            if (!isDeleting && charIdx === currentStr.length) {
                 isDeleting = true;
-                speed = 2000; // 2 second pause
-            } 
-            // Once fully deleted, start typing final sentence
-            else if (isDeleting && textElement.innerText === "") {
+                delta = 2000; // Pause at end of phrase
+            } else if (isDeleting && charIdx === 0) {
                 isDeleting = false;
-                charIndex = 0;
-                speed = 500;
+                phraseIdx = (phraseIdx + 1) % phrases.length;
+                delta = 500; // Pause before typing next
             }
 
-            // Stop when final sentence is complete
-            if (!isDeleting && textElement.innerText === finalText) {
-                return;
-            }
-
-            if (isDeleting) charIndex--;
-            else charIndex++;
-
-            setTimeout(typeLoop, speed);
+            setTimeout(typeLoop, delta);
         }
 
-        // --- CURSOR LOGIC ---
+        // --- MOUSE TRACKING ---
         const cursor = document.getElementById('custom-cursor');
         document.addEventListener('mousemove', (e) => {
             cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
         });
 
         function initHovers() {
-            const targets = document.querySelectorAll('.clickable, a, span, .card');
-            targets.forEach(t => {
+            document.querySelectorAll('.clickable, a, span, .card').forEach(t => {
                 t.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
                 t.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
             });
         }
 
-        // --- NAV LOGIC ---
+        // --- NAVIGATION ---
         function openOverlay(id) {
             document.getElementById('main-hub').style.display = 'none';
             document.getElementById(id).classList.add('active');
@@ -298,7 +287,7 @@
 
         window.onload = () => {
             initHovers();
-            setTimeout(typeLoop, 1500); // Start animation shortly after load
+            typeLoop();
         }
     </script>
 </body>
