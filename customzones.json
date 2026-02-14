@@ -189,6 +189,15 @@
         "isExternal": true
     },
     {
+        "id": "780",
+        "name": "GTA: Vice City",
+        "author": "Rockstar Games / Two Take Studios",
+        "url": "https://securly.pages.dev/games/gtavicecity",
+        "cover": "https://i.pinimg.com/1200x/6f/d3/c3/6fd3c3f27eb2a247dae5b355aa437282.jpg",
+        "featured": true,
+        "isExternal": false
+    },
+    {
         "id": "689",
         "name": "Link Checker",
         "author": "nike friggen gtag",
