@@ -195,7 +195,7 @@
         "url": "https://securly.pages.dev/games/gtavicecity",
         "cover": "https://i.pinimg.com/1200x/6f/d3/c3/6fd3c3f27eb2a247dae5b355aa437282.jpg",
         "featured": true,
-        "isExternal": false
+        "isExternal": true
     },
     {
         "id": "689",
