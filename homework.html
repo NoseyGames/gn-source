@@ -517,10 +517,9 @@
 
     <script>
         
-        // nikehub blocklist cuz im a genius */
         const BLOCKLIST = {
             ids: [],
-            names: ["Soundboard", "[!] COMMENTS", "[!] SUGGEST GAMES .gg/D4c9VFYWyU"] // Block specific names (partial match)
+            names: ["Soundboard", "[!] COMMENTS", "[!] SUGGEST GAMES .gg/D4c9VFYWyU"]
         };
 
         const CUSTOM_ZONES = [
@@ -536,7 +535,6 @@
             // }
         ];
 
-        // MULTIPLE CDNs: Load from ALL of these simultaneously, deduplicate across all
         const CDN_SOURCES = [
             {
                 name: "noseygames",
@@ -551,11 +549,10 @@
                 covers: "https://cdn.jsdelivr.net/gh/gn-math/covers@main",
                 html: "https://cdn.jsdelivr.net/gh/gn-math/html@main"
             }
-            // all the tuff cdns
         ];
 
  
-        let zoneSourceMap = new Map(); // zone.id -> CDN source object
+        let zoneSourceMap = new Map();
 
         /* --- uwu quotes --- */
         const quotes = [
@@ -584,7 +581,6 @@
             }, 500);
         }
 
-        // rotate every 30 secs
         updateQuote();
         setInterval(updateQuote, 30000);
 
@@ -607,12 +603,9 @@
         let zones = [];
         let popularityData = {};
 
-        // Check if zone is blocked by ID or name
         function isBlocked(zone) {
-            // Check ID blocklist
             if (BLOCKLIST.ids.includes(zone.id)) return true;
             
-            // Check name blocklist (case-insensitive partial match)
             const zoneNameLower = zone.name.toLowerCase();
             for (let blockedName of BLOCKLIST.names) {
                 if (zoneNameLower.includes(blockedName.toLowerCase())) return true;
@@ -637,7 +630,6 @@
             return uniqueZones;
         }
 
-        // Load zones from a single CDN
         async function loadFromCDN(cdn) {
             try {
                 const response = await fetch(cdn.zones + "?t=" + Date.now());
@@ -651,7 +643,7 @@
             }
         }
 
-        // Load zones from /customzones.json file
+        // load zones from /customzones.json file
         async function loadCustomZonesFile() {
             try {
                 const response = await fetch(customZonesURL + "?t=" + Date.now());
@@ -666,25 +658,22 @@
             }
         }
 
-        // Load hardcoded custom zones
         function loadHardcodedCustomZones() {
             if (CUSTOM_ZONES.length === 0) return [];
             console.log(`Loaded ${CUSTOM_ZONES.length} hardcoded custom zones`);
-            // Hardcoded zones use the first cdn cuz thats tuff as their source
             return CUSTOM_ZONES.map(zone => ({ zone, source: CDN_SOURCES[0] }));
         }
 
         async function listZones() {
             try {
-                // same time boi
                 const loadPromises = [
-                    loadHardcodedCustomZones(), // Hardcoded zones (same time cuz im a genuine master coder)
-                    loadCustomZonesFile(),      // From /customzones.json
-                    ...CDN_SOURCES.map(cdn => loadFromCDN(cdn)) // From all CDNs
+                    loadHardcodedCustomZones(),
+                    loadCustomZonesFile(),
+                    ...CDN_SOURCES.map(cdn => loadFromCDN(cdn))
                 ];
                 
                 const results = await Promise.all(loadPromises);
-                const allZoneItems = results.flat(); // Combine all arrays
+                const allZoneItems = results.flat();
                 
                 if (allZoneItems.length === 0) {
                     throw new Error("No zones loaded from any source");
@@ -692,7 +681,6 @@
                 
                 zones = deduplicateZones(allZoneItems);
                 
-                // Filter blocked zones
                 zones = zones.filter(zone => !isBlocked(zone));
                 
                 await fetchPopularity();
@@ -705,7 +693,6 @@
 
         async function fetchPopularity() {
             try {
-                // Try multiple CDNs for stats
                 for (let cdn of CDN_SOURCES) {
                     try {
                         const statsUrl = `https://data.jsdelivr.com/v1/stats/packages/gh/gn-math/html@main/files?period=year`;
@@ -748,7 +735,6 @@
                 const img = document.createElement("img");
                 img.loading = "lazy";
                 
-                // Get the source CDN for this zone
                 const sourceCDN = zoneSourceMap.get(file.id) || CDN_SOURCES[0];
                 
                 if (file.isExternal) {
@@ -818,14 +804,11 @@
             const viewer = document.getElementById('zoneViewer');
             viewer.style.display = "none";
             
-            // Completely remove and recreate the iframe to kill all audio/script execution
             if (zoneFrame) {
-                // Try to stop any audio before removal (best effort for same-origin)
                 try {
                     const win = zoneFrame.contentWindow;
                     const doc = zoneFrame.contentDocument;
                     if (win && doc) {
-                        // Stop all audio and video elements
                         const mediaElements = doc.querySelectorAll('audio, video');
                         mediaElements.forEach(media => {
                             media.pause();
@@ -833,9 +816,7 @@
                             media.load();
                         });
                         
-                        // Stop Web Audio API contexts
                         if (win.AudioContext || win.webkitAudioContext) {
-                            // Common variable names for audio contexts in games
                             const contextVars = ['audioContext', 'ctx', 'context', 'audioCtx', 'g_audioContext', 'soundContext'];
                             contextVars.forEach(varName => {
                                 if (win[varName] && typeof win[varName].close === 'function') {
@@ -844,7 +825,6 @@
                             });
                         }
                         
-                        // Clear any requestAnimationFrame loops
                         const cancelMethods = ['cancelAnimationFrame', 'webkitCancelAnimationFrame', 'mozCancelAnimationFrame'];
                         cancelMethods.forEach(method => {
                             if (win[method]) {
@@ -854,18 +834,14 @@
                             }
                         });
                         
-                        // Clear intervals and timeouts
                         for (let i = 0; i < 10000; i++) {
                             win.clearInterval(i);
                             win.clearTimeout(i);
                         }
                     }
                 } catch(e) {
-                    // Cross-origin restrictions, fall through to nuclear option
                 }
                 
-                // Nuclear option: remove iframe entirely and create new one
-                // This kills all JavaScript execution including audio
                 const parent = zoneFrame.parentNode;
                 const newFrame = document.createElement('iframe');
                 newFrame.id = 'zoneFrame';
