@@ -1,235 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NikeHub Movies</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+    <title id="siteTitle">NikeStream</title>
+    <link id="siteIcon" rel="icon" href="https://www.google.com/favicon.ico" type="image/x-icon">
     <style>
-        :root {
-              /* NikeHub Movies. Do not distribute. */
-            --primary: #ff3b3b;
-            --secondary: #3b82f6;
-            --accent: #eab308;
-            --bg-dark: #08080a;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --text-main: #ffffff;
-            --text-muted: #8e9196;
-            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(255, 59, 59, 0.1) 0px, transparent 50%);
-            background-attachment: fixed;
-            min-height: 100vh;
-        }
-
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-
-        header { text-align: center; padding: 60px 0 40px; }
-        header h1 { 
-            font-family: 'Orbitron', sans-serif; 
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            letter-spacing: 12px;
-            margin: 0;
-            text-transform: uppercase;
-            background: linear-gradient(to bottom, #fff, #666);
-            -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent; 
-        }
-
-        .tiktok-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 20px;
-            padding: 8px 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
-            border-radius: 30px;
-            color: white;
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 600;
-            transition: var(--transition);
-        }
-        .tiktok-link:hover { background: white; color: black; transform: translateY(-2px); }
-
-        #main-player {
-            max-width: 900px; /* Makes the player smaller */
-            margin: 0 auto 60px auto;
-            background: var(--glass-bg);
-            border-radius: 24px;
-            padding: 15px;
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(10px);
-        }
-
-        .player-container { 
-            position: relative; 
-            width: 100%; 
-            padding-top: 56.25%; 
-            background: #000; 
-            border-radius: 16px;
-            overflow: hidden;
-        }
-
-        .player-container iframe { 
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%; border: none; 
-        }
-
-        .player-info { padding: 20px 10px 5px 10px; }
-        .player-info h2 { font-family: 'Orbitron'; font-size: 1.4rem; margin: 0; }
-        .status-badge {
-            font-size: 0.65rem;
-            color: var(--secondary);
-            border: 1px solid var(--secondary);
-            padding: 2px 10px;
-            border-radius: 20px;
-            text-transform: uppercase;
-            margin-right: 10px;
-        }
-
-        /* Modern Search */
-        .search-container { max-width: 500px; margin: 0 auto 50px auto; position: relative; }
-        #search-input {
-            width: 100%; padding: 15px 25px; border-radius: 15px;
-            background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border);
-            color: white; font-size: 0.95rem; transition: var(--transition);
-            box-sizing: border-box;
-        }
-        #search-input:focus { outline: none; border-color: var(--secondary); background: rgba(255,255,255,0.07); }
-
-        /* Improved Movie Grid */
-        .movie-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
-            gap: 20px; 
-        }
-
-        .movie-card { 
-            background: var(--glass-bg);
-            padding: 25px 20px; 
-            border-radius: 20px; 
-            border: 1px solid var(--glass-border);
-            transition: var(--transition);
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            text-align: center;
-            height: 140px;
-        }
-
-        .movie-card:hover { 
-            background: rgba(255, 255, 255, 0.07);
-            border-color: rgba(255, 255, 255, 0.3);
-            transform: translateY(-5px);
-        }
-
-        .movie-card.active { border-color: var(--secondary); box-shadow: 0 0 20px rgba(59, 130, 246, 0.15); }
-
-        .movie-title { font-weight: 700; font-size: 1rem; margin-bottom: 12px; }
-        .movie-year { font-size: 0.7rem; color: var(--accent); font-family: 'Orbitron'; opacity: 0.8; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        :root { --bg: #0a0a0a; --surface: #111; --text: #fff; --grid-line: rgba(255,255,255,.05); --transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px); background-size: 50px 50px; color: var(--text); overflow-x: hidden; }
         
-        footer { text-align: center; padding: 80px 0 40px; color: var(--text-muted); font-size: 0.8rem; }
+        header { position: fixed; top: 0; width: 100%; height: 70px; background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: space-between; padding: 0 5%; z-index: 1000; border-bottom: 1px solid var(--grid-line); }
+        .logo { font-size: 18px; font-weight: 900; text-transform: uppercase; letter-spacing: -1px; }
+        
+        .nav-tools { display: flex; gap: 20px; align-items: center; }
+        .settings-icon { cursor: pointer; opacity: 0.6; transition: 0.2s; font-size: 20px; }
+        .settings-icon:hover { opacity: 1; }
+
+        .search-wrapper { padding: 100px 5% 20px; }
+        .search-box { background: var(--surface); border: 1px solid var(--grid-line); border-radius: 4px; padding: 12px; max-width: 600px; }
+        .search-box input { width: 100%; background: none; border: none; color: white; outline: none; font-size: 16px; }
+
+        .library-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 25px; padding: 20px 5% 50px; }
+        .card { background: var(--surface); border: 1px solid var(--grid-line); border-radius: 8px; overflow: hidden; transition: var(--transition); cursor: pointer; position: relative; aspect-ratio: 2/3; }
+        .card:hover { transform: translateY(-10px); border-color: #fff; z-index: 10; }
+        .card img { width: 100%; height: 100%; object-fit: cover; }
+        .card-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 15px; background: linear-gradient(transparent, rgba(0,0,0,0.95)); opacity: 0; transition: var(--transition); }
+        .card:hover .card-info { opacity: 1; }
+
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 2000; backdrop-filter: blur(10px); }
+        .modal.active { display: flex; }
+        .modal-content { width: 95%; max-width: 600px; position: relative; background: #000; border: 1px solid var(--grid-line); border-radius: 12px; overflow: hidden; padding: 40px; }
+        .close-btn { position: absolute; top: 15px; right: 20px; color: #fff; cursor: pointer; font-weight: 900; z-index: 100; font-size: 24px; }
+
+        .settings-item { margin-bottom: 30px; border-bottom: 1px solid #222; padding-bottom: 20px; }
+        .settings-item h3 { margin-bottom: 10px; font-size: 14px; text-transform: uppercase; color: #666; }
+        
+        .btn { background: #fff; color: #000; padding: 12px 25px; font-weight: 700; border: none; border-radius: 4px; cursor: pointer; text-transform: uppercase; font-size: 12px; }
+        .btn-outline { background: transparent; color: #fff; border: 1px solid #444; margin-right: 10px; }
+        
+        iframe { width: 100%; aspect-ratio: 16/9; border: none; background: #000; }
+        .tv-ui { text-align: center; }
+        select { background: #1a1a1a; color: white; border: 1px solid #333; padding: 10px; border-radius: 4px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <h1>NikeHub Movies</h1>
-            <p style="letter-spacing: 4px; font-size: 0.7rem; opacity: 0.6;">tuff movies by nikegtag</p>
-            <a href="https://www.tiktok.com/@gnmath" class="tiktok-link" target="_blank">
-                <i class="fab fa-tiktok"></i> @gnmath
-            </a>
-        </header>
-
-        <div class="search-container">
-            <input type="text" id="search-input" placeholder="Search the vault...">
+    <header>
+        <div class="logo">NikeStream - Movies Browser - All Movies / Shows Right's Go To Their Respective Owners</div>
+        <div class="nav-tools">
+            <div class="settings-icon" onclick="openModal('settingsModal')">⚙️ Settings</div>
         </div>
+    </header>
 
-        <section id="main-player">
-            <div class="player-container">
-                <iframe id="video-iframe" src="" allow="autoplay; fullscreen" allowfullscreen></iframe>
-            </div>
-            <div class="player-info">
-                <h2 id="display-title">Select a movie.</h2>
-                <p id="display-desc" style="color: var(--text-muted); font-size: 0.85rem; margin-top: 8px;">Select a movie to watch...</p>
-            </div>
-        </section>
-
-        <div class="movie-grid" id="movie-grid"></div>
-
-        <footer>
-            <p>&copy; made with love by nikegtag, love yall.</p>
-        </footer>
+    <div class="search-wrapper">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search the vault..." oninput="handleSearch()">
+        </div>
     </div>
 
+    <main id="library" class="library-grid"></main>
+
+    <div id="pagination" style="text-align:center; padding: 40px;">
+        <button class="btn" onclick="fetchNextBatch()">Load More</button>
+    </div>
+
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <div class="close-btn" onclick="closeModal('settingsModal')">✕</div>
+            <h2 style="margin-bottom: 30px;">Settings</h2>
+            
+            <div class="settings-item">
+                <h3>Tab Cloak (Stealth Mode)</h3>
+                <button class="btn btn-outline" onclick="cloakTab('Google Drive', 'https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png')">Drive Mode</button>
+                <button class="btn btn-outline" onclick="cloakTab('Google', 'https://www.google.com/favicon.ico')">Google Mode</button>
+                <button class="btn" onclick="cloakTab('NikeStream', 'https://securly.pages.dev/favicon.png')">Reset</button>
+            </div>
+
+            <div class="settings-item">
+                <h3>Legal & DMCA</h3>
+                <p style="font-size: 13px; color: #888; margin-bottom: 15px;">NikeStream is a search engine for third-party media. We do not host any files.</p>
+                <button class="btn" onclick="window.location.href='https://securly.pages.dev/dmca.html'">Send DMCA Request</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="tvModal" class="modal"><div class="modal-content"><div class="close-btn" onclick="closeModal('tvModal')">✕</div><div class="tv-ui"><h2 id="tvDisplayTitle" style="margin-bottom:20px;"></h2><div style="display:flex; gap:10px; justify-content:center; margin-bottom:20px;"><select id="seasonSelect" onchange="fetchEpisodes()"></select><select id="episodeSelect"></select></div><button id="finalPlayBtn" class="btn">Play Now</button></div></div></div>
+    <div id="playerModal" class="modal"><div class="modal-content"><div class="close-btn" onclick="closePlayer()">✕</div><div style="background:#111; padding:10px; border-bottom:1px solid #333;"><select id="serverSelect" onchange="loadPlayer()"><option value="https://vidsrc.xyz/embed/">Server 1</option><option value="https://embed.su/embed/">Server 2</option></select></div><iframe id="videoFrame" src="" allowfullscreen></iframe></div></div>
+
     <script>
-        const movies = [
-            { title: "Shrek 2", year: "2004", id: "https://archive.org/embed/2004-shrek-2-2004-dreamworks-vhs-480p-h-264", genre: "Animation/Comedy" },
-            { title: "Cars 2", year: "2011", id: "https://archive.org/embed/cars.-2.2011.720p.-br-rip.-264.-yify_202104", genre: "Animation/Adventure" },
-            { title: "Step Brothers", year: "2008", id: "https://archive.org/embed/step.-brothers.-blu-ray.-1080p", genre: "Comedy" },
-            { title: "Superman: The Movie", year: "1978", id: "https://archive.org/embed/superman-the-movie-1978-from-the-1979-wci-home-video-vhs", genre: "Action/Sci-Fi" },
-            { title: "Mean Girls", year: "2004", id: "1Hab49OuPK37MngOtQolLsVIzJ4AK9cNA", genre: "Comedy" },
-            { title: "Space Jam: A New Legacy", year: "2021", id: "1v2xqKQcAvndfcqsctZH73NR2AjFXsrUr", genre: "Family/Comedy" },
-            { title: "Home Alone", year: "1990", id: "18YKNCTokG3B7ZWzCE3thunyDJMktLxnm", genre: "Family/Comedy" },
-            { title: "Henry Danger: The Movie", year: "2025", id: "1RKY4IZ77naupHixUf6QTMJiVUeBxeOFO", genre: "Action/Comedy" },
-            { title: "Ghostbusters II", year: "1989", id: "1VPN-P5xWjbEHv-VtlzjryjyV-nx7Z_w_", genre: "Sci-Fi/Comedy" },
-            { title: "Good Burger 2", year: "2023", id: "1TOjPbqSF5UqnPrn1zFqEWvkUeBNiyMax", genre: "Comedy" },
-            { title: "Detective Pikachu", year: "2019", id: "1RlG7WoRJroqlcibAgLUMQp4S3h82hY2X", genre: "Adventure/Comedy" },
-            { title: "Beetlejuice Beetlejuice", year: "2024", id: "1WnfCHnjlcN7joibU1e0RieYJNFBPgXRn", genre: "Comedy/Horror" },
-            { title: "Ted 2", year: "2015", id: "1NUcOKG5lw0wOApPIBMyVAZgsHMti7OfB", genre: "Comedy" },
-            { title: "Zootopia 2", year: "2025", id: "10lys4xAmzALt_F081ej_9oP3i7Lm1Qgq", genre: "Adventure" },
-            { title: "Happy Gilmore", year: "1996", id: "0B_gF_cJaMa7FZ1ZJYnp6NnN0NXM", genre: "Comedy" }
-        ];
+        const API_KEY = '3a73619bbb8fc6d47742d1b5b2b707b5';
+        const BASE_URL = 'https://api.themoviedb.org/3';
+        const IMG_URL = 'https://image.tmdb.org/t/p/w500';
+        const BLACKLISTED_IDS = ['']; 
 
-        const movieGrid = document.getElementById('movie-grid');
-        const iframe = document.getElementById('video-iframe');
+        let currentPage = 1, currentTVId = null, isSearching = false, searchTimeout = null, currentMedia = {};
 
-        function loadMovie(movie, card) {
-            iframe.src = "about:blank"; // Reset
-            setTimeout(() => {
-                const videoUrl = movie.id.startsWith('http') 
-                    ? movie.id 
-                    : `https://drive.google.com/file/d/${movie.id}/preview`;
-
-                iframe.src = videoUrl;
-                document.getElementById('display-title').innerText = movie.title;
-                document.getElementById('display-desc').innerHTML = `<span class="status-badge">Live</span> ${movie.year} • ${movie.genre}`;
-                
-                document.querySelectorAll('.movie-card').forEach(c => c.classList.remove('active'));
-                if(card) card.classList.add('active');
-            }, 50);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        function cloakTab(title, favicon) {
+            document.title = title;
+            document.getElementById('siteIcon').href = favicon;
+            localStorage.setItem('cloakTitle', title);
+            localStorage.setItem('cloakIcon', favicon);
         }
 
-        movies.forEach(movie => {
-            const card = document.createElement('div');
-            card.className = 'movie-card';
-            card.innerHTML = `<span class="movie-title">${movie.title}</span><span class="movie-year">${movie.year}</span>`;
-            card.onclick = () => loadMovie(movie, card);
-            movieGrid.appendChild(card);
-        });
+        async function fetchNextBatch() {
+            if (isSearching) return;
+            for (let i = 0; i < 5; i++) {
+                const res = await fetch(`${BASE_URL}/trending/all/week?api_key=${API_KEY}&page=${currentPage}`);
+                const data = await res.json();
+                renderItems(data.results, false);
+                currentPage++;
+            }
+        }
 
-        document.getElementById('search-input').addEventListener('input', (e) => {
-            const val = e.target.value.toLowerCase();
-            document.querySelectorAll('.movie-card').forEach(card => {
-                card.style.display = card.innerText.toLowerCase().includes(val) ? 'flex' : 'none';
+        function handleSearch() {
+            const query = document.getElementById('searchInput').value.trim();
+            clearTimeout(searchTimeout);
+            if (!query) { isSearching = false; document.getElementById('library').innerHTML = ""; currentPage = 1; fetchNextBatch(); return; }
+            searchTimeout = setTimeout(async () => {
+                isSearching = true;
+                const res = await fetch(`${BASE_URL}/search/multi?api_key=${API_KEY}&query=${encodeURIComponent(query)}`);
+                const data = await res.json();
+                renderItems(data.results, true);
+            }, 500);
+        }
+
+        function renderItems(items, clear) {
+            const container = document.getElementById('library');
+            if (clear) container.innerHTML = "";
+            items.forEach(item => {
+                if (BLACKLISTED_IDS.includes(item.id.toString())) return;
+                if (!item.poster_path || item.media_type === 'person') return;
+                const isTV = item.media_type === 'tv' || (!item.title && item.name);
+                const title = item.title || item.name;
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `<img src="${IMG_URL}${item.poster_path}" loading="lazy"><div class="card-info"><div>${title}</div></div>`;
+                card.onclick = () => isTV ? openTVUI(item.id, title) : launchVideo('movie', item.id);
+                container.appendChild(card);
             });
-        });    
-</script>
+        }
+
+        async function openTVUI(id, title) {
+            currentTVId = id;
+            document.getElementById('tvDisplayTitle').innerText = title;
+            const res = await fetch(`${BASE_URL}/tv/${id}?api_key=${API_KEY}`);
+            const data = await res.json();
+            document.getElementById('seasonSelect').innerHTML = data.seasons.filter(s => s.season_number > 0).map(s => `<option value="${s.season_number}">${s.name}</option>`).join('');
+            await fetchEpisodes();
+            openModal('tvModal');
+        }
+
+        async function fetchEpisodes() {
+            const sNum = document.getElementById('seasonSelect').value;
+            const res = await fetch(`${BASE_URL}/tv/${currentTVId}/season/${sNum}?api_key=${API_KEY}`);
+            const data = await res.json();
+            const eSelect = document.getElementById('episodeSelect');
+            eSelect.innerHTML = data.episodes.map(e => `<option value="${e.episode_number}">Ep ${e.episode_number}</option>`).join('');
+            document.getElementById('finalPlayBtn').onclick = () => { launchVideo('tv', currentTVId, sNum, eSelect.value); closeModal('tvModal'); };
+        }
+
+        function launchVideo(type, id, s = '', e = '') {
+            currentMedia = { type, id, s, e };
+            loadPlayer();
+            openModal('playerModal');
+        }
+
+        function loadPlayer() {
+            const server = document.getElementById('serverSelect').value;
+            const { type, id, s, e } = currentMedia;
+            document.getElementById('videoFrame').src = type === 'movie' ? `${server}movie/${id}` : `${server}tv/${id}/${s}/${e}`;
+        }
+
+        function openModal(id) { document.getElementById(id).classList.add('active'); document.body.style.overflow = 'hidden'; }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow = 'auto'; }
+        function closePlayer() { document.getElementById('videoFrame').src = ""; closeModal('playerModal'); }
+
+        window.onload = () => {
+            fetchNextBatch();
+            const savedTitle = localStorage.getItem('cloakTitle');
+            const savedIcon = localStorage.getItem('cloakIcon');
+            if (savedTitle) document.title = savedTitle;
+            if (savedIcon) document.getElementById('siteIcon').href = savedIcon;
+        };
+    </script>
 </body>
 </html>
