@@ -14,7 +14,7 @@
             --primary-light: #94a3b8;
             --text-color: #f8fafc;
             --text-muted: #94a3b8;
-            --background-color: #0a0a0a; /* Darker for grid contrast */
+            --background-color: #0a0a0a;
             --card-bg: #141212;
             --card-border: #1e293b;
             --shadow: rgba(0, 0, 0, 0.4);
@@ -30,13 +30,12 @@
             margin: 0; 
             padding: 0; 
             box-sizing: border-box; 
-            cursor: none !important; /* Hide default mouse globally */
+            cursor: none !important;
         }
 
         body { 
             font-family: 'Inter', sans-serif; 
             background-color: var(--background-color); 
-            /* Grid Background Implementation */
             background-image: 
                 linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
@@ -46,7 +45,6 @@
             overflow-x: hidden; 
         }
         
-        /* --- CUSTOM SVG CURSOR --- */
         #custom-cursor {
             position: fixed;
             top: 0;
@@ -187,7 +185,6 @@
 </div>
 
 <script>
-    // --- Cursor Logic ---
     const cursor = document.getElementById('custom-cursor');
     
     document.addEventListener('mousemove', (e) => {
@@ -292,7 +289,7 @@
             `;
             container.appendChild(card);
         });
-        updateHoverListeners(); // Refresh cursor hover listeners for new elements
+        updateHoverListeners();
     }
 
     searchBar.oninput = (e) => {
@@ -319,7 +316,6 @@
         }
     });
 
-    // Init
     displayProxies(proxies);
     updateHoverListeners();
 </script>
