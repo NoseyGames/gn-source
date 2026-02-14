@@ -1,328 +1,498 @@
-const BLOCKLIST = {
-    ids: [],
-    names: ["Soundboard", "[!] COMMENTS", "[!] SUGGEST GAMES .gg/D4c9VFYWyU"]
-};
+        const BLOCKLIST = {
+            ids: [],
+            names: ["Soundboard", "[!] COMMENTS", "[!] SUGGEST GAMES .gg/D4c9VFYWyU"]
+        };
 
-const CUSTOM_ZONES = [];
-
-const CDN_SOURCES = [
-    {
-        name: "noseygames",
-        zones: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/zones.json",
-        covers: "https://cdn.jsdelivr.net/gh/NoseyGames/covers@latest/",
-        html: "https://cdn.jsdelivr.net/gh/gn-math/html@main"
-    },
-    {
-        name: "gn-math",
-        zones: "https://cdn.jsdelivr.net/gh/gn-math/assets@latest/zones.json",
-        covers: "https://cdn.jsdelivr.net/gh/gn-math/covers@main",
-        html: "https://cdn.jsdelivr.net/gh/gn-math/html@main"
-    }
-];
-
-let zoneSourceMap = new Map();
-let customEntries = [];
-let zones = [];
-let popularityData = {};
-
-let config = {
-    panicKey: localStorage.getItem('panicKey') || '1',
-    panicUrl: localStorage.getItem('panicUrl') || 'https://launchpad.classlink.com/login',
-    cloakTitle: localStorage.getItem('cloakTitle') || 'Number Problems',
-    cloakIcon: localStorage.getItem('cloakIcon') || 'favicon.png'
-};
-
-const container = document.getElementById('container');
-const zoneViewer = document.getElementById('zoneViewer');
-let zoneFrame = document.getElementById('zoneFrame');
-const searchBar = document.getElementById('searchBar');
-const sortOptions = document.getElementById('sortOptions');
-const customZonesURL = "/customzones.json";
-
-const quotes = [
-    { text: "Your gay.", author: "Classroomspot" },
-    { text: "Umm i had some beef.", author: "Classroomspot" },
-    { text: "ugh i hate working on my ui", author: "NikeGtag" },
-    { text: "OMG nikehub is the most tuff site to ever exist.", author: "defo said by gn math 🙏" },
-    { text: "Reality is merely an illusion, albeit a very persistent one.", author: "idk bro dont ask me" },
-    { text: "PLEASEEE promote me", author: "GN-Math" },
-    { text: "What kind of mango is this?", author: "Some tiktоk" },
-    { text: "Dawg take a shower", author: "Unknown Hub" }
-];
-
-function updateQuote() {
-    const quoteEl = document.getElementById('quoteText');
-    const authorEl = document.getElementById('quoteAuthor');
-    const quoteContainer = document.getElementById('quoteContainer');
-    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-    
-    quoteContainer.style.opacity = 0;
-    setTimeout(() => {
-        quoteEl.textContent = `"${randomQuote.text}"`;
-        authorEl.textContent = `- ${randomQuote.author}`;
-        quoteContainer.style.opacity = 1;
-    }, 500);
-}
-
-function isBlocked(zone) {
-    if (BLOCKLIST.ids.includes(zone.id)) return true;
-    const zoneNameLower = zone.name.toLowerCase();
-    for (let blockedName of BLOCKLIST.names) {
-        if (zoneNameLower.includes(blockedName.toLowerCase())) return true;
-    }
-    return false;
-}
-
-function deduplicateZones(zoneList) {
-    const seen = new Set();
-    const uniqueZones = [];
-    zoneList.forEach(item => {
-        if (!seen.has(item.zone.id)) {
-            seen.add(item.zone.id);
-            zoneSourceMap.set(item.zone.id, item.source);
-            uniqueZones.push(item.zone);
-        }
-    });
-    return uniqueZones;
-}
-
-async function loadFromCDN(cdn) {
-    try {
-        const response = await fetch(cdn.zones + "?t=" + Date.now());
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const data = await response.json();
-        return data.map(zone => ({ zone, source: cdn }));
-    } catch (e) {
-        return [];
-    }
-}
-
-async function loadCustomZonesFile() {
-    try {
-        const response = await fetch(customZonesURL + "?t=" + Date.now());
-        if (!response.ok) throw new Error('File not found');
-        const data = await response.json();
-        return data.map(zone => ({ zone, source: CDN_SOURCES[0] }));
-    } catch (error) {
-        return [];
-    }
-}
-
-function loadHardcodedCustomZones() {
-    if (CUSTOM_ZONES.length === 0) return [];
-    return CUSTOM_ZONES.map(zone => ({ zone, source: CDN_SOURCES[0] }));
-}
-
-async function listZones() {
-    try {
-        const loadPromises = [
-            loadHardcodedCustomZones(),
-            loadCustomZonesFile(),
-            ...CDN_SOURCES.map(cdn => loadFromCDN(cdn))
+        const CUSTOM_ZONES = [
+            // format if i wanna add more games but im a chud so i prob wont
+            // {
+            //     id: 99999,
+            //     name: "tung tung game or sum",
+            //     author: "You",
+            //     cover: "https://example.com/cover.png",
+            //     url: "https://example.com/game.html",
+            //     isExternal: true,
+            //     featured: true
+            // }
         ];
-        
-        const results = await Promise.all(loadPromises);
-        const allZoneItems = results.flat();
-        
-        if (allZoneItems.length === 0) throw new Error("No zones loaded");
-        
-        zones = deduplicateZones(allZoneItems);
-        zones = zones.filter(zone => !isBlocked(zone));
-        
-        await fetchPopularity();
-        sortZones();
-        document.getElementById('zoneCount').textContent = `${zones.length} zones available. Have fun!`;
-    } catch (error) {
-        container.innerHTML = `<div class="loading"><h3>Offline Mode Active</h3><p>Could not reach servers.</p></div>`;
-    }
-}
 
-async function fetchPopularity() {
-    try {
-        for (let cdn of CDN_SOURCES) {
-            const statsUrl = `https://data.jsdelivr.com/v1/stats/packages/gh/gn-math/html@main/files?period=year`;
-            const response = await fetch(statsUrl);
-            if (response.ok) {
+        const CDN_SOURCES = [
+            {
+                name: "noseygames",
+                zones: "https://cdn.jsdelivr.net/gh/NoseyGames/data@main/zones.json",
+                covers: "https://cdn.jsdelivr.net/gh/NoseyGames/covers@latest/",
+                html: "https://cdn.jsdelivr.net/gh/gn-math/html@main"
+
+            },
+            {
+                name: "gn-math",
+                zones: "https://cdn.jsdelivr.net/gh/gn-math/assets@latest/zones.json",
+                covers: "https://cdn.jsdelivr.net/gh/gn-math/covers@main",
+                html: "https://cdn.jsdelivr.net/gh/gn-math/html@main"
+            }
+        ];
+
+ 
+        let zoneSourceMap = new Map();
+
+        /* --- uwu quotes --- */
+        const quotes = [
+            { text: "Your gay.", author: "Classroomspot" },
+            { text: "Umm i had some beef.", author: "Classroomspot" },
+            { text: "ugh i hate working on my ui", author: "NikeGtag" },
+            { text: "OMG nikehub is the most tuff site to ever exist.", author: "defo said by gn math 🙏" },
+            { text: "Reality is merely an illusion, albeit a very persistent one.", author: "idk bro dont ask me" },
+            { text: "PLEASEEE promote me", author: "GN-Math" },
+            { text: "What kind of mango is this?", author: "Some tiktоk" },
+            { text: "Dawg take a shower", author: "Unknown Hub" }
+        ];
+
+        function updateQuote() {
+            const quoteEl = document.getElementById('quoteText');
+            const authorEl = document.getElementById('quoteAuthor');
+            const container = document.getElementById('quoteContainer');
+            
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            
+            container.style.opacity = 0;
+            setTimeout(() => {
+                quoteEl.textContent = `"${randomQuote.text}"`;
+                authorEl.textContent = `- ${randomQuote.author}`;
+                container.style.opacity = 1;
+            }, 500);
+        }
+
+        updateQuote();
+        setInterval(updateQuote, 30000);
+
+        /* --- dont touch this logic it is importantt --- */
+        const container = document.getElementById('container');
+        const zoneViewer = document.getElementById('zoneViewer');
+        let zoneFrame = document.getElementById('zoneFrame');
+        const searchBar = document.getElementById('searchBar');
+        const sortOptions = document.getElementById('sortOptions');
+        const customZonesURL = "/customzones.json";
+
+        let config = {
+            panicKey: localStorage.getItem('panicKey') || '1',
+            panicUrl: localStorage.getItem('panicUrl') || 'https://launchpad.classlink.com/login',
+            cloakTitle: localStorage.getItem('cloakTitle') || 'Number Problems',
+            cloakIcon: localStorage.getItem('cloakIcon') || 'favicon.png'
+        };
+
+        let customEntries = [];
+        let zones = [];
+        let popularityData = {};
+
+        function isBlocked(zone) {
+            if (BLOCKLIST.ids.includes(zone.id)) return true;
+            
+            const zoneNameLower = zone.name.toLowerCase();
+            for (let blockedName of BLOCKLIST.names) {
+                if (zoneNameLower.includes(blockedName.toLowerCase())) return true;
+            }
+            
+            return false;
+        }
+
+        // deduplitator
+        function deduplicateZones(zoneList) {
+            const seen = new Set();
+            const uniqueZones = [];
+            
+            zoneList.forEach(item => {
+                if (!seen.has(item.zone.id)) {
+                    seen.add(item.zone.id);
+                    zoneSourceMap.set(item.zone.id, item.source);
+                    uniqueZones.push(item.zone);
+                }
+            });
+            
+            return uniqueZones;
+        }
+
+        async function loadFromCDN(cdn) {
+            try {
+                const response = await fetch(cdn.zones + "?t=" + Date.now());
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 const data = await response.json();
-                data.forEach(file => {
-                    const idMatch = file.name.match(/\/(\d+)\.html$/);
-                    if (idMatch) popularityData[parseInt(idMatch[1])] = file.hits.total;
-                });
-                break;
+                console.log(`Loaded ${data.length} zones from ${cdn.name}`);
+                return data.map(zone => ({ zone, source: cdn }));
+            } catch (e) {
+                console.warn(`Failed to load from ${cdn.name}:`, e.message);
+                return [];
             }
         }
-    } catch (e) {}
-}
 
-function sortZones() {
-    const sortBy = sortOptions.value;
-    let sortedZones = [...zones];
-    
-    if (sortBy === 'name') sortedZones.sort((a, b) => a.name.localeCompare(b.name));
-    else if (sortBy === 'id') sortedZones.sort((a, b) => a.id - b.id);
-    else if (sortBy === 'popular') sortedZones.sort((a, b) => (popularityData[b.id] || 0) - (popularityData[a.id] || 0));
-    
-    sortedZones.sort((a, b) => (a.isExternal ? -1 : b.isExternal ? 1 : 0));
-    displayZones(sortedZones);
-}
-
-function displayZones(zonesToShow) {
-    container.innerHTML = "";
-    zonesToShow.forEach(file => {
-        const zoneItem = document.createElement("div");
-        zoneItem.className = "zone-item";
-        if (file.featured) zoneItem.classList.add('featured');
-        zoneItem.onclick = () => openZone(file);
-        
-        const img = document.createElement("img");
-        img.loading = "lazy";
-        
-        const sourceCDN = zoneSourceMap.get(file.id) || CDN_SOURCES[0];
-        
-        if (file.isExternal) {
-            img.src = file.cover;
-        } else {
-            img.src = file.cover
-                .replace("{COVER_URL}", sourceCDN.covers)
-                .replace("{HTML_URL}", sourceCDN.html);
+        // load zones from /customzones.json file
+        async function loadCustomZonesFile() {
+            try {
+                const response = await fetch(customZonesURL + "?t=" + Date.now());
+                if (!response.ok) throw new Error('File not found');
+                const data = await response.json();
+                console.log(`Loaded ${data.length} zones from ${customZonesURL}`);
+                // Custom zones from file
+                return data.map(zone => ({ zone, source: CDN_SOURCES[0] }));
+            } catch (error) {
+                console.warn('No custom zones file found:', error.message);
+                return [];
+            }
         }
-        
-        img.onerror = function() { this.src = 'https://via.placeholder.com/300x200/0f172a/94a3b8?text=' + encodeURIComponent(file.name); };
-        
-        const zoneInfo = document.createElement("div");
-        zoneInfo.className = "zone-info";
-        const zoneName = document.createElement("div");
-        zoneName.className = "zone-name";
-        zoneName.textContent = file.name;
-        
-        zoneInfo.appendChild(zoneName);
-        zoneItem.appendChild(img);
-        zoneItem.appendChild(zoneInfo);
-        container.appendChild(zoneItem);
-    });
-}
 
-function openZone(file) {
-    if (file.name === "[!] SUGGEST GAMES • Tiktok") {
-        window.open(file.url, "_blank");
-        return;
-    }
+        function loadHardcodedCustomZones() {
+            if (CUSTOM_ZONES.length === 0) return [];
+            console.log(`Loaded ${CUSTOM_ZONES.length} hardcoded custom zones`);
+            return CUSTOM_ZONES.map(zone => ({ zone, source: CDN_SOURCES[0] }));
+        }
 
-    const viewer = document.getElementById('zoneViewer');
-    let oldFrame = document.getElementById('zoneFrame');
-    const newFrame = document.createElement('iframe');
-    newFrame.id = 'zoneFrame';
-    
-    oldFrame.parentNode.replaceChild(newFrame, oldFrame);
-    zoneFrame = newFrame; 
+        async function listZones() {
+            try {
+                const loadPromises = [
+                    loadHardcodedCustomZones(),
+                    loadCustomZonesFile(),
+                    ...CDN_SOURCES.map(cdn => loadFromCDN(cdn))
+                ];
+                
+                const results = await Promise.all(loadPromises);
+                const allZoneItems = results.flat();
+                
+                if (allZoneItems.length === 0) {
+                    throw new Error("No zones loaded from any source");
+                }
+                
+                zones = deduplicateZones(allZoneItems);
+                
+                zones = zones.filter(zone => !isBlocked(zone));
+                
+                await fetchPopularity();
+                sortZones();
+                document.getElementById('zoneCount').textContent = `${zones.length} zones available. Have fun!`;
+            } catch (error) {
+                container.innerHTML = `<div class="loading"><h3>Offline Mode Active</h3><p>Could not reach any CDN server.</p></div>`;
+            }
+        }
 
-    const sourceCDN = zoneSourceMap.get(file.id) || CDN_SOURCES[0];
+        async function fetchPopularity() {
+            try {
+                for (let cdn of CDN_SOURCES) {
+                    try {
+                        const statsUrl = `https://data.jsdelivr.com/v1/stats/packages/gh/gn-math/html@main/files?period=year`;
+                        const response = await fetch(statsUrl);
+                        if (response.ok) {
+                            const data = await response.json();
+                            data.forEach(file => {
+                                const idMatch = file.name.match(/\/(\d+)\.html$/);
+                                if (idMatch) popularityData[parseInt(idMatch[1])] = file.hits.total;
+                            });
+                            break;
+                        }
+                    } catch (e) {}
+                }
+            } catch (e) {}
+        }
 
-    if (file.isExternal) {
-        zoneFrame.src = file.url;
-    } else {
-        const url = file.url
-            .replace("{COVER_URL}", sourceCDN.covers)
-            .replace("{HTML_URL}", sourceCDN.html);
+        function sortZones() {
+            const sortBy = sortOptions.value;
+            let sortedZones = [...zones];
             
-        fetch(url).then(res => res.text()).then(html => {
-            const doc = zoneFrame.contentDocument || zoneFrame.contentWindow.document;
-            doc.open();
-            doc.write(html);
-            doc.close();
-        });
-    }
+            if (sortBy === 'name') sortedZones.sort((a, b) => a.name.localeCompare(b.name));
+            else if (sortBy === 'id') sortedZones.sort((a, b) => a.id - b.id);
+            else if (sortBy === 'popular') sortedZones.sort((a, b) => (popularityData[b.id] || 0) - (popularityData[a.id] || 0));
+            
+            sortedZones.sort((a, b) => (a.isExternal ? -1 : b.isExternal ? 1 : 0));
+            sortedZones.sort((a, b) => (a.name === "[!] SUGGEST GAMES • Tiktok" ? -1 : b.name === "[!] SUGGEST GAMES • Tiktok" ? 1 : 0));
+            
+            displayZones(sortedZones);
+        }
 
-    document.getElementById('zoneName').textContent = file.name;
-    document.getElementById('zoneId').textContent = file.id;
-    document.getElementById('zoneAuthor').innerHTML = `<i class="fas fa-circle-check"></i> by ${file.author}`;
-    zoneViewer.style.display = "flex";
-    document.body.style.overflow = 'hidden';
-}
+        function displayZones(zonesToShow) {
+            container.innerHTML = "";
+            zonesToShow.forEach(file => {
+                const zoneItem = document.createElement("div");
+                zoneItem.className = "zone-item";
+                if (file.featured) zoneItem.classList.add('featured');
+                zoneItem.onclick = () => openZone(file);
+                
+                const img = document.createElement("img");
+                img.loading = "lazy";
+                
+                const sourceCDN = zoneSourceMap.get(file.id) || CDN_SOURCES[0];
+                
+                if (file.isExternal) {
+                    img.src = file.cover;
+                } else {
+                    img.src = file.cover
+                        .replace("{COVER_URL}", sourceCDN.covers)
+                        .replace("{HTML_URL}", sourceCDN.html);
+                }
+                
+                img.onerror = function() { this.src = 'https://via.placeholder.com/300x200/0f172a/94a3b8?text=' + encodeURIComponent(file.name); };
+                
+                const zoneInfo = document.createElement("div");
+                zoneInfo.className = "zone-info";
+                const zoneName = document.createElement("div");
+                zoneName.className = "zone-name";
+                zoneName.textContent = file.name;
+                
+                zoneInfo.appendChild(zoneName);
+                zoneItem.appendChild(img);
+                zoneItem.appendChild(zoneInfo);
+                container.appendChild(zoneItem);
+            });
+        }
 
-function closeZone() {
-    zoneViewer.style.display = "none";
-    if (zoneFrame) {
-        const parent = zoneFrame.parentNode;
-        const newFrame = document.createElement('iframe');
-        newFrame.id = 'zoneFrame';
-        parent.replaceChild(newFrame, zoneFrame);
-        zoneFrame = newFrame;
-    }
-    document.body.style.overflow = 'auto';
-}
+        function openZone(file) {
+            if (file.name === "[!] SUGGEST GAMES • Tiktok") {
+                window.open(file.url, "_blank");
+                return;
+            }
 
-function fullscreenZone() { if (zoneFrame.requestFullscreen) zoneFrame.requestFullscreen(); }
+            const viewer = document.getElementById('zoneViewer');
+            let oldFrame = document.getElementById('zoneFrame');
+            const newFrame = document.createElement('iframe');
+            newFrame.id = 'zoneFrame';
+            
+            oldFrame.parentNode.replaceChild(newFrame, oldFrame);
+            zoneFrame = newFrame; 
 
-function downloadZone() {
-    const zoneId = document.getElementById('zoneId').textContent;
-    const zone = zones.find(z => (z.id + '') === zoneId);
-    if (zone && !zone.isExternal) {
-        const sourceCDN = zoneSourceMap.get(zone.id) || CDN_SOURCES[0];
-        fetch(zone.url.replace("{HTML_URL}", sourceCDN.html)).then(r => r.text()).then(t => {
-            const blob = new Blob([t], {type: "text/html"});
+
+            const sourceCDN = zoneSourceMap.get(file.id) || CDN_SOURCES[0];
+
+            if (file.isExternal) {
+                zoneFrame.src = file.url;
+            } else {
+                const url = file.url
+                    .replace("{COVER_URL}", sourceCDN.covers)
+                    .replace("{HTML_URL}", sourceCDN.html);
+                    
+                fetch(url).then(res => res.text()).then(html => {
+                    const doc = zoneFrame.contentDocument || zoneFrame.contentWindow.document;
+                    doc.open();
+                    doc.write(html);
+                    doc.close();
+                });
+            }
+
+            document.getElementById('zoneName').textContent = file.name;
+            document.getElementById('zoneId').textContent = file.id;
+            document.getElementById('zoneAuthor').innerHTML = `<i class="fas fa-circle-check"></i> by ${file.author}`;
+            zoneViewer.style.display = "flex";
+            document.body.style.overflow = 'hidden';
+            zoneFrame.style.cursor = 'auto';
+        }
+
+        function closeZone() {
+            const viewer = document.getElementById('zoneViewer');
+            viewer.style.display = "none";
+            
+            if (zoneFrame) {
+                try {
+                    const win = zoneFrame.contentWindow;
+                    const doc = zoneFrame.contentDocument;
+                    if (win && doc) {
+                        const mediaElements = doc.querySelectorAll('audio, video');
+                        mediaElements.forEach(media => {
+                            media.pause();
+                            media.src = '';
+                            media.load();
+                        });
+                        
+                        if (win.AudioContext || win.webkitAudioContext) {
+                            const contextVars = ['audioContext', 'ctx', 'context', 'audioCtx', 'g_audioContext', 'soundContext'];
+                            contextVars.forEach(varName => {
+                                if (win[varName] && typeof win[varName].close === 'function') {
+                                    try { win[varName].close(); } catch(e) {}
+                                }
+                            });
+                        }
+                        
+                        const cancelMethods = ['cancelAnimationFrame', 'webkitCancelAnimationFrame', 'mozCancelAnimationFrame'];
+                        cancelMethods.forEach(method => {
+                            if (win[method]) {
+                                for (let i = 0; i < 1000; i++) {
+                                    try { win[method](i); } catch(e) {}
+                                }
+                            }
+                        });
+                        
+                        for (let i = 0; i < 10000; i++) {
+                            win.clearInterval(i);
+                            win.clearTimeout(i);
+                        }
+                    }
+                } catch(e) {
+                }
+                
+                const parent = zoneFrame.parentNode;
+                const newFrame = document.createElement('iframe');
+                newFrame.id = 'zoneFrame';
+                newFrame.style.flexGrow = '1';
+                newFrame.style.border = 'none';
+                newFrame.style.background = '#fff';
+                parent.replaceChild(newFrame, zoneFrame);
+                zoneFrame = newFrame;
+            }
+            
+            document.body.style.overflow = 'auto';
+        }
+
+        function fullscreenZone() { if (zoneFrame.requestFullscreen) zoneFrame.requestFullscreen(); }
+
+        function aboutBlank() {
+            const win = window.open("about:blank", "_blank");
+            const zoneIdText = document.getElementById('zoneId').textContent;
+            const zone = zones.find(z => (z.id + '') === zoneIdText);
+            if (zone) {
+                if (zone.isExternal) win.location.href = zone.url;
+                else {
+                    const sourceCDN = zoneSourceMap.get(zone.id) || CDN_SOURCES[0];
+                    fetch(zone.url.replace("{HTML_URL}", sourceCDN.html)).then(r => r.text()).then(h => {
+                        win.document.open(); win.document.write(h); win.document.close();
+                    });
+                }
+            }
+        }
+
+        function downloadZone() {
+            const zoneId = document.getElementById('zoneId').textContent;
+            const zone = zones.find(z => (z.id + '') === zoneId);
+            if (zone && !zone.isExternal) {
+                const sourceCDN = zoneSourceMap.get(zone.id) || CDN_SOURCES[0];
+                fetch(zone.url.replace("{HTML_URL}", sourceCDN.html)).then(r => r.text()).then(t => {
+                    const blob = new Blob([t], {type: "text/html"});
+                    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+                    a.download = zone.name + ".html"; a.click();
+                });
+            } else alert("Download restricted for external URLs.");
+        }
+
+        function applyCloak() {
+            document.title = config.cloakTitle;
+            const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+            link.type = 'image/x-icon'; link.rel = 'shortcut icon'; link.href = config.cloakIcon;
+            document.getElementsByTagName('head')[0].appendChild(link);
+        }
+
+        function openSettings() {
+            document.getElementById('popupTitle').textContent = "Settings & Config";
+            document.getElementById('popupBody').innerHTML = `
+<div class="setting-item">
+    <label class="setting-label">Tab Title</label>
+    <input type="text" class="setting-input" value="${config.cloakTitle}" oninput="updateConfig('cloakTitle', this.value)">
+</div>
+<div class="setting-item">
+    <label class="setting-label">Favicon URL</label>
+    <input type="text" class="setting-input" value="${config.cloakIcon}" oninput="updateConfig('cloakIcon', this.value)">
+</div>
+<div class="setting-item">
+    <label class="setting-label">Panic Switch Key</label>
+    <input type="text" class="setting-input" maxlength="1" value="${config.panicKey}" oninput="updateConfig('panicKey', this.value)">
+</div>
+<div class="setting-item">
+    <label class="setting-label">Panic Redirect URL</label>
+    <input type="text" class="setting-input" value="${config.panicUrl}" oninput="updateConfig('panicUrl', this.value)">
+</div>
+
+<div class="btn-group">
+    <button class="btn btn-secondary" onclick="saveData()"><i class="fas fa-download"></i> Export</button>
+    <label class="btn btn-secondary" style="margin:0; cursor:pointer;"><i class="fas fa-upload"></i> Import <input type="file" style="display:none" onchange="loadData(event)"></label>
+</div>
+
+<div class="setting-item" style="margin-top: 1.5rem;">
+    <button class="btn btn-primary" onclick="showContact()" style="width: 100%;">
+        <i class="fas fa-envelope"></i> Contact Support
+    </button>
+</div>
+
+<div class="setting-item" style="margin-top: 0.75rem;">
+    <a href="/dmca" class="btn" style="width: 100%; background-color: #2c2c2c; color: #ff4d4d; border: 1px solid #444; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.9rem; padding: 10px 0;">
+        <i class="fas fa-shield-alt"></i> DMCA / Takedown Request
+    </a>
+</div>
+
+<div class="credits-section" style="margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem;">
+    <div class="credits-list" style="margin-bottom: 1.5rem; line-height: 1.6;">
+        <strong style="font-size: 1.1rem; color: white;">NikeHub</strong><br>
+        <span style="color: var(--text-muted);">Lead Developer:</span> <strong>nikegtag</strong><br>
+        <span style="color: var(--text-muted);">Data & Assets:</span> <strong>gn-math / NikeGtag</strong><br>
+        <span style="color: var(--text-muted);">Special Thanks:</span> <strong>The Community</strong>
+    </div>
+
+    <div style="background: rgba(255, 255, 255, 0.05); padding: 1.25rem; border-radius: 12px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.1);">
+        <p style="color: white; margin-bottom: 0.75rem; font-size: 0.95rem;">
+            Enjoying the site? Help keep it running and support future updates!
+        </p>
+        
+        <div style="display: flex; flex-direction: column; gap: 10px; align-items: center;">
+            <a href="https://cash.app/$NikeGtag" target="_blank" class="btn btn-primary" style="display: inline-flex; align-items: center; justify-content: center; text-decoration: none; gap: 8px; width: 100%; max-width: 250px; padding: 10px 20px; background-color: #00d632; border: none; font-weight: bold;">
+                <i class="fas fa-external-link-alt"></i> Open CashApp
+            </a>
+
+            <button onclick="navigator.clipboard.writeText('$NikeGtag'); this.innerHTML='<i class=\'fas fa-check\'></i> Copied!'; setTimeout(() => { this.innerHTML='<i class=\'fas fa-copy\'></i> Copy $NikeGtag' }, 2000)" 
+                class="btn btn-secondary" 
+                style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; max-width: 250px; padding: 10px 20px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); cursor: pointer; color: white;">
+                <i class="fas fa-copy"></i> Copy $NikeGtag
+            </button>
+        </div>
+    </div>
+</div>
+            `;
+            document.getElementById('popupOverlay').style.display = "flex";
+        }
+
+        function showContact() {
+            document.getElementById('popupTitle').textContent = "Support";
+            document.getElementById('popupBody').innerHTML = `
+                <div style="text-align: center; padding: 1rem;">
+                    <i class="fas fa-paper-plane" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1.5rem;"></i>
+                    <p style="color: white; font-size: 1.1rem; margin-bottom: 0.5rem;">Need help or have suggestions?</p>
+                    <p style="color: var(--text-muted); margin-bottom: 2rem;">Message us on TikTok for the fastest response.</p>
+                    <a href="https://www.tiktok.com/@gnmath" target="_blank" class="btn btn-primary" style="text-decoration: none;">
+                        <i class="fab fa-tiktok"></i> @gnmath
+                    </a>
+                    <button class="btn btn-secondary" onclick="openSettings()" style="width: 100%; margin-top: 1rem;">
+                        Back to Settings
+                    </button>
+                </div>
+            `;
+        }
+
+        function updateConfig(key, val) {
+            config[key] = val;
+            localStorage.setItem(key, val);
+            if (key === 'cloakTitle' || key === 'cloakIcon') applyCloak();
+        }
+
+        function saveData() {
+            const blob = new Blob([JSON.stringify(localStorage)], {type: "application/json"});
             const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-            a.download = zone.name + ".html"; a.click();
+            a.download = "nikehub-settings.json"; a.click();
+        }
+
+        function loadData(event) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const data = JSON.parse(e.target.result);
+                for (let k in data) localStorage.setItem(k, data[k]);
+                location.reload();
+            };
+            reader.readAsText(event.target.files[0]);
+        }
+
+        document.getElementById('settings').addEventListener('click', openSettings);
+        document.getElementById('popupClose').addEventListener('click', () => document.getElementById('popupOverlay').style.display = "none");
+        
+        searchBar.addEventListener('input', (e) => {
+            const q = e.target.value.toLowerCase();
+            displayZones(zones.filter(z => z.name.toLowerCase().includes(q)));
+        })
+
+        sortOptions.addEventListener('change', sortZones);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key.toLowerCase() === config.panicKey.toLowerCase()) window.location.replace(config.panicUrl);
+            if (e.key === 'Escape') closeZone();
         });
-    } else alert("Download restricted.");
-}
 
-function applyCloak() {
-    document.title = config.cloakTitle;
-    const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
-    link.type = 'image/x-icon'; link.rel = 'shortcut icon'; link.href = config.cloakIcon;
-    document.getElementsByTagName('head')[0].appendChild(link);
-}
-
-function updateConfig(key, val) {
-    config[key] = val;
-    localStorage.setItem(key, val);
-    if (key === 'cloakTitle' || key === 'cloakIcon') applyCloak();
-}
-
-function openSettings() {
-    document.getElementById('popupTitle').textContent = "Settings & Config";
-    document.getElementById('popupBody').innerHTML = `
-    <div class="setting-item">
-        <label class="setting-label">Tab Title</label>
-        <input type="text" class="setting-input" value="${config.cloakTitle}" oninput="updateConfig('cloakTitle', this.value)">
-    </div>
-    <div class="setting-item">
-        <label class="setting-label">Favicon URL</label>
-        <input type="text" class="setting-input" value="${config.cloakIcon}" oninput="updateConfig('cloakIcon', this.value)">
-    </div>
-    <div class="setting-item">
-        <label class="setting-label">Panic Switch Key</label>
-        <input type="text" class="setting-input" maxlength="1" value="${config.panicKey}" oninput="updateConfig('panicKey', this.value)">
-    </div>
-    <div class="setting-item">
-        <label class="setting-label">Panic Redirect URL</label>
-        <input type="text" class="setting-input" value="${config.panicUrl}" oninput="updateConfig('panicUrl', this.value)">
-    </div>
-    <div class="btn-group">
-        <button class="btn btn-secondary" onclick="saveData()"><i class="fas fa-download"></i> Export</button>
-        <label class="btn btn-secondary" style="margin:0; cursor:pointer;"><i class="fas fa-upload"></i> Import <input type="file" style="display:none" onchange="loadData(event)"></label>
-    </div>
-    `;
-    document.getElementById('popupOverlay').style.display = "flex";
-}
-
-document.getElementById('settings').addEventListener('click', openSettings);
-document.getElementById('popupClose').addEventListener('click', () => document.getElementById('popupOverlay').style.display = "none");
-
-searchBar.addEventListener('input', (e) => {
-    const q = e.target.value.toLowerCase();
-    displayZones(zones.filter(z => z.name.toLowerCase().includes(q)));
-});
-
-sortOptions.addEventListener('change', sortZones);
-
-document.addEventListener('keydown', (e) => {
-    if (e.key.toLowerCase() === config.panicKey.toLowerCase()) window.location.replace(config.panicUrl);
-    if (e.key === 'Escape') closeZone();
-});
-
-updateQuote();
-setInterval(updateQuote, 30000);
-applyCloak();
-listZones();
+        applyCloak();
+        listZones();
