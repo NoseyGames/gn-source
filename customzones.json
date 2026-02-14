@@ -1,19 +1,10 @@
 [
     {
-        "id": "670",
+        "id": "671",
         "name": "Your Turn to Die",
         "author": "kbh games i think",
         "url": "https://kdata1.com/2021/06/yourturntodie3b/",
         "cover": "https://kbhgames.com/wp-content/uploads/2019/11/Your-Turn-To-Die.webp",
-        "featured": true,
-        "isExternal": true
-    },
-    {
-        "id": "671",
-        "name": "ANTONBLAST Demo",
-        "author": "BurnedPopcorn",
-        "url": "https://www.autistici.org/burnedprojects/AntonBlast/",
-        "cover": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1887400/header.jpg",
         "featured": true,
         "isExternal": true
     },
