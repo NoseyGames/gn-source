@@ -85,7 +85,6 @@
 
     window.editor = editor;
 
-    // --- NEW: Download Function ---
     window.downloadHTML = function() {
       const code = window.editor.state.doc.toString();
       const blob = new Blob([code], { type: 'text/html' });
@@ -93,18 +92,16 @@
       
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'index.html'; // Default filename
+      a.download = 'index.html';
       document.body.appendChild(a);
       a.click();
       
-      // Cleanup
       setTimeout(() => {
         document.body.removeChild(a);
         window.URL.revokeObjectURL(url);
       }, 0);
     };
 
-    // Preview Function
     window.launch = function() {
       const code = window.editor.state.doc.toString();
       const iframe = document.createElement('iframe');
@@ -128,7 +125,7 @@
     document.addEventListener('keydown', e => {
       if (e.ctrlKey && e.key === 'Enter') window.launch();
       if (e.ctrlKey && e.key === 's') {
-        e.preventDefault(); // Stop browser from opening its own save dialog
+        e.preventDefault();
         window.downloadHTML();
       }
     });
