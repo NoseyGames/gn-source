@@ -1,5 +1,14 @@
 [
     {
+        "id": "669",
+        "name": "Google Snake",
+        "author": "nikegtag",
+        "url": "/games/googlesnake.html",
+        "cover": "https://i.pinimg.com/736x/a4/20/a2/a420a22ead85b78ccb4ef0d717b5ed9a.jpg",
+        "featured": false,
+        "isExternal": true
+    },
+    {
         "id": "670",
         "name": "Silk",
         "author": "nikegtag",
