@@ -1,6 +1,6 @@
         const BLOCKLIST = {
             ids: [],
-            names: ["Soundboard", "[!] COMMENTS", "ULTRAKILL", "[!] SUGGEST GAMES .gg/D4c9VFYWyU"]
+            names: ["Soundboard", "[!] COMMENTS", "ULTRAKILL", "Geometry Dash Lite (REMAKE)", "[!] SUGGEST GAMES .gg/D4c9VFYWyU"]
         };
 
         const CUSTOM_ZONES = [
