@@ -235,15 +235,6 @@
     },
     {
         "id": "694",
-        "name": "Upvote Us On ubghub.org!",
-        "author": "nikegtag",
-        "url": "https://ubghub.org/?site=NikeHub#",
-        "cover": "https://ssl.gstatic.com/docs/spreadsheets/forms/favicon_qp2.png",
-        "featured": true,
-        "isExternal": true
-    },
-    {
-        "id": "695",
         "name": "NikeNetwork Proxy",
         "author": "nikegtag",
         "url": "https://nikenetwork.onrender.com/",
@@ -252,7 +243,7 @@
         "isExternal": true
     },
     {
-        "id": "696",
+        "id": "695",
         "name": "Suggest Games Google Form",
         "author": "nikegtag",
         "url": "https://docs.google.com/forms/d/e/1FAIpQLSdhpsMG-IOClHXUZktaESme8-QLk-lE_s8m0gv8qlmAseR1Qw/viewform?usp=dialog",
