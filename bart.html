@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Bart Edits</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: #0a0a0a;
+    background-image: 
+      linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #555;
+    font-family: 'Courier New', Courier, monospace;
+    overflow: hidden;
+  }
+
+  .video-window {
+    position: relative;
+    width: 80%;
+    max-width: 640px;
+    background: #000;
+    border: 1px solid #333;
+    box-shadow: 0 0 50px rgba(0,0,0,1);
+  }
+
+  .video-window::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    background-size: 100% 4px, 3px 100%;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  iframe {
+    width: 100%;
+    height: 360px;
+    border: none;
+    filter: grayscale(0.4) contrast(1.2) brightness(0.9);
+  }
+
+  h1 {
+    letter-spacing: 15px;
+    font-weight: lighter;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    color: #777;
+    animation: flicker 3s infinite;
+  }
+
+  @keyframes flicker {
+    0% { opacity: 0.8; }
+    5% { opacity: 0.5; }
+    10% { opacity: 0.8; }
+    100% { opacity: 0.8; }
+  }
+</style>
+</head>
+<body>
+
+  <h1>sad bart simpson edits</h1>
+
+  <div class="video-window">
+    <iframe 
+      src="https://drive.google.com/file/d/1zU8JDQ4SfcFulUvImNVmOb8annjE4zvP/preview" 
+      allow="autoplay">
+    </iframe>
+  </div>
+
+  <p style="margin-top: 20px; font-size: 12px; letter-spacing: 2px;">benjamin netanyahu, i made this edit for you</p>
+
+</body>
+</html>
