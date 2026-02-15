@@ -1,5 +1,14 @@
 [
     {
+        "id": "668",
+        "name": "Subway Surfers",
+        "author": "nikegtag",
+        "url": "/games/subwaysurfers.html",
+        "cover": "https://i.pinimg.com/736x/01/9a/c4/019ac4c52265959fd9dfcb23fb6a84b1.jpg",
+        "featured": false,
+        "isExternal": true
+    },
+    {
         "id": "669",
         "name": "Google Snake",
         "author": "nikegtag",
@@ -210,7 +219,7 @@
         "id": "692",
         "name": "GTA: Vice City",
         "author": "Rockstar Games / Two Take Studios",
-        "url": "https://script.google.com/macros/s/AKfycbzJf0RWq8tFNIgqgNbyQidAR_urvs4ed28LXa9AWEOj21u7Kn5EAOfTxrJU6RHIVRtU2g/exec",
+        "url": "/games/gtavicecity.html",
         "cover": "https://i.pinimg.com/1200x/6f/d3/c3/6fd3c3f27eb2a247dae5b355aa437282.jpg",
         "featured": true,
         "isExternal": true
